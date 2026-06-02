@@ -1,0 +1,32 @@
+import './bootstrap';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // 1. Import these
+import SignIn from './components/SignIn';
+import OTPVerification from './components/OTPVerification';
+import Completeapplication from './components/CompleteApplication';
+import Dashboard from './components/Dashboard';
+import '../css/app.css'; 
+import AssessmentFee from './components/AssessmentFee';
+import VerifyKyc from './components/VerifyKyc';
+
+
+const App = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<SignIn />} />
+                <Route path="/OTPVerification" element={<OTPVerification />} />
+                <Route path="/complete_application" element={<Completeapplication />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/assesmentFee" element={<AssessmentFee />} />
+<Route path="/verify-kyc" element={<VerifyKyc />} />            </Routes>
+        </BrowserRouter>
+    );
+};
+
+const rootElement = document.getElementById('root');
+if (rootElement) {
+    const root = createRoot(rootElement);
+    root.render(<App />); 
+}
