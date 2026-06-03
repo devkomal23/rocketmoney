@@ -39,16 +39,17 @@ WORKDIR /var/www
 COPY . .
 
 # Install PHP and Node dependencies
-RUN composer install --no-dev --optimize-autoloader
-# Explicitly install Node dependencies
-RUN npm install
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
-# Build the assets
+RUN composer install --no-dev --optimize-autoloader
+
+RUN npm install
 RUN npm run build
-# Set permissions for storage
+
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-# Expose port 8080 (Render uses this default)
+
 EXPOSE 8080
 
-# Start PHP built-in server (or use Nginx in production)
 CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
+
