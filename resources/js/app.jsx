@@ -2,7 +2,7 @@ import './bootstrap';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; // 1. Import these
-import SignIn from './components/SignIn';
+import SignIn from './components/signIn';
 import OTPVerification from './components/OTPVerification';
 import Completeapplication from './components/CompleteApplication';
 import Dashboard from './components/Dashboard';
