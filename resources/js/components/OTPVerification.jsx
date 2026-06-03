@@ -79,6 +79,7 @@ export default function OTPVerification() {
           }  
         }  
       } catch (err) {
+        alert(err);
         setError('Something went wrong. Check your connection.');
       } finally {
         setLoading(false);
