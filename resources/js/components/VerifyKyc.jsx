@@ -8,6 +8,7 @@ const stripePromise = loadStripe('pk_test_51TdR50CwBSCb9sXM2IdrxeRSsE6nNE1gAVHeH
 export default function VerifyKyc() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleVerify = async () => {
     setIsLoading(true);

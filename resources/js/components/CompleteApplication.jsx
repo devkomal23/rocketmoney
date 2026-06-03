@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function RegistrationPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);

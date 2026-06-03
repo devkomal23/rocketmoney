@@ -98,6 +98,7 @@ const Dashboard = () => {
 
 
   };
+  const API_URL = import.meta.env.VITE_API_URL;
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loanProducts, setLoanProducts] = useState([]); // Initialize as empty array

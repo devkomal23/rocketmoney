@@ -8,6 +8,8 @@ export default function Dashboard() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const API_URL = import.meta.env.VITE_API_URL;
+
 
 const handlePaymentClick = async () => {
     if (!window.Razorpay) {

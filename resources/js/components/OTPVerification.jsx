@@ -14,6 +14,7 @@ export default function OTPVerification() {
   const [isAuthorized, setIsAuthorized] = useState(false); 
   const [timer, setTimer] = useState(30); 
   const [canResend, setCanResend] = useState(false); 
+  const API_URL = import.meta.env.VITE_API_URL;
   const isOtpComplete = otp.every(digit => digit !== '');
 
 
