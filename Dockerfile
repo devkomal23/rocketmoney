@@ -39,7 +39,8 @@ WORKDIR /var/www
 COPY . .
 
 # Install PHP and Node dependencies
-
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install
