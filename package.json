@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "start": "node server.js"
     },
     "dependencies": {
         "@stripe/stripe-js": "^9.7.0",
