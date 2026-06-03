@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom'; 
 
 export default function SignIn() {
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // 2. Initialize useLocation
   const [loading, setLoading] = useState(false);
@@ -32,8 +34,8 @@ const handleRequestOTP = async (e) => {
   
   try {
     // 1. Explicitly use the absolute URL to hit your local Laravel server
-    const response = await fetch('http://127.0.0.1:8000/api/requestOtp', {
-      method: 'POST',
+const response = await fetch(`${import.meta.env.VITE_API_URL}/api/requestOtp`, {
+        method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
