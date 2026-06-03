@@ -3,13 +3,12 @@ import { useNavigate,useLocation } from 'react-router-dom';
 
 export default function SignIn() {
   const API_URL = import.meta.env.VITE_API_URL;
-
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // 2. Initialize useLocation
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const prefilledMobile = location.state?.mobile || '';
-const [mobileNumber, setMobileNumber] = useState(prefilledMobile);
+  const [mobileNumber, setMobileNumber] = useState(prefilledMobile);
   const handleInputChange = (e) => {
     const value = e.target.value;
     if (/^[0-9]*$/.test(value) && value.length <= 10) {
@@ -31,10 +30,11 @@ const handleRequestOTP = async (e) => {
 
   setLoading(true);
   setErrorMsg('');
-  
+  console.log("API_URL =", API_URL);
+
   try {
     // 1. Explicitly use the absolute URL to hit your local Laravel server
-const response = await fetch(`${API_URL}/requestOtp`, {
+  const response = await fetch(`${API_URL}/requestOtp`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
