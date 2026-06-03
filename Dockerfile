@@ -8,12 +8,23 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     zip \
     unzip \
     nodejs \
-    npm\
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_pgsql
+    npm \
+ && docker-php-ext-install \
+    pdo_mysql \
+    pdo_pgsql \
+    pgsql \
+    mbstring \
+    exif \
+    pcntl \
+    bcmath \
+    gd
+
+RUN php -m | grep pgsql
+
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
@@ -36,7 +47,6 @@ RUN npm install
 RUN npm run build
 # Set permissions for storage
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-
 # Expose port 8080 (Render uses this default)
 EXPOSE 8080
 
