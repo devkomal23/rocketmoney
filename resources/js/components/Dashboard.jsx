@@ -140,7 +140,7 @@ return (
 useEffect(() => {
   const token = localStorage.getItem('auth_token'); 
 
-  fetch('http://127.0.0.1:8000/api/dashboard', {
+  fetch(`${API_URL}/dashboard', {
     method: 'GET',
     headers: {
       'Accept': 'application/json', 

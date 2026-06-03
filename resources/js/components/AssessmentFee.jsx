@@ -18,7 +18,7 @@ const handlePaymentClick = async () => {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const { data: orderData } = await axios.post('http://127.0.0.1:8000/api/create-payment-order', {}, {
+        const { data: orderData } = await axios.post(`${API_URL}/create-payment-order`, {}, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -28,7 +28,7 @@ const handlePaymentClick = async () => {
             currency: "INR",
             order_id: orderData.order_id,
             handler: async (response) => {
-                await axios.post('http://127.0.0.1:8000/api/verify-payment', {
+                await axios.post(`${API_URL}/verify-payment', {
                     razorpay_payment_id: response.razorpay_payment_id,
                     razorpay_order_id: response.razorpay_order_id,
                     razorpay_signature: response.razorpay_signature
@@ -51,7 +51,7 @@ useEffect(() => {
     const fetchDashboard = async () => {
         const token = localStorage.getItem('auth_token');
         try {
-            const res = await axios.get('http://127.0.0.1:8000/api/assessment', {
+            const res = await axios.get(`${API_URL}/assessment', {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
             

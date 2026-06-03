@@ -50,7 +50,7 @@ export default function OTPVerification() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/verifyOtp', {
+      const response = await fetch(`${API_URL}/verifyOtp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export default function OTPVerification() {
             setResendLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/resend-otp', {
+      const response = await fetch(`${API_URL}/resend-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

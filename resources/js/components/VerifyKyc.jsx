@@ -13,7 +13,7 @@ export default function VerifyKyc() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/kyc/init', {
+      const response = await fetch(`${API_URL}/kyc/init', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
