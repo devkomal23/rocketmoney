@@ -106,7 +106,7 @@ export default function RegistrationPage() {
     };
 
     try {
-      const response = await fetch(`${API_URL}/complete-application', {
+      const response = await fetch(`${API_URL}/complete-application`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
