@@ -28,44 +28,101 @@ class KYCController extends Controller
     public function handleStripe(Request $request)
     {
         $payload = $request->getContent();
-        $sig_header = $request->header('Stripe-Signature');
-        $endpoint_secret = env('STRIPE_WEBHOOK_SECRET');
+        $sigHeader = $request->header('Stripe-Signature');
+        $endpointSecret = env('STRIPE_WEBHOOK_SECRET');
 
         try {
-            $event = Webhook::constructEvent($payload, $sig_header, $endpoint_secret);
-        } catch (\ValueError | SignatureVerificationException $e) {
+            $event = \Stripe\Webhook::constructEvent(
+                $payload,
+                $sigHeader,
+                $endpointSecret
+            );
+        } catch (\UnexpectedValueException $e) {
+            \Log::error('Invalid Stripe payload: ' . $e->getMessage());
+
+            return response()->json([
+                'error' => 'Invalid payload'
+            ], 400);
+        } catch (\Stripe\Exception\SignatureVerificationException $e) {
             \Log::error('Webhook signature verification failed: ' . $e->getMessage());
-            return response()->json(['error' => 'Invalid signature'], 400);
+
+            return response()->json([
+                'error' => 'Invalid signature'
+            ], 400);
         }
+
+        \Log::info('Stripe Webhook Received', [
+            'event_type' => $event->type,
+            'event_id'   => $event->id,
+        ]);
 
         $session = $event->data->object;
         $userId = $session->metadata->user_id ?? null;
 
         if (!$userId) {
-            return response()->json(['message' => 'No user metadata'], 200);
+            \Log::warning('Stripe webhook missing user_id metadata');
+
+            return response()->json([
+                'message' => 'No user metadata'
+            ], 200);
         }
 
         $user = User::find($userId);
+
         if (!$user) {
-            return response()->json(['message' => 'User not found'], 200);
+            \Log::warning("User not found for Stripe webhook. User ID: {$userId}");
+
+            return response()->json([
+                'message' => 'User not found'
+            ], 200);
         }
 
         switch ($event->type) {
+
+            case 'identity.verification_session.processing':
+
+                $user->update([
+                    'kyc_status' => 'pending'
+                ]);
+
+                \Log::info("KYC processing for User ID {$userId}");
+                break;
+
             case 'identity.verification_session.verified':
-                $user->update(['kyc_status' => 'verified']);
-                \Log::info("User ID {$userId} verified successfully via Stripe.");
+
+                $user->update([
+                    'kyc_status' => 'verified'
+                ]);
+
+                \Log::info("User ID {$userId} verified successfully.");
                 break;
-                
+
             case 'identity.verification_session.requires_input':
-                $user->update(['kyc_status' => 'rejected']);
-                \Log::info("User ID {$userId} needs to provide new documents.");
+
+                $user->update([
+                    'kyc_status' => 'rejected'
+                ]);
+
+                \Log::info("User ID {$userId} verification failed and requires new documents.");
                 break;
-                
+
             default:
-                \Log::info("Received unhandled Stripe event type: " . $event->type);
+
+                \Log::info('Unhandled Stripe event', [
+                    'type' => $event->type
+                ]);
                 break;
         }
 
-        return response()->json(['status' => 'success'], 200);
+        return response()->json([
+            'status' => 'success'
+        ], 200);
+    }
+
+    public function status(Request $request)
+    {
+        return response()->json([
+            'status' => $request->user()->kyc_status
+        ]);
     }
 }

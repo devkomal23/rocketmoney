@@ -29,6 +29,4 @@ Route::post('/webhooks/stripe', [KYCController::class, 'handleStripe']);
 Route::fallback(function () {
     return redirect('/'); 
 });
-Route::middleware('auth:sanctum')->get('/user/kyc-status', function (Request $request) {
-    return response()->json(['kyc_status' => $request->user()->kyc_status]);
-});
+Route::middleware('auth:sanctum')->get('/kyc/status', [KycController::class, 'status']);

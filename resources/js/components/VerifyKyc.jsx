@@ -1,36 +1,51 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe('pk_test_51TdR50CwBSCb9sXM2IdrxeRSsE6nNE1gAVHeHg5N7qYb2SB8dKMYrBYGUul00NlkCpcISEBW94RKzZ6juqFsNVmi00SA8INkKP');
+const stripePromise = loadStripe(
+  'pk_test_51TdR50CwBSCb9sXM2IdrxeRSsE6nNE1gAVHeHg5N7qYb2SB8dKMYrBYGUul00NlkCpcISEBW94RKzZ6juqFsNVmi00SA8INkKP'
+);
 
 export default function VerifyKyc() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState('pending'); // 2. Track status
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const checkStatus = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/kyc/status`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
-      });
-      
-      if (response.data.status === 'verified') {
-        alert("Verification successful!");
-        navigate('/dashboard');
-      }
-    } catch (err) {
-      console.error("Error polling status");
-    }
-  };
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState(null);
 
-  // 4. New: Start polling when the component mounts
+const checkStatus = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/kyc/status`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+      },
+    });
+
+    console.log('KYC Status Response:', response.data);
+
+    const currentStatus = response.data.status;
+    setStatus(currentStatus);
+
+    if (currentStatus === 'verified') {
+      alert('✅ Verification successful!');
+      navigate('/dashboard');
+    }
+
+    if (currentStatus === 'rejected') {
+      alert('❌ Verification failed. Please upload documents again.');
+    }
+  } catch (err) {
+    console.error('Status API Error:', err.response?.data || err);
+  }
+};
   useEffect(() => {
-    const interval = setInterval(checkStatus, 5000); // Check every 5 seconds
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
+    if (status !== 'processing') return;
+
+    const interval = setInterval(checkStatus, 5000);
+
+    return () => clearInterval(interval);
+  }, [status]);
 
   const handleVerify = async () => {
     setIsLoading(true);
@@ -39,22 +54,31 @@ export default function VerifyKyc() {
       const response = await fetch(`${API_URL}/kyc/init`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('auth_token')}`,
-          'Content-Type': 'application/json'
-        }
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+          'Content-Type': 'application/json',
+        },
       });
+
       const { client_secret } = await response.json();
+
       const stripe = await stripePromise;
+
       const { error } = await stripe.verifyIdentity(client_secret);
 
       if (error) {
-        alert("Verification failed: " + error.message);
+        alert('Verification failed: ' + error.message);
       } else {
-        alert("Verification completed. Please wait while we process your status.");
-        navigate('/dashboard'); 
+        alert(
+          'Verification submitted successfully. Waiting for Stripe verification...'
+        );
+
+        setStatus('processing');
+
+        checkStatus();
       }
     } catch (err) {
-      alert("Something went wrong. Please try again.");
+      console.error(err);
+      alert('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -66,22 +90,40 @@ export default function VerifyKyc() {
         <div style={styles.header}>
           <h2 style={styles.pageTitle}>Identity Verification</h2>
         </div>
-        
+
         <div style={styles.formContainer}>
           <p style={styles.instruction}>
-            To proceed with your loan application, we need to verify your identity. 
-            Please have your government-issued ID ready.
+            To proceed with your loan application, we need to verify your
+            identity. Please have your government-issued ID ready.
           </p>
-          
-          <button 
-            onClick={handleVerify} 
+
+          {status === 'processing' && (
+            <p style={{ textAlign: 'center', color: '#0f52ba' }}>
+              Verification is being processed...
+            </p>
+          )}
+
+          {status === 'verified' && (
+            <p style={{ textAlign: 'center', color: 'green' }}>
+              Verification successful
+            </p>
+          )}
+
+          {status === 'rejected' && (
+            <p style={{ textAlign: 'center', color: 'red' }}>
+              Verification failed. Please try again.
+            </p>
+          )}
+
+          <button
+            onClick={handleVerify}
             disabled={isLoading}
-            style={{ 
-              ...styles.proceedButton, 
-              backgroundColor: isLoading ? '#cbd5e0' : '#6200ea' 
+            style={{
+              ...styles.proceedButton,
+              backgroundColor: isLoading ? '#cbd5e0' : '#6200ea',
             }}
           >
-            {isLoading ? "Launching..." : "Verify Identity →"}
+            {isLoading ? 'Launching...' : 'Verify Identity →'}
           </button>
         </div>
       </div>
@@ -90,11 +132,49 @@ export default function VerifyKyc() {
 }
 
 const styles = {
-  container: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f4f7f9', padding: '20px' },
-  card: { width: '400px', backgroundColor: '#FFF', borderRadius: '32px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', overflow: 'hidden' },
-  header: { background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)', height: '100px', padding: '20px', display: 'flex', justifyContent: 'center' },
-  pageTitle: { color: 'white', margin: 'auto' },
-  formContainer: { padding: '30px' },
-  instruction: { fontSize: '14px', color: '#4a5568', textAlign: 'center', marginBottom: '20px' },
-  proceedButton: { width: '100%', padding: '15px', borderRadius: '12px', border: 'none', color: '#fff', fontSize: '16px', fontWeight: '700', cursor: 'pointer' }
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundColor: '#f4f7f9',
+    padding: '20px',
+  },
+  card: {
+    width: '400px',
+    backgroundColor: '#FFF',
+    borderRadius: '32px',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+    overflow: 'hidden',
+  },
+  header: {
+    background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)',
+    height: '100px',
+    padding: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  pageTitle: {
+    color: 'white',
+    margin: 'auto',
+  },
+  formContainer: {
+    padding: '30px',
+  },
+  instruction: {
+    fontSize: '14px',
+    color: '#4a5568',
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  proceedButton: {
+    width: '100%',
+    padding: '15px',
+    borderRadius: '12px',
+    border: 'none',
+    color: '#fff',
+    fontSize: '16px',
+    fontWeight: '700',
+    cursor: 'pointer',
+  },
 };
