@@ -113,25 +113,24 @@ class KYCController extends Controller
         ]);
     }
 
-public function createVerificationSession(Request $request)
-{
-    $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+    public function createVerificationSession(Request $request)
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
 
-    $session = $stripe->identity->verificationSessions->create([
-        'type' => 'document',
-        'metadata' => [
-            'user_id' => $request->user()->id,
-        ],
-    ]);
+        $session = $stripe->identity->verificationSessions->create([
+            'type' => 'document',
+            'metadata' => [
+                'user_id' => $request->user()->id,
+            ],
+        ]);
 
-    // Optional: save session id
-    $request->user()->update([
-        'kyc_status' => 'pending',
-        'stripe_verification_session_id' => $session->id,
-    ]);
+        // Optional: save session id
+        $request->user()->update([
+            'kyc_status' => 'pending',
+        ]);
 
-    return response()->json([
-        'client_secret' => $session->client_secret
-    ]);
-}
+        return response()->json([
+            'client_secret' => $session->client_secret
+        ]);
+    }
 }

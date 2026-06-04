@@ -23,9 +23,6 @@ export default function VerifyKyc() {
       });
 
       const currentStatus = response.data.status;
-
-      console.log('KYC Status:', currentStatus);
-
       setStatus(currentStatus);
 
       if (currentStatus === 'verified') {
