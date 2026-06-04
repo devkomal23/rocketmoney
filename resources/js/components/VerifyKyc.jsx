@@ -8,7 +8,29 @@ const stripePromise = loadStripe('pk_test_51TdR50CwBSCb9sXM2IdrxeRSsE6nNE1gAVHeH
 export default function VerifyKyc() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState('pending'); // 2. Track status
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const checkStatus = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/kyc/status`, {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('auth_token')}` }
+      });
+      
+      if (response.data.status === 'verified') {
+        alert("Verification successful!");
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      console.error("Error polling status");
+    }
+  };
+
+  // 4. New: Start polling when the component mounts
+  useEffect(() => {
+    const interval = setInterval(checkStatus, 5000); // Check every 5 seconds
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
 
   const handleVerify = async () => {
     setIsLoading(true);
@@ -37,23 +59,6 @@ export default function VerifyKyc() {
       setIsLoading(false);
     }
   };
-  const handleManualVerify = async () => {
-    try {
-        const { error } = await stripe.verifyIdentity(clientSecret);
-    
-    if (error) {
-      setErrorMessage(error.message); 
-      console.error("Stripe Identity Error:", error.message);
-    } else {
-         alert("Submission received. We are processing your documents...");
-        await axios.get('/api/debug/force-verify');
-        alert("Manual verification successful!");
-        navigate('/dashboard'); 
-    }
-    } catch (error) {
-        console.error("Error updating status:", error);
-    }
-};
 
   return (
     <div style={styles.container}>

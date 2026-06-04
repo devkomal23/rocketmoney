@@ -26,11 +26,9 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 Route::middleware('auth:sanctum')->post('/kyc/init', [KYCController::class, 'createVerificationSession']);
 Route::post('/webhooks/stripe', [KYCController::class, 'handleStripe']);
-
 Route::fallback(function () {
     return redirect('/'); 
 });
 Route::middleware('auth:sanctum')->get('/user/kyc-status', function (Request $request) {
     return response()->json(['kyc_status' => $request->user()->kyc_status]);
 });
-
