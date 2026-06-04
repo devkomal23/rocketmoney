@@ -14,38 +14,38 @@ export default function VerifyKyc() {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
-const checkStatus = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/kyc/status`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
-      },
-    });
+  const checkStatus = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/kyc/status`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+        },
+      });
 
-    console.log('KYC Status Response:', response.data);
+      const currentStatus = response.data.status;
 
-    const currentStatus = response.data.status;
-    setStatus(currentStatus);
+      console.log('KYC Status:', currentStatus);
 
-    if (currentStatus === 'verified') {
-      alert('✅ Verification successful!');
-      navigate('/dashboard');
+      setStatus(currentStatus);
+
+      if (currentStatus === 'verified') {
+        alert('✅ Verification successful!');
+        navigate('/dashboard');
+      }
+    } catch (err) {
+      console.error('Status API Error:', err.response?.data || err);
     }
+  };
 
-    if (currentStatus === 'rejected') {
-      alert('❌ Verification failed. Please upload documents again.');
-    }
-  } catch (err) {
-    console.error('Status API Error:', err.response?.data || err);
-  }
-};
   useEffect(() => {
-    if (status !== 'processing') return;
+    checkStatus();
 
-    const interval = setInterval(checkStatus, 5000);
+    const interval = setInterval(() => {
+      checkStatus();
+    }, 5000);
 
     return () => clearInterval(interval);
-  }, [status]);
+  }, []);
 
   const handleVerify = async () => {
     setIsLoading(true);
@@ -59,22 +59,24 @@ const checkStatus = async () => {
         },
       });
 
-      const { client_secret } = await response.json();
+      const data = await response.json();
+
+      if (!data.client_secret) {
+        throw new Error('Client secret not received');
+      }
 
       const stripe = await stripePromise;
 
-      const { error } = await stripe.verifyIdentity(client_secret);
+      const { error } = await stripe.verifyIdentity(data.client_secret);
 
       if (error) {
         alert('Verification failed: ' + error.message);
       } else {
+        setStatus('pending');
+
         alert(
           'Verification submitted successfully. Waiting for Stripe verification...'
         );
-
-        setStatus('processing');
-
-        checkStatus();
       }
     } catch (err) {
       console.error(err);
@@ -97,7 +99,7 @@ const checkStatus = async () => {
             identity. Please have your government-issued ID ready.
           </p>
 
-          {status === 'processing' && (
+          {status === 'pending' && (
             <p style={{ textAlign: 'center', color: '#0f52ba' }}>
               Verification is being processed...
             </p>
@@ -105,25 +107,38 @@ const checkStatus = async () => {
 
           {status === 'verified' && (
             <p style={{ textAlign: 'center', color: 'green' }}>
-              Verification successful
+              Verification successful ✅
             </p>
           )}
 
           {status === 'rejected' && (
             <p style={{ textAlign: 'center', color: 'red' }}>
-              Verification failed. Please try again.
+              Verification failed. Please upload documents again.
             </p>
           )}
 
           <button
             onClick={handleVerify}
-            disabled={isLoading}
+            disabled={
+              isLoading ||
+              status === 'pending' ||
+              status === 'verified'
+            }
             style={{
               ...styles.proceedButton,
-              backgroundColor: isLoading ? '#cbd5e0' : '#6200ea',
+              backgroundColor:
+                isLoading ||
+                status === 'pending' ||
+                status === 'verified'
+                  ? '#cbd5e0'
+                  : '#6200ea',
             }}
           >
-            {isLoading ? 'Launching...' : 'Verify Identity →'}
+            {isLoading
+              ? 'Launching...'
+              : status === 'verified'
+              ? 'Verified'
+              : 'Verify Identity →'}
           </button>
         </div>
       </div>

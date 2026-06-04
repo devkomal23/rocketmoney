@@ -11,19 +11,6 @@ use Stripe\Exception\SignatureVerificationException;
 
 class KYCController extends Controller
 {
-    public function createVerificationSession(Request $request)
-    {
-        $stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
-
-        $session = $stripe->identity->verificationSessions->create([
-            'type' => 'document',
-            'metadata' => [
-                'user_id' => $request->user()->id, 
-            ],
-        ]);
-
-        return response()->json(['client_secret' => $session->client_secret]);
-    }
 
     public function handleStripe(Request $request)
     {
@@ -125,4 +112,26 @@ class KYCController extends Controller
             'status' => $request->user()->kyc_status
         ]);
     }
+
+public function createVerificationSession(Request $request)
+{
+    $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
+
+    $session = $stripe->identity->verificationSessions->create([
+        'type' => 'document',
+        'metadata' => [
+            'user_id' => $request->user()->id,
+        ],
+    ]);
+
+    // Optional: save session id
+    $request->user()->update([
+        'kyc_status' => 'pending',
+        'stripe_verification_session_id' => $session->id,
+    ]);
+
+    return response()->json([
+        'client_secret' => $session->client_secret
+    ]);
+}
 }
