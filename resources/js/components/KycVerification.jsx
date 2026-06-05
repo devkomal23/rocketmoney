@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const handleDigiLockerClick = async () => {
+      const API_URL = import.meta.env.VITE_API_URL;
+
     try {
         const res = await fetch(`${API_URL}/digilocker/auth`); 
         
