@@ -30,7 +30,7 @@ $query = http_build_query([
 
 \Log::info('DigiLocker Config', [
     'client_id' => 'MNRNJVXE',
-    'redirect_uri' => 'https://rocketmoney-1.onrender.com',
+    'redirect_uri' => 'http://localhost:8003/doc.php',
 ]);
 
 $url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?" . $query;
@@ -70,7 +70,7 @@ $state = bin2hex(random_bytes(16));
 
 $query = http_build_query([
     'client_id' => 'MNRNJVXE',
-    'redirect_uri' => 'https://rocketmoney-1.onrender.com',
+    'redirect_uri' => 'http://localhost:8003/doc.php',
     'response_type' => 'code',
     'state' => 'easd231sdsdf12dd',
     'code_challenge' => 'n6Li6eP2UzbkRvu5uCxWj-nUabNu15NpvA48FpAaPhg',
