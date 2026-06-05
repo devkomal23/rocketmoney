@@ -116,7 +116,6 @@ class KYCController extends Controller
     public function createVerificationSession(Request $request)
     {
 
-    
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET_KEY'));
 
         $session = $stripe->identity->verificationSessions->create([
@@ -126,7 +125,6 @@ class KYCController extends Controller
             ],
         ]);
 
-        // Optional: save session id
         $request->user()->update([
             'kyc_status' => 'pending',
         ]);
@@ -138,29 +136,30 @@ class KYCController extends Controller
 
     public function redirectToProvider()
     {
-        // Generate and store PKCE 'code_verifier' in session here
-        $verifier = bin2hex(random_bytes(32)); 
+        $verifier = bin2hex(random_bytes(32));
         session(['code_verifier' => $verifier]);
 
         $query = http_build_query([
             'client_id' => config('services.digilocker.client_id'),
-            'redirect_uri' => 'https://your-app.com/callback',
+            'redirect_uri' => config('services.digilocker.redirect_uri'),
             'response_type' => 'code',
             'state' => bin2hex(random_bytes(16)),
             'code_challenge' => $this->generateChallenge($verifier),
             'code_challenge_method' => 'S256'
         ]);
 
-        return redirect("https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?$query");
+        $url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?$query";
+
+        return response()->json([
+            'url' => $url
+        ]);
     }
 
-    // Step 2: Handle the callback from DigiLocker
     public function handleCallback(Request $request)
     {
         $code = $request->query('code');
         $verifier = session('code_verifier');
 
-        // Exchange code for token
         $response = Http::asForm()->post('https://dev-meripehchaan.dl6.in/public/oauth2/1/token', [
             'grant_type' => 'authorization_code',
             'code' => $code,
@@ -169,7 +168,7 @@ class KYCController extends Controller
             'code_verifier' => $verifier,
         ]);
 
-        return $response->json(); // This contains your access_token
+        return $response->json(); 
     }
 
     private function generateChallenge($verifier) {
