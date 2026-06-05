@@ -11,35 +11,36 @@ class DigiLockerController extends Controller
 public function redirectToDigiLocker()
 {
     try {
-
         $verifier = bin2hex(random_bytes(32));
 
-        session([
-            'code_verifier' => $verifier
-        ]);
+session([
+    'code_verifier' => $verifier
+]);
 
-        $state = bin2hex(random_bytes(16));
+$state = bin2hex(random_bytes(16));
 
-        $query = http_build_query([
-            'client_id' => config('services.digilocker.client_id'),
-            'redirect_uri' => config('services.digilocker.redirect_uri'),
-            'response_type' => 'code',
-            'state' => $state,
-            'code_challenge' => $this->generateChallenge($verifier),
-            'code_challenge_method' => 'S256'
-        ]);
-        \Log::info('DigiLocker Config', [
-    'client_id' => config('services.digilocker.client_id'),
+$query = http_build_query([
+    'client_id' => 'MNRNJVXE', // Sandbox test value from API Setu docs
+    'redirect_uri' => config('services.digilocker.redirect_uri'),
+    'response_type' => 'code',
+    'state' => $state,
+    'code_challenge' => $this->generateChallenge($verifier),
+    'code_challenge_method' => 'S256'
+]);
+
+\Log::info('DigiLocker Config', [
+    'client_id' => 'MNRNJVXE',
     'redirect_uri' => config('services.digilocker.redirect_uri'),
 ]);
 
-        $url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?" . $query;
+$url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?" . $query;
 
-        return response()->json([
-            'success' => true,
-            'url' => $url
-        ]);
+return response()->json([
+    'success' =>true,
+    'url' => $url
+]);
 
+        
     } catch (\Exception $e) {
 
         \Log::error('DigiLocker Auth Error', [
@@ -59,30 +60,35 @@ public function redirectToDigiLocker()
 {
     try {
 
-        $verifier = bin2hex(random_bytes(32));
+       $verifier = bin2hex(random_bytes(32));
 
-        session([
-            'code_verifier' => $verifier
-        ]);
+session([
+    'code_verifier' => $verifier
+]);
 
-        $state = bin2hex(random_bytes(16));
+$state = bin2hex(random_bytes(16));
 
-        $query = http_build_query([
-            'client_id' => config('services.digilocker.client_id'),
-            'redirect_uri' => config('services.digilocker.redirect_uri'),
-            'response_type' => 'code',
-            'state' => $state,
-            'code_challenge' => $this->generateChallenge($verifier),
-            'code_challenge_method' => 'S256'
-        ]);
+$query = http_build_query([
+    'client_id' => 'MNRNJVXE', // Sandbox test value from API Setu docs
+    'redirect_uri' => config('services.digilocker.redirect_uri'),
+    'response_type' => 'code',
+    'state' => $state,
+    'code_challenge' => $this->generateChallenge($verifier),
+    'code_challenge_method' => 'S256'
+]);
 
-        $url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?" . $query;
+\Log::info('DigiLocker Config', [
+    'client_id' => 'MNRNJVXE',
+    'redirect_uri' => config('services.digilocker.redirect_uri'),
+]);
 
-        return response()->json([
-            'success' => true,
-            'url' => $url
-        ]);
+$url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?" . $query;
 
+return response()->json([
+        'success' =>true,
+
+    'url' => $url
+]);
     } catch (\Exception $e) {
 
         \Log::error('DigiLocker Redirect Error', [
