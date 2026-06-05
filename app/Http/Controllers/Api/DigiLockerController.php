@@ -21,16 +21,16 @@ $state = bin2hex(random_bytes(16));
 
 $query = http_build_query([
     'client_id' => 'MNRNJVXE', // Sandbox test value from API Setu docs
-    'redirect_uri' => config('services.digilocker.redirect_uri'),
+    'redirect_uri' => 'https://rocketmoney-1.onrender.com',
     'response_type' => 'code',
-    'state' => $state,
-    'code_challenge' => $this->generateChallenge($verifier),
+    'state' => 'easd231sdsdf12dd',
+    'code_challenge' => 'n6Li6eP2UzbkRvu5uCxWj-nUabNu15NpvA48FpAaPhg',
     'code_challenge_method' => 'S256'
 ]);
 
 \Log::info('DigiLocker Config', [
     'client_id' => 'MNRNJVXE',
-    'redirect_uri' => config('services.digilocker.redirect_uri'),
+    'redirect_uri' => 'https://rocketmoney-1.onrender.com',
 ]);
 
 $url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?" . $query;
@@ -69,11 +69,11 @@ session([
 $state = bin2hex(random_bytes(16));
 
 $query = http_build_query([
-    'client_id' => 'MNRNJVXE', // Sandbox test value from API Setu docs
-    'redirect_uri' => config('services.digilocker.redirect_uri'),
+    'client_id' => 'MNRNJVXE',
+    'redirect_uri' => 'https://rocketmoney-1.onrender.com',
     'response_type' => 'code',
-    'state' => $state,
-    'code_challenge' => $this->generateChallenge($verifier),
+    'state' => 'easd231sdsdf12dd',
+    'code_challenge' => 'n6Li6eP2UzbkRvu5uCxWj-nUabNu15NpvA48FpAaPhg',
     'code_challenge_method' => 'S256'
 ]);
 
