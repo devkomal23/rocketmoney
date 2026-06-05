@@ -28,6 +28,10 @@ public function redirectToDigiLocker()
             'code_challenge' => $this->generateChallenge($verifier),
             'code_challenge_method' => 'S256'
         ]);
+        \Log::info('DigiLocker Config', [
+    'client_id' => config('services.digilocker.client_id'),
+    'redirect_uri' => config('services.digilocker.redirect_uri'),
+]);
 
         $url = "https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?" . $query;
 
