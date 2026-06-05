@@ -119,7 +119,7 @@ export default function RegistrationPage() {
       const result = await response.json();
       if (response.ok && result.success) {
           //setTimeout(() => navigate('/assesmentFee'), 2000);
-          navigate('/verify-kyc', { state: { from: 'application' } });    
+          navigate('/kycverification', { state: { from: 'application' } });    
       } else {
           alert(result.message || "Failed to submit application.");
       }

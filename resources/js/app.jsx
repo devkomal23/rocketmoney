@@ -9,6 +9,8 @@ import Dashboard from './components/Dashboard';
 import '../css/app.css'; 
 import AssessmentFee from './components/AssessmentFee';
 import VerifyKyc from './components/VerifyKyc';
+import KycVerification from './components/KycVerification';
+
 
 
 const App = () => {
@@ -20,7 +22,9 @@ const App = () => {
                 <Route path="/complete_application" element={<Completeapplication />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/assesmentFee" element={<AssessmentFee />} />
-<Route path="/verify-kyc" element={<VerifyKyc />} />            </Routes>
+                <Route path="/verify-kyc" element={<VerifyKyc />} />
+                <Route path="/kycverification" element={<KycVerification />} />            
+            </Routes>
         </BrowserRouter>
     );
 };

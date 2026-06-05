@@ -87,7 +87,7 @@ export default function VerifyKyc() {
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={styles.header}>
-          <h2 style={styles.pageTitle}>Identity Verification</h2>
+          <h2 style={styles.pageTitle} className="text-2xl font-bold">Identity Verification</h2>
         </div>
 
         <div style={styles.formContainer}>
@@ -158,6 +158,7 @@ const styles = {
     borderRadius: '32px',
     boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
     overflow: 'hidden',
+    height:'100vh'
   },
   header: {
     background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)',

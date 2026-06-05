@@ -31,10 +31,10 @@ html, body {
 /* 3. The Phone Frame */
 .card {
   width: 360px;
-  max-height: 90vh; /* Don't force height, use max-height */
+  max-height: 100dvh; /* Don't force height, use max-height */
   background-color: #FFF;
   border-radius: 32px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0);
   display: flex;
   flex-direction: column;
   overflow: hidden; /* Important: Clip the inner content */
@@ -384,4 +384,85 @@ html, body {
 
 .scrollableContainer{
   overflow-y: auto;
+}
+
+.verification-card {
+    max-width: 400px;
+    padding: 20px;
+    font-family: sans-serif;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.option-box {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 10px;
+    cursor: pointer;
+    position: relative;
+    transition: 0.3s;
+}
+
+.option-box.active {
+    border: 2px solid #00c853; /* Green border for recommended */
+}
+
+.badge {
+    background: #00c853;
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    position: absolute;
+    top: -10px;
+    right: 15px;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.separator {
+    text-align: center;
+    margin: 20px 0;
+    color: #888;
+    font-weight: bold;
+}
+
+.dbLogoImage{
+  max-height:200px;
+}
+
+.headerContainer{
+  max-height:170px;
+  text-align: -webkit-center;
+}
+
+.verification_container{
+  height:-webkit-fill-available;
+}
+
+.h-100{
+  height:100dvh;
+}
+
+.header-title{
+  background: #0052cc;
+  color:white;
+}
+
+.header {
+  background: linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%);
+  height: 100px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pageTitle {
+  color: white;
+  margin: auto;
 }
