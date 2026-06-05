@@ -32,5 +32,5 @@ Route::fallback(function () {
 });
 Route::middleware('auth:sanctum')->get('/kyc/status', [KycController::class, 'status']);
 Route::get('/digilocker/auth', [DigiLockerController::class, 'redirectToDigiLocker']);
-    Route::get('/digilocker/redirect', [DigiLockerController::class, 'redirectToProvider']);
-    Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback']);
+Route::get('/digilocker/redirect', [DigiLockerController::class, 'redirectToProvider']);
+Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback']);

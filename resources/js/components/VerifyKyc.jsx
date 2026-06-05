@@ -14,13 +14,19 @@ export default function VerifyKyc() {
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
+  const authToken = localStorage.getItem('auth_token');
+
   const checkStatus = async () => {
     try {
-      const response = await axios.get(`${API_URL}/kyc/status`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
-        },
-      });
+      const response = await axios.get(
+        `${API_URL}/api/kyc/status`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            Accept: 'application/json',
+          },
+        }
+      );
 
       const currentStatus = response.data.status;
       setStatus(currentStatus);
@@ -30,7 +36,10 @@ export default function VerifyKyc() {
         navigate('/dashboard');
       }
     } catch (err) {
-      console.error('Status API Error:', err.response?.data || err);
+      console.error(
+        'Status API Error:',
+        err.response?.data || err.message
+      );
     }
   };
 
@@ -45,16 +54,24 @@ export default function VerifyKyc() {
   }, []);
 
   const handleVerify = async () => {
-    setIsLoading(true);
-
     try {
-      const response = await fetch(`${API_URL}/kyc/init`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      setIsLoading(true);
+
+      const response = await fetch(
+        `${API_URL}/api/kyc/init`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
 
       const data = await response.json();
 
@@ -64,19 +81,24 @@ export default function VerifyKyc() {
 
       const stripe = await stripePromise;
 
-      const { error } = await stripe.verifyIdentity(data.client_secret);
+      const { error } = await stripe.verifyIdentity(
+        data.client_secret
+      );
 
       if (error) {
-        alert('Verification failed: ' + error.message);
-      } else {
-        setStatus('pending');
-
-        alert(
-          'Verification submitted successfully. Waiting for Stripe verification...'
-        );
+        alert(`Verification failed: ${error.message}`);
+        return;
       }
+
+      setStatus('pending');
+
+      alert(
+        'Verification submitted successfully. Waiting for verification...'
+      );
+
+      checkStatus();
     } catch (err) {
-      console.error(err);
+      console.error('KYC Error:', err);
       alert('Something went wrong. Please try again.');
     } finally {
       setIsLoading(false);
@@ -87,13 +109,16 @@ export default function VerifyKyc() {
     <div style={styles.container}>
       <div style={styles.card}>
         <div style={styles.header}>
-          <h2 style={styles.pageTitle} className="text-2xl font-bold">Identity Verification</h2>
+          <h2 style={styles.pageTitle}>
+            Identity Verification
+          </h2>
         </div>
 
         <div style={styles.formContainer}>
           <p style={styles.instruction}>
-            To proceed with your loan application, we need to verify your
-            identity. Please have your government-issued ID ready.
+            To proceed with your loan application,
+            we need to verify your identity.
+            Please keep your government-issued ID ready.
           </p>
 
           {status === 'pending' && (
@@ -110,7 +135,7 @@ export default function VerifyKyc() {
 
           {status === 'rejected' && (
             <p style={{ textAlign: 'center', color: 'red' }}>
-              Verification failed. Please upload documents again.
+              Verification failed. Please try again.
             </p>
           )}
 
@@ -154,21 +179,22 @@ const styles = {
   },
   card: {
     width: '400px',
-    backgroundColor: '#FFF',
+    backgroundColor: '#fff',
     borderRadius: '32px',
     boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
     overflow: 'hidden',
-    height:'100vh'
+    minHeight: '600px',
   },
   header: {
-    background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)',
+    background:
+      'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)',
     height: '100px',
     padding: '20px',
     display: 'flex',
     justifyContent: 'center',
   },
   pageTitle: {
-    color: 'white',
+    color: '#fff',
     margin: 'auto',
   },
   formContainer: {
