@@ -1,28 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const handleDigiLockerClick = async () => {
-      const API_URL = import.meta.env.VITE_API_URL;
-
-    try {
-        const res = await fetch(`${API_URL}/digilocker/auth`); 
-        
-        // Check if the response is actually JSON
-        const contentType = res.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            const html = await res.text();
-            console.error("Server returned HTML instead of JSON:", html);
-            return;
-        }
-
-        const data = await res.json();
-        window.location.href = data.url; 
-    } catch (error) {
-        console.error("Failed to initiate DigiLocker:", error);
-    }
-};
 export default function KycVerification() {
+  const [loading, setLoading] = useState(false);
+
+  const handleDigiLockerClick = async () => {
+    setLoading(true); // Disable button or show spinner
+    try {
+      const API_URL = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${API_URL}/api/digilocker/redirect`);
+      const data = await res.json();
+      
+      if (data.url) {
+        window.location.href = data.url; // Redirect to DigiLocker
+      }
+    } catch (error) {
+      console.error("Failed to initiate DigiLocker:", error);
+      setLoading(false);
+    }
+  };
+
   return (
+    // ... your existing JSX ...
     <div className= "container">
         <div className= "card">
             <div className="min-h-screen bg-gray-50 flex items-center justify-center  bg-white">
@@ -47,7 +46,10 @@ export default function KycVerification() {
                         </Link>
 
                         <div className="text-center text-sm text-gray-400 font-medium">OR</div>
-                            <div className="border border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-blue-500 transition-all" onClick = {handleDigiLockerClick}>
+    <div 
+        className={`border border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-blue-500 transition-all ${loading ? 'opacity-50 cursor-wait' : ''}`} 
+        onClick={!loading ? handleDigiLockerClick : undefined}>
+
                                 <div className="flex items-center gap-4">
                                     <span className="text-2xl">☁️</span>
                                     <div>
@@ -61,6 +63,5 @@ export default function KycVerification() {
                 </div>
             </div>
         </div>
-    </div>
-  );
+    </div>  );
 }

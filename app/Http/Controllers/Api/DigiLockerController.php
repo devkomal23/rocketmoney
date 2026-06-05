@@ -18,21 +18,44 @@ class DigiLockerController extends Controller
         return response()->json(['url' => $url]);
     }
 
-    public function handleCallback(Request $request) {
-        $code = $request->input('code');
 
-        $response = Http::asForm()->post('https://digilocker.partner.url/oauth/token', [
-            'grant_type' => 'authorization_code',
-            'code' => $code,
+    public function redirectToProvider()
+    {
+        // Generate and store PKCE 'code_verifier' in session here
+        $verifier = bin2hex(random_bytes(32)); 
+        session(['code_verifier' => $verifier]);
+
+        $query = http_build_query([
             'client_id' => config('services.digilocker.client_id'),
-            'client_secret' => config('services.digilocker.client_secret'),
-            'redirect_uri' => config('services.digilocker.redirect_uri'),
+            'redirect_uri' => 'https://your-app.com/callback',
+            'response_type' => 'code',
+            'state' => bin2hex(random_bytes(16)),
+            'code_challenge' => $this->generateChallenge($verifier),
+            'code_challenge_method' => 'S256'
         ]);
 
-        $token = $response->json()['access_token'];
+        return redirect("https://dev-meripehchaan.dl6.in/public/oauth2/1/authorize?$query");
+    }
 
-        $document = Http::withToken($token)->get('https://digilocker.partner.url/api/files/pan');
+    public function handleCallback(Request $request)
+    {
+        $code = $request->query('code');
+        $verifier = session('code_verifier');
 
-        return response()->json($document->json());
+        // Exchange code for token
+        $response = Http::asForm()->post('https://dev-meripehchaan.dl6.in/public/oauth2/1/token', [
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+            'redirect_uri' => 'https://your-app.com/callback',
+            'client_id' => config('services.digilocker.client_id'),
+            'code_verifier' => $verifier,
+        ]);
+
+        return $response->json(); // This contains your access_token
+    }
+
+    private function generateChallenge($verifier) {
+        $hash = hash('sha256', $verifier, true);
+        return strtr(base64_encode($hash), ['+' => '-', '/' => '_', '=' => '']);
     }
 }
