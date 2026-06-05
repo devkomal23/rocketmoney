@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\DashboardController; 
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\KYCController;
+use App\Http\Controllers\Api\DigiLockerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,3 +31,4 @@ Route::fallback(function () {
     return redirect('/'); 
 });
 Route::middleware('auth:sanctum')->get('/kyc/status', [KycController::class, 'status']);
+Route::get('/digilocker/auth', [DigiLockerController::class, 'redirectToDigiLocker']);

@@ -3,15 +3,22 @@ import { Link } from 'react-router-dom';
 
 const handleDigiLockerClick = async () => {
     try {
-        const res = await fetch('/api/digilocker/auth');
+        const res = await fetch(`${API_URL}/digilocker/auth`); 
+        
+        // Check if the response is actually JSON
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            const html = await res.text();
+            console.error("Server returned HTML instead of JSON:", html);
+            return;
+        }
+
         const data = await res.json();
-        // Redirect user to the official DigiLocker consent page
         window.location.href = data.url; 
     } catch (error) {
-        console.error("Failed to initiate DigiLocker", error);
+        console.error("Failed to initiate DigiLocker:", error);
     }
 };
-
 export default function KycVerification() {
   return (
     <div className= "container">
@@ -38,23 +45,20 @@ export default function KycVerification() {
                         </Link>
 
                         <div className="text-center text-sm text-gray-400 font-medium">OR</div>
-
                             <div className="border border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-blue-500 transition-all" onClick = {handleDigiLockerClick}>
                                 <div className="flex items-center gap-4">
-                                <span className="text-2xl">☁️</span>
-                                <div>
-                                    <h4 className="font-semibold text-gray-800">DigiLocker</h4>
-                                    <p className="text-xs text-gray-500">Fetch records securely</p>
-                                </div>
-                                <span className="ml-auto text-gray-400">→</span>
+                                    <span className="text-2xl">☁️</span>
+                                    <div>
+                                        <h4 className="font-semibold text-gray-800">DigiLocker</h4>
+                                        <p className="text-xs text-gray-500">Fetch records securely</p>
+                                    </div>
+                                    <span className="ml-auto text-gray-400">→</span>
                                 </div>
                             </div>
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
-
-
   );
 }
