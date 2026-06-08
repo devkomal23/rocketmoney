@@ -35,7 +35,7 @@ const handleRequestOTP = async (e) => {
   try {
     // 1. Explicitly use the absolute URL to hit your local Laravel server
   const response = await fetch(`${API_URL}/requestOtp`, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
