@@ -20,7 +20,6 @@ export default function SignIn() {
 const handleRequestOTP = async (e) => {
   e.preventDefault();
   
-  // Clean up the number just in case there are hidden spaces or prefixes
   const cleanMobileNumber = mobileNumber.trim();
 
   if (cleanMobileNumber.length !== 10) {
@@ -34,12 +33,11 @@ const handleRequestOTP = async (e) => {
 
   try {
   const response = await fetch(`${API_URL}/requestOtp`, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
-      body: JSON.stringify({ mobile_number: cleanMobileNumber }),
     });
     
     const data = await response.json();
@@ -54,19 +52,16 @@ const handleRequestOTP = async (e) => {
       }
     }
   } catch (error) {
-  console.error('OTP Error:', error);
-  setErrorMsg(error.message);
+    setErrorMsg('Network error. Check if your Laravel server is running.');
   } finally {
     setLoading(false);
   }
 };
 
-  const isButtonActive = mobileNumber.length === 10;
-
+const isButtonActive = mobileNumber.length === 10;
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        
         <div style={styles.logoContainer}>
           <img 
             src="/images/rocketmoney-logo.png" 
