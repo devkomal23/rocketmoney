@@ -12,7 +12,6 @@ export default function VerifyKyc() {
   const API_URL = import.meta.env.VITE_API_URL;
   const authToken = localStorage.getItem('auth_token');
   
-  // FIXED: Consolidated into one state object
   const [popup, setPopup] = useState({ show: false, type: '', title: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
@@ -27,46 +26,143 @@ export default function VerifyKyc() {
       setStatus(currentStatus);
 
       if (currentStatus === 'verified') {
-        // FIXED: Using setPopup instead of non-existent setShowPopup
         setPopup({ show: true, type: 'success', title: 'Verified', message: 'Identity verified!' });
         navigate('/AccountAggregator');
       }
     } catch (err) {
-      console.error('Status API Error:', err.response?.data || err.message);
+      console.error('Status API Error:', err.response?.data || err);
     }
   };
 
-  // ... handleVerify function (ensure you use setPopup here too) ...
+  useEffect(() => {
+    checkStatus();
+
+    const interval = setInterval(() => {
+      checkStatus();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleVerify = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/kyc/init`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (!data.client_secret) {
+        throw new Error('Client secret not received');
+      }
+
+      const stripe = await stripePromise;
+
+      const { error } = await stripe.verifyIdentity(data.client_secret);
+
+      if (error) {
+        alert('Verification failed: ' + error.message);
+      } else {
+        setStatus('pending');
+
+        alert(
+          'Verification submitted successfully. Waiting for Stripe verification...'
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {/* ... your form content ... */}
-      </div>
+        <div style={styles.header}>
+          <h2 style={styles.pageTitle}>Identity Verification</h2>
+        </div>
 
-      {/* FIXED: Popup is now INSIDE the component's return */}
+        <div style={styles.formContainer}>
+          <p style={styles.instruction}>
+            To proceed with your loan application, we need to verify your
+            identity. Please have your government-issued ID ready.
+          </p>
+
+          {status === 'pending' && (
+            <p style={{ textAlign: 'center', color: '#0f52ba' }}>
+              Verification is being processed...
+            </p>
+          )}
+
+          {status === 'verified' && (
+            <p style={{ textAlign: 'center', color: 'green' }}>
+              Verification successful ✅
+            </p>
+          )}
+
+          {status === 'rejected' && (
+            <p style={{ textAlign: 'center', color: 'red' }}>
+              Verification failed. Please upload documents again.
+            </p>
+          )}
+
+          <button
+            onClick={handleVerify}
+            disabled={
+              isLoading ||
+              status === 'pending' ||
+              status === 'verified'
+            }
+            style={{
+              ...styles.proceedButton,
+              backgroundColor:
+                isLoading ||
+                status === 'pending' ||
+                status === 'verified'
+                  ? '#cbd5e0'
+                  : '#6200ea',
+            }}
+          >
+            {isLoading
+              ? 'Launching...'
+              : status === 'verified'
+              ? 'Verified'
+              : 'Verify Identity →'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
       {popup.show && (
         <div className='popupOverlay'>
           <div className='popup'> {/* Ensure this matches your CSS */}
             <div className='checkCircle'>✓</div>
-            <h2 className='popupTitle'>{popup.title}</h2>
-            <p className='popupText'>{popup.message}</p>
-            <button
-              className='popupButton'
-              onClick={() => {
-                setPopup({ ...popup, show: false });
-                if (status === 'verified') navigate('/dashboard');
-              }}
-            >
-              Continue
-            </button>
+              <h2 className='popupTitle'>{popup.title}</h2>
+              <p className='popupText'>{popup.message}</p>
+              <button
+                className='popupButton'
+                onClick={() => {
+                  setPopup({ ...popup, show: false });
+                  if (status === 'verified') navigate('/dashboard');
+                }}
+              >
+                Continue
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+      
   );
 }
-{showPopup && (
+{up && (
   <div className='popupOverlay'>
     <div className='styles.popup'>
       <div className='checkCircle'>✓</div>
@@ -92,6 +188,7 @@ export default function VerifyKyc() {
   </div>
 )
 }
+}
 
 const styles = {
   container: {
@@ -104,22 +201,21 @@ const styles = {
   },
   card: {
     width: '400px',
-    backgroundColor: '#fff',
+    backgroundColor: '#FFF',
     borderRadius: '32px',
     boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
     overflow: 'hidden',
-    minHeight: '600px',
+    height:'100vh'
   },
   header: {
-    background:
-      'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)',
+    background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)',
     height: '100px',
     padding: '20px',
     display: 'flex',
     justifyContent: 'center',
   },
   pageTitle: {
-    color: '#fff',
+    color: 'white',
     margin: 'auto',
   },
   formContainer: {
