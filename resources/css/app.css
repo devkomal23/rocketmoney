@@ -560,7 +560,7 @@ html, body {
     border-radius:20px;
 }
 
-.data-access{
+.entity-card{
     display: flex;
     align-items: center;
     margin: 8px;
