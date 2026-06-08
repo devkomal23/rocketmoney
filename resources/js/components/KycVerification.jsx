@@ -8,7 +8,7 @@ export default function KycVerification() {
     setLoading(true); // Disable button or show spinner
     try {
       const API_URL = import.meta.env.VITE_API_URL;
-      const res = await fetch(`${API_URL}/api/digilocker/redirect`);
+      const res = await fetch(`${API_URL}/digilocker/redirect`);
       const data = await res.json();
       
       if (data.url) {
