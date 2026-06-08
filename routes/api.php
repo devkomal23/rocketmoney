@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\DashboardController; 
@@ -9,8 +10,14 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\KYCController;
 use App\Http\Controllers\Api\DigiLockerController;
 Route::get('/health', function () {
-    return 'Laravel is running';
+    try {
+        DB::connection()->getPdo();
+        return 'Database connection is OK and Laravel is running';
+    } catch (\Exception $e) {
+        return 'Could not connect to database. Error: ' . $e->getMessage();
+    }
 });
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
