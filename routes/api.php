@@ -22,7 +22,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/requestOtp', [AuthController::class, 'requestOtp']);
+Route::post('/requestOtp', [AuthController::class, 'requestOtp']);
 Route::post('/verifyOtp', [AuthController::class, 'verifyOtp']);
 
 Route::middleware('auth:sanctum')->group(function () {

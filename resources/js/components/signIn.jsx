@@ -34,7 +34,7 @@ const handleRequestOTP = async (e) => {
 
   try {
   const response = await fetch(`${API_URL}/requestOtp`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
