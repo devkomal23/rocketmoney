@@ -19,7 +19,7 @@ export default function VerifyKyc() {
   const checkStatus = async () => {
     try {
       const response = await axios.get(
-        `${API_URL}/api/kyc/status`,
+        `${API_URL}/kyc/status`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -58,7 +58,7 @@ export default function VerifyKyc() {
       setIsLoading(true);
 
       const response = await fetch(
-        `${API_URL}/api/kyc/init`,
+        `${API_URL}/kyc/init`,
         {
           method: 'POST',
           headers: {

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
-
 export default function Dashboard() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -11,11 +9,11 @@ export default function Dashboard() {
     const API_URL = import.meta.env.VITE_API_URL;
 
 
-const handlePaymentClick = async () => {
-    if (!window.Razorpay) {
-        alert("Razorpay SDK failed to load. Please check your internet connection.");
-        return;
-    }
+    const handlePaymentClick = async () => {
+        if (!window.Razorpay) {
+            alert("Razorpay SDK failed to load. Please check your internet connection.");
+            return;
+        }
 
     const token = localStorage.getItem('auth_token');
     
@@ -56,16 +54,13 @@ useEffect(() => {
             const res = await axios.get(`${API_URL}/assessment`, {
                 headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
             });
-            
-            console.log("Server Response:", res.data); 
-            
+                        
             setData(res.data.data); 
 } catch (err) {
     console.error("Dashboard Error Details:", err.response ? err.response.data : err.message);
     if (err.response?.status === 401) {
         navigate('/');
     } else {
-        // This will help us see if it's a server-side error
         alert("Server error: " + (err.response?.data?.message || err.message));
     }
 } finally {
