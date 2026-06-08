@@ -33,7 +33,6 @@ const handleRequestOTP = async (e) => {
   console.log("API_URL =", API_URL);
 
   try {
-    // 1. Explicitly use the absolute URL to hit your local Laravel server
   const response = await fetch(`${API_URL}/requestOtp`, {
       method: 'GET',
       headers: {
@@ -46,10 +45,8 @@ const handleRequestOTP = async (e) => {
     const data = await response.json();
     
     if (response.ok && data.success) {
-      // 2. Safely forward the cleaned mobile string to the verification route state
       navigate('/OTPVerification', { state: { mobile: cleanMobileNumber } });      
     } else {
-      // 3. Extract the exact reason directly from Laravel's Validator messages
       if (data.errors && data.errors.mobile_number) {
         setErrorMsg(data.errors.mobile_number[0]);
       } else {
@@ -57,7 +54,8 @@ const handleRequestOTP = async (e) => {
       }
     }
   } catch (error) {
-    setErrorMsg('Network error. Check if your Laravel server is running.');
+  console.error('OTP Error:', error);
+  setErrorMsg(error.message);
   } finally {
     setLoading(false);
   }
