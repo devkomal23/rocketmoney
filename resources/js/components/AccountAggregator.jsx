@@ -18,8 +18,10 @@ export default function RegistrationPage() {
       <div className="card">
         <div className="header">
           <button className="back-btn">←</button>
-          <h1>Account Aggregator</h1>
-          <p>RBI-licensed · Secure data consent</p>
+          <div className ="header_info">
+            <h1>Account Aggregator</h1>
+            <p>RBI-licensed · Secure data consent</p>
+          </div>
         </div>
 
         <div className="entity-card">

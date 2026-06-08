@@ -144,7 +144,7 @@ export default function VerifyKyc() {
 
       {popup.show && (
         <div className='popupOverlay'>
-          <div className='popup'> {/* Ensure this matches your CSS */}
+          <div className='popup'> 
             <div className='checkCircle'>✓</div>
               <h2 className='popupTitle'>{popup.title}</h2>
               <p className='popupText'>{popup.message}</p>
