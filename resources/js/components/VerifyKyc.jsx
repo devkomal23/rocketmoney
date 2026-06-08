@@ -15,7 +15,7 @@ export default function VerifyKyc() {
 
   const checkStatus = async () => {
     if (currentStatus === 'verified') {
-      setPopup({ show: true, type: 'success', title: 'Verified', message: 'Account verified!' });
+      setShowPopup({ show: true, type: 'success', title: 'Verified', message: 'Account verified!' });
       navigate('/AccountAggregator');
     }
   };
