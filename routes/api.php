@@ -9,9 +9,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\KYCController;
 use App\Http\Controllers\Api\DigiLockerController;
 Route::get('/health', function () {
-    return response()->json([
-        'status' => 'ok'
-    ]);
+    return 'Laravel is running';
 });
 Route::get('/user', function (Request $request) {
     return $request->user();
