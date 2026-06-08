@@ -10,7 +10,7 @@ const stripePromise = loadStripe(
 export default function VerifyKyc() {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
-
+  const [popup, setPopup] = useState({show: false,type: '',title: '',message: '',});
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
@@ -32,8 +32,8 @@ export default function VerifyKyc() {
       setStatus(currentStatus);
 
       if (currentStatus === 'verified') {
-        alert('✅ Verification successful!');
-        navigate('/dashboard');
+        setShowPopup(true);
+        navigate('/AccountAggregator');
       }
     } catch (err) {
       console.error(
@@ -86,16 +86,15 @@ export default function VerifyKyc() {
       );
 
       if (error) {
-        alert(`Verification failed: ${error.message}`);
+        setShowPopup(true);
+        setPopup({show: true,type: 'error',title: 'Verification Failed',message: error.message,});
+        //alert(`Verification failed: ${error.message}`);
         return;
       }
 
       setStatus('pending');
-
-      alert(
-        'Verification submitted successfully. Waiting for verification...'
-      );
-
+        setPopup({show: true,type: 'error',title: 'Verification Processing...',message: 'Verification submitted successfully. Waiting for verification...',});
+     
       checkStatus();
     } catch (err) {
       console.error('KYC Error:', err);
@@ -167,6 +166,31 @@ export default function VerifyKyc() {
     </div>
   );
 }
+{showPopup && (
+  <div className='popupOverlay'>
+    <div className='styles.popup'>
+      <div className='checkCircle'>✓</div>
+
+      <h2 className='popupTitle'>
+        Verification Successful!
+      </h2>
+
+      <p className='popupText'>
+        Your identity verification has been completed successfully.
+      </p>
+
+      <button
+        className='popupButton'
+        onClick={() => {
+          setShowPopup(false);
+          navigate('/dashboard');
+        }}
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+)}
 
 const styles = {
   container: {

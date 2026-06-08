@@ -10,6 +10,7 @@ import '../css/app.css';
 import AssessmentFee from './components/AssessmentFee';
 import VerifyKyc from './components/VerifyKyc';
 import KycVerification from './components/KycVerification';
+import AccountAggregator from './components/AccountAggregator';
 
 
 
@@ -23,7 +24,8 @@ const App = () => {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/assesmentFee" element={<AssessmentFee />} />
                 <Route path="/verify-kyc" element={<VerifyKyc />} />
-                <Route path="/kycverification" element={<KycVerification />} />            
+                <Route path="/kycverification" element={<KycVerification />} />    
+                <Route path ="/AccountAggregator" element={<AccountAggregator/>}/>    
             </Routes>
         </BrowserRouter>
     );
