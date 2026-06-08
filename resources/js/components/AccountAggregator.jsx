@@ -17,7 +17,7 @@ export default function RegistrationPage() {
     <div className="container">
       <div className="card">
         <div className="header">
-          <button className="back-btn">←</button>
+          <button className="back-btn" onClick={() => navigate('/verify-kyc')}>←</button>
           <div className ="header_info">
             <h1>Account Aggregator</h1>
             <p>RBI-licensed · Secure data consent</p>
