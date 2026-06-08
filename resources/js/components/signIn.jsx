@@ -29,17 +29,17 @@ const handleRequestOTP = async (e) => {
 
   setLoading(true);
   setErrorMsg('');
-  console.log("API_URL =", API_URL);
 
   try {
-  const response = await fetch(`${API_URL}/requestOtp`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    });
-    
+    const response = await fetch(
+      `${API_URL}/requestOtp?mobile_number=${encodeURIComponent(cleanMobileNumber)}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      }
+    );    
     const data = await response.json();
     
     if (response.ok && data.success) {
@@ -52,7 +52,8 @@ const handleRequestOTP = async (e) => {
       }
     }
   } catch (error) {
-    setErrorMsg('Network error. Check if your Laravel server is running.');
+      console.error('OTP Error:', error);
+      setErrorMsg(error.message);
   } finally {
     setLoading(false);
   }
