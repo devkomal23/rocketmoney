@@ -31,6 +31,7 @@ export default function RegistrationPage() {
             <p>RBI-Registered NBFC</p>
           </div>
         </div>
+        <div className="scrollable-content">
 
         <div className="data-access">
           <h4>DATA WE WILL ACCESS</h4>
@@ -74,6 +75,7 @@ export default function RegistrationPage() {
         <button className="action-btn" onClick={handleAccept}>
           Give Consent & Select Bank →
         </button>
+        </div>
       </div>
     </div>
   );
