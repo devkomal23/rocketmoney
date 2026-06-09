@@ -10,17 +10,13 @@ const stripePromise = loadStripe(
 export default function VerifyKyc() {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
-  const authToken = localStorage.getItem('auth_token');
-  
   const [popup, setPopup] = useState({ show: false, type: '', title: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
   const checkStatus = async () => {
     try {
-      const response = await axios.get(`${API_URL}/kyc/status`, {
-        headers: { Authorization: `Bearer ${authToken}`, Accept: 'application/json' },
-      });
+      const response = await axios.get(`${API_URL}/kyc/status`);
 
       const currentStatus = response.data.status;
       setStatus(currentStatus);
