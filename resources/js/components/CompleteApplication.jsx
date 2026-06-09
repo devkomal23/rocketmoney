@@ -192,7 +192,7 @@ export default function RegistrationPage() {
                 </div>
 
                 <button 
-                  onClick={handleSubmit} 
+                  onClick={(e) => handleSubmit(e)}                 
                   disabled={!isFormValid} 
                   style={{ 
                     ...styles.proceedButton, 

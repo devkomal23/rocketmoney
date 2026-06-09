@@ -28,7 +28,7 @@ const App = () => {
                 <Route path="/kycverification" element={<KycVerification />} />    
                 <Route path ="/AccountAggregator" element={<AccountAggregator/>}/> 
                 <Route path ="/Consent" element={<Consent/>}/>    
-   
+                <ConsentHub onConsentAccepted={() => navigate('/kycverification')} />
             </Routes>
         </BrowserRouter>
     );

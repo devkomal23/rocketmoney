@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ConsentHub = ({ onConsentAccepted }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const [loading, setLoading] = useState(false); // Added loading state for better UX
+  const [loading, setLoading] = useState(false); 
   const API_URL = import.meta.env.VITE_API_URL;
 
     const handleSubmit = async (e) => {
@@ -24,8 +24,13 @@ const ConsentHub = ({ onConsentAccepted }) => {
             }
             }
         );
-        onConsentAccepted(); 
-        } catch (error) {
+if (typeof onConsentAccepted === 'function') {
+    onConsentAccepted(); 
+} else {
+    console.warn("onConsentAccepted prop was not provided to ConsentHub.");
+    // Optionally: navigate('/kycverification') directly here as a fallback
+}
+2.        } catch (error) {
         console.error("Error saving consent:", error);
         alert("Unauthorized: Please log in again.");
         } finally {
