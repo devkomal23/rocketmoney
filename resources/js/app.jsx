@@ -33,7 +33,13 @@ const App = () => {
         </BrowserRouter>
     );
 };
-
+axios.interceptors.request.use((config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
 const rootElement = document.getElementById('root');
 if (rootElement) {
     const root = createRoot(rootElement);

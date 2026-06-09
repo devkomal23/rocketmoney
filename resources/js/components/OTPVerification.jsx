@@ -67,7 +67,9 @@ export default function OTPVerification() {
         if (response.ok && result.success) {
           const { token, user } = result.data;
           localStorage.setItem('auth_token', token);
-          console.log(result.data);
+          localStorage.setItem('authToken', response.data.token);
+
+          console.log(response.data.token);
           const isRegistrationComplete = user.is_registration_complete == 1; 
           if (!isRegistrationComplete) {
               navigate('/complete_application', { state: { mobile: mobileNumber, token: token } });

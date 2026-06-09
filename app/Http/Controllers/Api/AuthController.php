@@ -145,8 +145,7 @@ protected $underwritingService;
 
         $user->update(['otp_code' => null]);
 
-        $token = $user->createToken('rocketmoney_session')->plainTextToken;
-
+$token = $user->createToken('auth_token')->plainTextToken;
         $isProfileComplete = !empty($user->pan_number);
 
         return response()->json([
