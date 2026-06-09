@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const ConsentHub = ({ onConsentAccepted }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false); // Added loading state for better UX
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
