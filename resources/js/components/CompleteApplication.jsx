@@ -108,6 +108,7 @@ export default function RegistrationPage() {
 
     try {
       const token = localStorage.getItem('authToken'); // Ensure this matches your login key
+      console.log("token"+token);
       const response = await fetch(`${API_URL}/complete-application`, {
         method: 'POST',
         headers: {
