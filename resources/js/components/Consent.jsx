@@ -12,7 +12,8 @@ const ConsentHub = ({ onConsentAccepted }) => {
     if (isChecked) {
         setLoading(true);
         try {
-        const token = localStorage.getItem('authToken'); 
+        const token = localStorage.getItem('authToken');
+        console.log(token); 
 
         await axios.post(`${API_URL}/consent`, 
             { agree: true }, 
