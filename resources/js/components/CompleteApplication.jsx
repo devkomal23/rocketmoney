@@ -103,11 +103,10 @@ export default function RegistrationPage() {
       email: formData.email,
       pincode: formData.pincode,
       language: formData.language,
-      
     };
 
     try {
-      const token = localStorage.getItem('authToken'); // Ensure this matches your login key
+      const token = localStorage.getItem('authToken'); 
       console.log("token"+token);
       const response = await fetch(`${API_URL}/complete-application`, {
         method: 'POST',
@@ -119,15 +118,15 @@ export default function RegistrationPage() {
       });
 
       const result = await response.json();
-      if (response.ok && result.success) {
-          navigate('/Consent'); 
-      } else {
-          alert(result.message || "Failed to submit application.");
+        if (response.ok && result.success) {
+            navigate('/Consent'); 
+        } else {
+            alert(result.message || "Failed to submit application.");
+        }
+      } catch (e) {
+        alert("Something went wrong. Please check your connection.");
       }
-    } catch (err) {
-      alert("Something went wrong. Please check your connection.");
-    }
-  };
+    };
 
         useEffect(() => {
           const handleClickOutside = (event) => {
