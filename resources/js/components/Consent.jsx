@@ -7,21 +7,31 @@ const ConsentHub = ({ onConsentAccepted }) => {
   const [loading, setLoading] = useState(false); // Added loading state for better UX
   const API_URL = import.meta.env.VITE_API_URL;
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
     if (isChecked) {
-      setLoading(true);
-      try {
-        await axios.post(`${API_URL}/consent`, { agree: true });
+        setLoading(true);
+        try {
+        const token = localStorage.getItem('authToken'); 
+
+        await axios.post(`${API_URL}/consent`, 
+            { agree: true }, 
+            {
+            headers: {
+                'Authorization': `Bearer ${token}`, // This sends the token to Laravel
+                'Accept': 'application/json'
+            }
+            }
+        );
         onConsentAccepted(); 
-      } catch (error) {
+        } catch (error) {
         console.error("Error saving consent:", error);
-        alert("Failed to save consent. Please try again.");
-      } finally {
+        alert("Unauthorized: Please log in again.");
+        } finally {
         setLoading(false);
-      }
+        }
     }
-  };
+    };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
