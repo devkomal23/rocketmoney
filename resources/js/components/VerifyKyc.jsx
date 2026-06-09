@@ -3,77 +3,48 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(
-  'pk_test_51TdR50CwBSCb9sXM2IdrxeRSsE6nNE1gAVHeHg5N7qYb2SB8dKMYrBYGUul00NlkCpcISEBW94RKzZ6juqFsNVmi00SA8INkKP'
-);
+const stripePromise = loadStripe('pk_test_51TdR50CwBSCb9sXM2IdrxeRSsE6nNE1gAVHeHg5N7qYb2SB8dKMYrBYGUul00NlkCpcISEBW94RKzZ6juqFsNVmi00SA8INkKP');
 
 export default function VerifyKyc() {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL;
-  const [popup, setPopup] = useState({ show: false, type: '', title: '', message: '' });
+  const [popup, setPopup] = useState({ show: false, title: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
   const checkStatus = async () => {
     try {
       const response = await axios.get(`${API_URL}/kyc/status`);
-
       const currentStatus = response.data.status;
       setStatus(currentStatus);
 
       if (currentStatus === 'verified') {
-        setPopup({ show: true, type: 'success', title: 'Verified', message: 'Identity verified!' });
-        navigate('/AccountAggregator');
+        setPopup({ show: true, title: 'Verified', message: 'Identity verified!' });
       }
     } catch (err) {
-      console.error('Status API Error:', err.response?.data || err);
+      console.error('Status API Error:', err);
     }
   };
 
   useEffect(() => {
     checkStatus();
-
-    const interval = setInterval(() => {
-      checkStatus();
-    }, 5000);
-
+    const interval = setInterval(checkStatus, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const handleVerify = async () => {
     setIsLoading(true);
-
     try {
-      const response = await fetch(`${API_URL}/kyc/init`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('auth_token')}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await response.json();
-
-      if (!data.client_secret) {
-        throw new Error('Client secret not received');
-      }
-
+      const response = await axios.post(`${API_URL}/kyc/init`);
+      const { client_secret } = response.data;
       const stripe = await stripePromise;
+      const { error } = await stripe.verifyIdentity(client_secret);
 
-      const { error } = await stripe.verifyIdentity(data.client_secret);
-
-      if (error) {
-        alert('Verification failed: ' + error.message);
-      } else {
-        setStatus('pending');
-
-        alert(
-          'Verification submitted successfully. Waiting for Stripe verification...'
-        );
-      }
+      if (error) throw new Error(error.message);
+      setStatus('pending');
     } catch (err) {
       console.error(err);
-      alert('Something went wrong. Please try again.');
+      alert('Verification failed: ' + err.message);
     } finally {
       setIsLoading(false);
     }
@@ -82,109 +53,32 @@ export default function VerifyKyc() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <div style={styles.header}>
-          <h2 style={styles.pageTitle}>Identity Verification</h2>
-        </div>
-
+        <div style={styles.header}><h2 style={styles.pageTitle}>Identity Verification</h2></div>
         <div style={styles.formContainer}>
-          <p style={styles.instruction}>
-            To proceed with your loan application, we need to verify your
-            identity. Please have your government-issued ID ready.
-          </p>
+          <p style={styles.instruction}>To proceed with your loan, we need to verify your identity.</p>
+          
+          {status === 'pending' && <p style={{textAlign: 'center', color: '#0f52ba'}}>Processing...</p>}
+          {status === 'verified' && <p style={{textAlign: 'center', color: 'green'}}>Success ✅</p>}
 
-          {status === 'pending' && (
-            <p style={{ textAlign: 'center', color: '#0f52ba' }}>
-              Verification is being processed...
-            </p>
-          )}
-
-          {status === 'verified' && (
-            <p style={{ textAlign: 'center', color: 'green' }}>
-              Verification successful ✅
-            </p>
-          )}
-
-          {status === 'rejected' && (
-            <p style={{ textAlign: 'center', color: 'red' }}>
-              Verification failed. Please upload documents again.
-            </p>
-          )}
-
-          <button
-            onClick={handleVerify}
-            disabled={
-              isLoading ||
-              status === 'pending' ||
-              status === 'verified'
-            }
-            style={{
-              ...styles.proceedButton,
-              backgroundColor:
-                isLoading ||
-                status === 'pending' ||
-                status === 'verified'
-                  ? '#cbd5e0'
-                  : '#6200ea',
-            }}
-          >
-            {isLoading
-              ? 'Launching...'
-              : status === 'verified'
-              ? 'Verified'
-              : 'Verify Identity →'}
+          <button onClick={handleVerify} disabled={isLoading || status === 'verified'} style={{...styles.proceedButton, backgroundColor: (isLoading || status === 'verified') ? '#cbd5e0' : '#6200ea'}}>
+            {isLoading ? 'Launching...' : 'Verify Identity →'}
           </button>
         </div>
       </div>
-    </div>
-  );
 
       {popup.show && (
-        <div className='popupOverlay'>
-          <div className='popup'> 
-            <div className='checkCircle'>✓</div>
-              <h2 className='popupTitle'>{popup.title}</h2>
-              <p className='popupText'>{popup.message}</p>
-              <button
-                className='popupButton'
-                onClick={() => {
-                  setPopup({ ...popup, show: false });
-                  if (status === 'verified') navigate('/dashboard');
-                }}
-              >
-                Continue
-              </button>
-            </div>
+        <div className="popupOverlay">
+          <div className="popup">
+            <h2>{popup.title}</h2>
+            <p>{popup.message}</p>
+            <button className="popupButton" onClick={() => navigate('/dashboard')}>Continue</button>
           </div>
-      
+        </div>
+      )}
+    </div>
   );
 }
-{up && (
-  <div className='popupOverlay'>
-    <div className='styles.popup'>
-      <div className='checkCircle'>✓</div>
 
-      <h2 className='popupTitle'>
-        Verification Successful!
-      </h2>
-
-      <p className='popupText'>
-        Your identity verification has been completed successfully.
-      </p>
-
-      <button
-        className='popupButton'
-        onClick={() => {
-          setShowPopup(false);
-          navigate('/dashboard');
-        }}
-      >
-        Continue
-      </button>
-    </div>
-  </div>
-)
-}
-}
 
 const styles = {
   container: {
