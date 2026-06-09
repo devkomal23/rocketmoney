@@ -73,7 +73,7 @@ export default function OTPVerification() {
               navigate('/complete_application', { state: { mobile: mobileNumber, token: token } });
           } 
           else if (result.data.is_fee_paid === true || result.data.assessment_fee_status === 'paid') {
-              navigate('/dashboard');
+              navigate('/assessment');
           } 
           else {
               navigate('/complete_application', { state: { mobile: mobileNumber, token: token } });
