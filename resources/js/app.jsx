@@ -11,10 +11,8 @@ import AssessmentFee from './components/AssessmentFee';
 import VerifyKyc from './components/VerifyKyc';
 import KycVerification from './components/KycVerification';
 import AccountAggregator from './components/AccountAggregator';
-import Consent from './components/Consent';
-
-
-
+import axios from 'axios';
+import ConsentPage from './components/ConsentPage';
 const App = () => {
     return (
         <BrowserRouter>
@@ -27,8 +25,7 @@ const App = () => {
                 <Route path="/verify-kyc" element={<VerifyKyc />} />
                 <Route path="/kycverification" element={<KycVerification />} />    
                 <Route path ="/AccountAggregator" element={<AccountAggregator/>}/> 
-                <Route path ="/Consent" element={<Consent/>}/>    
-            </Routes>
+<Route path="/Consent" element={<ConsentPage />} />            </Routes>
         </BrowserRouter>
     );
 };
