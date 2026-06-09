@@ -122,7 +122,7 @@ class KYCController extends Controller
             'type' => 'document',
             'options' => [
             'document' => [
-                'require_live_capture' => true, 
+            'require_matching_selfie' => true,
                 'allowed_types' => ['id_card', 'passport'],
             ],
         ],

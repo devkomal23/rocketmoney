@@ -59,6 +59,7 @@ export default function VerifyKyc() {
           
           {status === 'pending' && <p style={{textAlign: 'center', color: '#0f52ba'}}>Processing...</p>}
           {status === 'verified' && <p style={{textAlign: 'center', color: 'green'}}>Success ✅</p>}
+          {status === 'rejected' && <p style={{textAlign: 'center', color: 'green'}}>Rejected ❌</p>}
 
           <button onClick={handleVerify} disabled={isLoading || status === 'verified'} style={{...styles.proceedButton, backgroundColor: (isLoading || status === 'verified') ? '#cbd5e0' : '#6200ea'}}>
             {isLoading ? 'Launching...' : 'Verify Identity →'}

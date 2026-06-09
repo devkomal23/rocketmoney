@@ -30,8 +30,10 @@ const ConsentHub = ({ onConsentAccepted }) => {
       <form onSubmit={handleSubmit}>
         <label className="flex items-start space-x-3 mb-6">
           <input type="checkbox" checked={isChecked} onChange={(e) => setIsChecked(e.target.checked)} required />
-          <span className="text-sm">I authorize...</span>
-        </label>
+<span className="text-sm text-gray-700">
+  I authorize <strong>MoneyTime Technology</strong> to securely access and process my KYC documents and financial information for the purpose of loan eligibility assessment, as per the 
+  <a href="/terms" className="text-blue-600 underline ml-1" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>.
+</span>        </label>
         <button type="submit" disabled={!isChecked || loading} className="w-full py-3 bg-blue-600 text-white rounded-lg">
           {loading ? "Processing..." : "Continue →"}
         </button>
