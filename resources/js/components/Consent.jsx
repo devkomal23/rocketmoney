@@ -13,13 +13,13 @@ const ConsentHub = ({ onConsentAccepted }) => {
         setLoading(true);
         try {
         const token = localStorage.getItem('authToken');
-        console.log(token); 
+        console.log("token is"+token); 
 
         await axios.post(`${API_URL}/consent`, 
             { agree: true }, 
             {
             headers: {
-                'Authorization': `Bearer ${token}`, // This sends the token to Laravel
+                'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json'
             }
             }
