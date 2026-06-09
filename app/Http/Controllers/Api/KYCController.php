@@ -175,4 +175,20 @@ class KYCController extends Controller
         $hash = hash('sha256', $verifier, true);
         return strtr(base64_encode($hash), ['+' => '-', '/' => '_', '=' => '']);
     }
+
+    public function store(Request $request)
+{
+    $request->validate(['agree' => 'required']);
+
+    // Save to database
+    UserConsent::create([
+        'user_id' => auth()->id(),
+        'consent_type' => 'kyc_and_aggregator',
+        'ip_address' => $request->ip(),
+        'consented_at' => now(),
+    ]);
+
+    // Redirect to the next step in your flow (e.g., KYC selection)
+    return redirect()->route('kyc.selection');
+}
 }

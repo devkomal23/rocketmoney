@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\KYCController;
 use App\Http\Controllers\Api\DigiLockerController;
+use App\Http\Controllers\ConsentController;
 Route::get('/health', function () {
     try {
         DB::connection()->getPdo();
@@ -43,3 +44,4 @@ Route::middleware('auth:sanctum')->get('/kyc/status', [KycController::class, 'st
 Route::get('/digilocker/auth', [DigiLockerController::class, 'redirectToDigiLocker']);
 Route::get('/digilocker/redirect', [DigiLockerController::class, 'redirectToProvider']);
 Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback']);
+Route::middleware('auth:sanctum')->post('/consent', [ConsentController::class, 'store']);
