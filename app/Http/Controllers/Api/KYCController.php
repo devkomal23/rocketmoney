@@ -120,6 +120,12 @@ class KYCController extends Controller
 
         $session = $stripe->identity->verificationSessions->create([
             'type' => 'document',
+            'options' => [
+            'document' => [
+                'require_live_capture' => true, 
+                'allowed_types' => ['id_card', 'passport'],
+            ],
+        ],
             'metadata' => [
                 'user_id' => $request->user()->id,
             ],
