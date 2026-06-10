@@ -7,43 +7,46 @@ export default function VerifyKyc() {
     const [image, setImage] = useState(null);
       const API_URL = import.meta.env.VITE_API_URL;
 
-
-    const capture = () => {
+    const autoCapture = () => {
+        setTimeout(() => {
         const imageSrc = webcamRef.current.getScreenshot();
-        setImage(imageSrc);
+            if (imageSrc) {
+                setImage(imageSrc);
+            }
+        }, 5000);
     };
 
-const uploadSelfie = async () => {
-    try {
-        const blob = await fetch(image).then(res => res.blob());
+    const uploadSelfie = async () => {
+        try {
+            const blob = await fetch(image).then(res => res.blob());
 
-        const formData = new FormData();
-        formData.append("image", blob, "selfie.jpg");
+            const formData = new FormData();
+            formData.append("image", blob, "selfie.jpg");
 
-        const response = await axios.post(
-            `${API_URL}/upload-selfie`,
-            formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data"
+            const response = await axios.post(
+                `${API_URL}/upload-selfie`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
                 }
+            );
+
+            console.log(response.data);
+            alert("Selfie uploaded successfully!");
+
+        } catch (error) {
+            console.error("Upload failed:", error);
+
+            if (error.response) {
+                console.log("Response Data:", error.response.data);
+                console.log("Status:", error.response.status);
             }
-        );
 
-        console.log(response.data);
-        alert("Selfie uploaded successfully!");
-
-    } catch (error) {
-        console.error("Upload failed:", error);
-
-        if (error.response) {
-            console.log("Response Data:", error.response.data);
-            console.log("Status:", error.response.status);
+            alert(error.response?.data?.message || error.message);
         }
-
-        alert(error.response?.data?.message || error.message);
-    }
-};
+    };
     return (
         <div style={styles.container}>
             <div style={styles.card}>
@@ -68,7 +71,15 @@ const uploadSelfie = async () => {
                                         ref={webcamRef}
                                         screenshotFormat="image/jpeg"
                                         width={400}
+                                        onUserMedia={autoCapture}
+
                                     />
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="preview-frame">
+                                    <img src={image} alt="selfie" />
                                 </div>
                                 <h2>Selfie Verification</h2>
                                 <p className="kyc-subtitle">
@@ -76,15 +87,10 @@ const uploadSelfie = async () => {
                                 </p>
 
 
-                                <button className="btn-primary" onClick={capture}>
+                                <button className="btn-primary" >
                                     📸 Capture Selfie
                                 </button>
-                            </>
-                        ) : (
-                            <>
-                                <div className="preview-frame">
-                                    <img src={image} alt="selfie" />
-                                </div>
+
 
                                 <div className="button-group">
                                     <button
