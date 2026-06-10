@@ -30,7 +30,7 @@ export default function VerifyKyc() {
                 setImage(imageSrc);
             }
         }
-    },55000);
+    },5000);
 
     };
 
@@ -50,7 +50,7 @@ export default function VerifyKyc() {
                     }
                 }
             );
-setUploadSuccess(true);
+            setUploadSuccess(true);
 
         } catch (error) {
             console.error("Upload failed:", error);
@@ -110,18 +110,18 @@ setUploadSuccess(true);
                             <div className="preview-frame">
                                 <img src={image} alt="selfie" />
                             </div>
-{uploadSuccess && (
-    <div className="success-message">
-        <div className="success-title">
-            ✅ Selfie Verified Successfully
-        </div>
+                                {uploadSuccess && (
+                                    <div className="success-message">
+                                        <div className="success-title">
+                                            ✅ Selfie Verified Successfully
+                                        </div>
 
-        <div className="success-subtitle">
-            Your identity verification is being processed.
-        </div>
-    </div>
-)}
-                                <div className="button-group">
+                                        <div className="success-subtitle">
+                                            Your identity verification is being processed.
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="button-group selfie-button-group">
                                     <button
                                         className=" btn-selfie btn-retake btn-selfie p-2"
                                         onClick={() => setImage(null)}
