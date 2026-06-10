@@ -81,7 +81,7 @@ export default function VerifyKyc() {
                                 </p>
 
 
-                                <button className="btn-primary" onClick={capture}>
+                                <button className="btn-primary" >
                                     📸 Capture Selfie
                                 </button>
                             </>
