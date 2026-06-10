@@ -5,8 +5,9 @@ import axios from 'axios';
 export default function VerifyKyc() {
     const webcamRef = useRef(null);
     const [image, setImage] = useState(null);
-      const API_URL = import.meta.env.VITE_API_URL;
-      const [countdown, setCountdown] = useState(5);
+    const API_URL = import.meta.env.VITE_API_URL;
+    const [countdown, setCountdown] = useState(5);
+    const [uploadSuccess, setUploadSuccess] = useState(false);
 
 
     const autoCapture = () => {
@@ -49,9 +50,7 @@ export default function VerifyKyc() {
                     }
                 }
             );
-
-            console.log(response.data);
-            alert("Selfie uploaded successfully!");
+setUploadSuccess(true);
 
         } catch (error) {
             console.error("Upload failed:", error);
@@ -80,11 +79,12 @@ export default function VerifyKyc() {
                 <div className="kyc-container">
                     <div className="kyc-card">
                         {!image && (
-                            <div className="countdown-box">
-                                📸 Capturing selfie in {countdown}s
-                                <div className="capture-loader"></div>
+                        <div className="capture-badge">
+                            📸 Capturing selfie in {countdown}s
+                                <small>Please look directly at the camera</small>
+                                <small>Ensure good lighting and remove sunglasses</small>
 
-                            </div>
+                        </div>
                         )}
                         {!image ? (
                             <>
@@ -108,10 +108,20 @@ export default function VerifyKyc() {
                             </>
                         ) : (
                             <>
-                                <div className="preview-frame">
+                                <div className="face-guide">
                                     <img src={image} alt="selfie" />
                                 </div>
+{uploadSuccess && (
+    <div className="success-message">
+        <div className="success-title">
+            ✅ Selfie Verified Successfully
+        </div>
 
+        <div className="success-subtitle">
+            Your identity verification is being processed.
+        </div>
+    </div>
+)}
                                 <div className="button-group">
                                     <button
                                         className=" btn-selfie btn-retake btn-selfie p-2"
