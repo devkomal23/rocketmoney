@@ -79,11 +79,13 @@ export default function VerifyKyc() {
 
                 <div className="kyc-container">
                     <div className="kyc-card">
-{!image && (
-    <div className="countdown-box">
-        📸 Capturing selfie in {countdown}s
-    </div>
-)}
+                        {!image && (
+                            <div className="countdown-box">
+                                📸 Capturing selfie in {countdown}s
+                                <div className="capture-loader"></div>
+
+                            </div>
+                        )}
                         {!image ? (
                             <>
                                 <div className="camera-frame">
@@ -102,7 +104,7 @@ export default function VerifyKyc() {
                                 </p>
 
 
-                                <button className="btn-primary" >
+                                <button className="btn-primary btn-selfie p-2" >
                                     📸 Capture Selfie
                                 </button>
                             </>
@@ -114,7 +116,7 @@ export default function VerifyKyc() {
 
                                 <div className="button-group">
                                     <button
-                                        className="btn-secondary"
+                                        className="btn-retake btn-selfie p-2"
                                         onClick={() => setImage(null)}
                                     >
                                         🔄 Retake
