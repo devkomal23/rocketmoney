@@ -97,7 +97,7 @@ setUploadSuccess(true);
 
                                     />
                                 </div>
-                                <h2>Selfie Verification</h2>
+                                <h5>Selfie Verification</h5>
                                 <p className="kyc-subtitle">
                                     Please capture a clear selfie for identity verification.
                                 </p>
