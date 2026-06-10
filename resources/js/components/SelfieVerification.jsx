@@ -13,7 +13,7 @@ export default function VerifyKyc() {
             if (imageSrc) {
                 setImage(imageSrc);
             }
-        }, 5000);
+        }, 3000);
     };
 
     const uploadSelfie = async () => {
@@ -75,22 +75,21 @@ export default function VerifyKyc() {
 
                                     />
                                 </div>
-                            </>
-                        ) : (
-                            <>
-                                <div className="preview-frame">
-                                    <img src={image} alt="selfie" />
-                                </div>
                                 <h2>Selfie Verification</h2>
                                 <p className="kyc-subtitle">
                                     Please capture a clear selfie for identity verification.
                                 </p>
 
 
-                                <button className="btn-primary" >
+                                <button className="btn-primary" onClick={capture}>
                                     📸 Capture Selfie
                                 </button>
-
+                            </>
+                        ) : (
+                            <>
+                                <div className="preview-frame">
+                                    <img src={image} alt="selfie" />
+                                </div>
 
                                 <div className="button-group">
                                     <button
