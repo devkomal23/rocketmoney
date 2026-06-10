@@ -5,6 +5,8 @@ import axios from 'axios';
 export default function VerifyKyc() {
     const webcamRef = useRef(null);
     const [image, setImage] = useState(null);
+      const API_URL = import.meta.env.VITE_API_URL;
+
 
     const capture = () => {
         const imageSrc = webcamRef.current.getScreenshot();
