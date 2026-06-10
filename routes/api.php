@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\KYCController;
 use App\Http\Controllers\Api\DigiLockerController;
 use App\Http\Controllers\ConsentController;
+use App\Http\Controllers\SelfieController;
 Route::get('/health', function () {
     try {
         DB::connection()->getPdo();
@@ -45,3 +46,4 @@ Route::get('/digilocker/auth', [DigiLockerController::class, 'redirectToDigiLock
 Route::get('/digilocker/redirect', [DigiLockerController::class, 'redirectToProvider']);
 Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback']);
 Route::middleware('auth:sanctum')->post('/consent', [ConsentController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/upload-selfie', [SelfieController::class, 'upload']);

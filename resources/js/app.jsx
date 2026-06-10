@@ -13,6 +13,7 @@ import KycVerification from './components/KycVerification';
 import AccountAggregator from './components/AccountAggregator';
 import axios from 'axios';
 import ConsentPage from './components/ConsentPage';
+import SelfieVerification from './SelfieVerification';
 const App = () => {
     return (
         <BrowserRouter>
@@ -25,7 +26,9 @@ const App = () => {
                 <Route path="/verify-kyc" element={<VerifyKyc />} />
                 <Route path="/kycverification" element={<KycVerification />} />    
                 <Route path ="/AccountAggregator" element={<AccountAggregator/>}/> 
-<Route path="/Consent" element={<ConsentPage />} />            </Routes>
+                <Route path="/Consent" element={<ConsentPage />} />  
+                <Route path="/SelfieVerification" element={<SelfieVerification/>}/>         
+                 </Routes>
         </BrowserRouter>
     );
 };

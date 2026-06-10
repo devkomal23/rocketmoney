@@ -35,7 +35,7 @@ export default function Dashboard() {
                 }, { headers: { 'Authorization': `Bearer ${token}` } });
                 
                 alert("Payment Successful!");
-                window.location.reload();
+                navigate('/SelfieVerification'); 
             }
         };
 
