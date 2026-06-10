@@ -46,4 +46,4 @@ Route::get('/digilocker/auth', [DigiLockerController::class, 'redirectToDigiLock
 Route::get('/digilocker/redirect', [DigiLockerController::class, 'redirectToProvider']);
 Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback']);
 Route::middleware('auth:sanctum')->post('/consent', [ConsentController::class, 'store']);
-Route::post('/upload-selfie', [SelfieController::class, 'upload']);
+Route::middleware('auth:sanctum')->post('/upload-selfie', [SelfieController::class, 'upload']);

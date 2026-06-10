@@ -16,9 +16,7 @@ class SelfieController extends Controller
         ]);
 
         $path = $request->file('image')->store('selfies', 'public');
-$userId = auth()->user()->id;
-echo $userId;
-exit;
+
         KycVerification::updateOrCreate(
             ['user_id' => auth()->id()], 
             [
