@@ -51,6 +51,9 @@ export default function VerifyKyc() {
                 }
             );
             setUploadSuccess(true);
+            setTimeout(() => {
+                navigate('/Consent');
+            }, 2000);
 
         } catch (error) {
             console.error("Upload failed:", error);
