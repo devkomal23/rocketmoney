@@ -13,7 +13,7 @@ export default function VerifyKyc() {
         setImage(imageSrc);
     };
 
-const uploadSelfie = async () => {
+    const uploadSelfie = async () => {
     try {
         const blob = await fetch(image).then(res => res.blob());
 
@@ -56,34 +56,33 @@ const uploadSelfie = async () => {
                 />
                 </div>
                 <div className = "scrollable-content" style = {styles.scrollableContainer}>
+                <div className="kyc-container">
+                    <div className="kyc-card">
+        
+                    {!image ? (
+                        <>
+                            <div className="camera-frame">
+                                <Webcam
+                                    audio={false}
+                                    ref={webcamRef}
+                                    screenshotFormat="image/jpeg"
+                                    width={400}
+                                />
+                            </div>
 
-<div className="kyc-container">
-    <div className="kyc-card">
-        <h2>Selfie Verification</h2>
-        <p className="kyc-subtitle">
-            Please capture a clear selfie for identity verification.
-        </p>
-
-        {!image ? (
-            <>
-                <div className="camera-frame">
-                    <Webcam
-                        audio={false}
-                        ref={webcamRef}
-                        screenshotFormat="image/jpeg"
-                        width={400}
-                    />
-                </div>
-
-                <button className="btn-primary" onClick={capture}>
-                    📸 Capture Selfie
-                </button>
-            </>
-        ) : (
-            <>
+                            <button className="btn-primary" onClick={capture}>
+                                📸 Capture Selfie
+                            </button>
+                        </>
+                    ) : (
+                        <>
                 <div className="preview-frame">
                     <img src={image} alt="selfie" />
                 </div>
+                <h2>Selfie Verification</h2>
+                <p className="kyc-subtitle">
+                    Please capture a clear selfie for identity verification.
+                </p>
 
                 <div className="button-group">
                     <button
@@ -102,8 +101,8 @@ const uploadSelfie = async () => {
                 </div>
             </>
         )}
-    </div>
-</div>
+            </div>
+                </div>
                 </div>
             </div>
         </div>
