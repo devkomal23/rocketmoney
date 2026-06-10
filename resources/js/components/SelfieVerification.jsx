@@ -104,9 +104,7 @@ export default function VerifyKyc() {
                                 </p>
 
 
-                                <button className="btn-primary btn-selfie p-2" >
-                                    📸 Capture Selfie
-                                </button>
+
                             </>
                         ) : (
                             <>
@@ -119,7 +117,7 @@ export default function VerifyKyc() {
                                         className=" btn-selfie btn-retake btn-selfie p-2"
                                         onClick={() => setImage(null)}
                                     >
-                                        🔄 Retake
+                                          📸 Retake
                                     </button>
 
                                     <button
