@@ -45,26 +45,41 @@ const uploadSelfie = async () => {
     }
 };
     return (
-        <div className="kyc-container">
-            {!image ? (
-                <>
-                    <Webcam 
-                        audio={false} 
-                        ref={webcamRef} 
-                        screenshotFormat="image/jpeg" 
-                        width={400}
-                    />
-                    <br />
-                    <button onClick={capture}>Capture Selfie</button>
-                </>
-            ) : (
-                <>
-                    <img src={image} alt="selfie" style={{ width: '400px' }} />
-                    <br />
-                    <button onClick={() => setImage(null)}>Retake</button>
-                    <button onClick={uploadSelfie}>Confirm & Upload</button>
-                </>
-            )}
+        <div style={styles.container}>
+            <div style={styles.card}>
+        
+                <div style={styles.logoContainer}>
+                <img 
+                    src="/images/rocketmoney-logo.png" 
+                    alt="Take Personal Loan in India with RocketMoney" 
+                    style ={styles.logoImage}
+                />
+                </div>
+                <div className = "scrollable-content" style = {styles.scrollableContainer}>
+
+                    <div className="kyc-container">
+                        {!image ? (
+                            <>
+                                <Webcam 
+                                    audio={false} 
+                                    ref={webcamRef} 
+                                    screenshotFormat="image/jpeg" 
+                                    width={400}
+                                />
+                                <br />
+                                <button onClick={capture}>Capture Selfie</button>
+                            </>
+                        ) : (
+                            <>
+                                <img src={image} alt="selfie" style={{ width: '400px' }} />
+                                <br />
+                                <button onClick={() => setImage(null)}>Retake</button>
+                                <button onClick={uploadSelfie}>Confirm & Upload</button>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
