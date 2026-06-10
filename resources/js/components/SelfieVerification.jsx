@@ -55,7 +55,7 @@ const uploadSelfie = async () => {
                     style ={styles.logoImage}
                 />
                 </div>
-                <div className = "scrollable-content" style = {styles.scrollableContainer}>
+                <div className = "scrollable-content p-0" style = {styles.scrollableContainer}>
 
                 <div className="kyc-container">
                     <div className="kyc-card">

@@ -44,6 +44,8 @@ html, body {
   flex: 1;          
   overflow-y: auto;  
   padding: 24px;
+  background-color: #f5f7fb;
+;
 }
 .input-field:hover, 
 .input-field:focus-visible {
@@ -573,8 +575,6 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f5f7fb;
-    padding: 20px;
 }
 
 .kyc-card {
@@ -582,7 +582,7 @@ html, body {
     width: 100%;
     max-width: 500px;
     border-radius: 20px;
-    padding: 30px;
+    padding:15px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
