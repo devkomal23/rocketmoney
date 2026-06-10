@@ -12,10 +12,10 @@ class SelfieController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'selfie' => 'required|image|mimes:jpeg,png,jpg|max:2048', 
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048', 
         ]);
 
-        $path = $request->file('selfie')->store('selfies', 'public');
+        $path = $request->file('image')->store('selfies', 'public');
 
         KycVerification::updateOrCreate(
             ['user_id' => auth()->id()], 

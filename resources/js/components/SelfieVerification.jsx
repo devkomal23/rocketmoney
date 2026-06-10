@@ -11,16 +11,37 @@ export default function VerifyKyc() {
         setImage(imageSrc);
     };
 
-    const uploadSelfie = async () => {
-        try {
-            await axios.post('/upload-selfie', { image: image });
-            alert('Selfie uploaded successfully!');
-        } catch (error) {
-            console.error("Upload failed", error);
-            alert('Failed to upload selfie.');
-        }
-    };
+const uploadSelfie = async () => {
+    try {
+        const blob = await fetch(image).then(res => res.blob());
 
+        const formData = new FormData();
+        formData.append("image", blob, "selfie.jpg");
+
+        const response = await axios.post(
+            `${API_URL}/upload-selfie`,
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            }
+        );
+
+        console.log(response.data);
+        alert("Selfie uploaded successfully!");
+
+    } catch (error) {
+        console.error("Upload failed:", error);
+
+        if (error.response) {
+            console.log("Response Data:", error.response.data);
+            console.log("Status:", error.response.status);
+        }
+
+        alert(error.response?.data?.message || error.message);
+    }
+};
     return (
         <div className="kyc-container">
             {!image ? (
