@@ -1,48 +1,60 @@
-import React, { useRef, useState } from 'react';
-import Webcam from 'react-webcam';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-export default function VerifyKyc() {
-    const webcamRef = useRef(null);
-    const [image, setImage] = useState(null);
+const UploadSelfie = () => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [message, setMessage] = useState('');
 
-    const capture = () => {
-        const imageSrc = webcamRef.current.getScreenshot();
-        setImage(imageSrc);
-    };
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
 
-    const uploadSelfie = async () => {
-        try {
-            // Ensure the route matches your Laravel API routes
-            await axios.post('/upload-selfie', { image: image });
-            alert('Selfie uploaded successfully!');
-        } catch (error) {
-            console.error("Upload failed", error);
-            alert('Failed to upload selfie.');
+  const handleUpload = async () => {
+    if (!selectedFile) {
+      setMessage('Please select a file first!');
+      return;
+    }
+
+    // Create FormData object to send the file
+    const formData = new FormData();
+    formData.append('selfie', selectedFile);
+
+    try {
+      // The API_URL should match your Laravel route
+      const response = await axios.post(
+        'https://rocketmoney-1.onrender.com/api/upload-selfie',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            // If you use Sanctum/Passport, add the Authorization header here:
+            // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
         }
-    };
+      );
+      setMessage('Upload successful: ' + response.data.message);
+    } catch (error) {
+      console.error('Upload error:', error);
+      setMessage('Upload failed: ' + (error.response?.data?.message || error.message));
+    }
+  };
 
-    return (
-        <div className="kyc-container">
-            {!image ? (
-                <>
-                    <Webcam 
-                        audio={false} 
-                        ref={webcamRef} 
-                        screenshotFormat="image/jpeg" 
-                        width={400}
-                    />
-                    <br />
-                    <button onClick={capture}>Capture Selfie</button>
-                </>
-            ) : (
-                <>
-                    <img src={image} alt="selfie" style={{ width: '400px' }} />
-                    <br />
-                    <button onClick={() => setImage(null)}>Retake</button>
-                    <button onClick={uploadSelfie}>Confirm & Upload</button>
-                </>
-            )}
+  return (
+    <div style={styles.container}>
+        <div style={styles.card}>
+            <div style={styles.header}>
+                <h2 style={styles.pageTitle}>Complete Your Application</h2>
+            </div>
+
+            <div style={{ padding: '20px' }}>
+            <h3>Upload Your Selfie</h3>
+            <input type="file" onChange={handleFileChange} accept="image/*" />
+            <button onClick={handleUpload}>Upload</button>
+            {message && <p>{message}</p>}
+            </div>
         </div>
-    );
-}
+    </div>
+  );
+};
+
+export default UploadSelfie;
