@@ -30,7 +30,7 @@ export default function VerifyKyc() {
                 setImage(imageSrc);
             }
         }
-    },5000);
+    },55000);
 
     };
 
