@@ -13,7 +13,7 @@ import KycVerification from './components/KycVerification';
 import AccountAggregator from './components/AccountAggregator';
 import axios from 'axios';
 import ConsentPage from './components/ConsentPage';
-import SelfieVerification from './SelfieVerification';
+import SelfieVerification from './components/SelfieVerification';
 const App = () => {
     return (
         <BrowserRouter>
