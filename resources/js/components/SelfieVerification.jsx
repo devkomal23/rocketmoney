@@ -57,27 +57,53 @@ const uploadSelfie = async () => {
                 </div>
                 <div className = "scrollable-content" style = {styles.scrollableContainer}>
 
-                    <div className="kyc-container">
-                        {!image ? (
-                            <>
-                                <Webcam 
-                                    audio={false} 
-                                    ref={webcamRef} 
-                                    screenshotFormat="image/jpeg" 
-                                    width={400}
-                                />
-                                <br />
-                                <button onClick={capture}>Capture Selfie</button>
-                            </>
-                        ) : (
-                            <>
-                                <img src={image} alt="selfie" style={{ width: '400px' }} />
-                                <br />
-                                <button onClick={() => setImage(null)}>Retake</button>
-                                <button onClick={uploadSelfie}>Confirm & Upload</button>
-                            </>
-                        )}
-                    </div>
+<div className="kyc-container">
+    <div className="kyc-card">
+        <h2>Selfie Verification</h2>
+        <p className="kyc-subtitle">
+            Please capture a clear selfie for identity verification.
+        </p>
+
+        {!image ? (
+            <>
+                <div className="camera-frame">
+                    <Webcam
+                        audio={false}
+                        ref={webcamRef}
+                        screenshotFormat="image/jpeg"
+                        width={400}
+                    />
+                </div>
+
+                <button className="btn-primary" onClick={capture}>
+                    📸 Capture Selfie
+                </button>
+            </>
+        ) : (
+            <>
+                <div className="preview-frame">
+                    <img src={image} alt="selfie" />
+                </div>
+
+                <div className="button-group">
+                    <button
+                        className="btn-secondary"
+                        onClick={() => setImage(null)}
+                    >
+                        🔄 Retake
+                    </button>
+
+                    <button
+                        className="btn-success"
+                        onClick={uploadSelfie}
+                    >
+                        ✅ Confirm & Upload
+                    </button>
+                </div>
+            </>
+        )}
+    </div>
+</div>
                 </div>
             </div>
         </div>
