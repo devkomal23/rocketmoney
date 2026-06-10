@@ -6,14 +6,31 @@ export default function VerifyKyc() {
     const webcamRef = useRef(null);
     const [image, setImage] = useState(null);
       const API_URL = import.meta.env.VITE_API_URL;
+      const [countdown, setCountdown] = useState(5);
+
 
     const autoCapture = () => {
-        setTimeout(() => {
-        const imageSrc = webcamRef.current.getScreenshot();
+            let count = 5;
+    setCountdown(count);
+
+    const timer = setInterval(() => {
+        count--;
+
+        if (count >= 0) {
+            setCountdown(count);
+        }
+
+        if (count === 0) {
+            clearInterval(timer);
+
+            const imageSrc = webcamRef.current?.getScreenshot();
+
             if (imageSrc) {
                 setImage(imageSrc);
             }
-        }, 3000);
+        }
+    },5000);
+
     };
 
     const uploadSelfie = async () => {
@@ -62,7 +79,11 @@ export default function VerifyKyc() {
 
                 <div className="kyc-container">
                     <div className="kyc-card">
-
+{!image && (
+    <div className="countdown-box">
+        📸 Capturing selfie in {countdown}s
+    </div>
+)}
                         {!image ? (
                             <>
                                 <div className="camera-frame">
