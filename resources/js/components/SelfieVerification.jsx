@@ -110,31 +110,37 @@ export default function VerifyKyc() {
                             <div className="preview-frame">
                                 <img src={image} alt="selfie" />
                             </div>
-                                {uploadSuccess && (
-                                    <div className="success-message">
-                                        <div className="success-title">
-                                            ✅ Selfie Verified Successfully
-                                        </div>
+{uploadSuccess && (
+    <div className="success-message">
+        <div className="success-title">
+            ✅ Selfie Verified Successfully
+        </div>
 
-                                        <div className="success-subtitle">
-                                            Your identity verification is being processed.
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="button-group selfie-button-group">
-                                    <button
-                                        className=" btn-selfie btn-retake btn-selfie p-2"
-                                        onClick={() => setImage(null)}
-                                    >
-                                          📸 Retake
-                                    </button>
+        <div className="success-subtitle">
+            Your identity verification is being processed.
+        </div>
+    </div>
+)}                                <div className="button-group selfie-button-group">
+    {!uploadSuccess && (
+        <>
+            <button
+                className="btn-selfie btn-retake p-2"
+                onClick={() => setImage(null)}
+                disabled={uploadSuccess}
 
-                                    <button
-                                        className=" btn-selfie btn-success"
-                                        onClick={uploadSelfie}
-                                    >
-                                        ✅ Confirm & Upload
-                                    </button>
+                
+            >
+                📸 Retake
+            </button>
+
+            <button
+                className="btn-selfie btn-success"
+                onClick={uploadSelfie}
+            >
+                ✅ Confirm & Upload
+            </button>
+        </>
+    )}
                                 </div>
                             </>
                         )}
