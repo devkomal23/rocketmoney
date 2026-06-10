@@ -601,11 +601,12 @@ html, body {
 
 .camera-frame,
 .preview-frame {
-    border: 3px solid #e5e7eb;
-    border-radius: 18px;
-    overflow: hidden;
-    margin-bottom: 25px;
-    background: #000;
+    width: 180px;
+    height: 240px;
+    transform: translate(-50%, -50%);
+    border: 3px dashed rgba(255,255,255,0.9);
+    border-radius: 50%;
+    pointer-events: none;
 }
 .face-guide {
     position: absolute;
