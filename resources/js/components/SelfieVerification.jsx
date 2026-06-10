@@ -116,14 +116,14 @@ export default function VerifyKyc() {
 
                                 <div className="button-group">
                                     <button
-                                        className="btn-retake btn-selfie p-2"
+                                        className=" btn-selfie btn-retake btn-selfie p-2"
                                         onClick={() => setImage(null)}
                                     >
                                         🔄 Retake
                                     </button>
 
                                     <button
-                                        className="btn-success"
+                                        className=" btn-selfie btn-success"
                                         onClick={uploadSelfie}
                                     >
                                         ✅ Confirm & Upload
