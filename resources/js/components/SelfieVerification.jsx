@@ -79,17 +79,12 @@ setUploadSuccess(true);
                 <div className="kyc-container">
                     <div className="kyc-card">
                         {!image && (
-<div className="capture-badge">
-    <div className="capture-title">
-        📸 Capturing selfie in <strong>{countdown}s</strong>
-    </div>
-
-    <div className="capture-tips">
-        <div>✓ Look directly at the camera</div>
-        <div>✓ Ensure good lighting</div>
-        <div>✓ Remove sunglasses or face coverings</div>
-    </div>
-</div>                        )}
+                            <div className="capture-badge">
+                                <div className="capture-title">
+                                    📸 Capturing selfie in <strong>{countdown}s</strong>
+                                </div>
+                            </div>                        
+                        )}
                         {!image ? (
                             <>
                                 <div className="camera-frame">
@@ -112,9 +107,9 @@ setUploadSuccess(true);
                             </>
                         ) : (
                             <>
-                                <div className="preview-frame">
-                                    <img src={image} alt="selfie" />
-                                </div>
+                            <div className="preview-frame">
+                                <img src={image} alt="selfie" />
+                            </div>
 {uploadSuccess && (
     <div className="success-message">
         <div className="success-title">
@@ -143,6 +138,12 @@ setUploadSuccess(true);
                                 </div>
                             </>
                         )}
+                            <div className="capture-tips">
+                                <div>✓ Look directly at the camera</div>
+                                <div>✓ Ensure good lighting</div>
+                                <div>✓ Remove sunglasses or face coverings</div>
+                            </div>
+
                     </div>
                 </div>
                 </div>
