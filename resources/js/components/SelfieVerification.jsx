@@ -291,7 +291,7 @@
                                             videoConstraints={{
                                                     facingMode: "user",
                                                     width: 150,
-                                                    height:150
+                                                    height:100
                                                 }}
                                         />
                                     </div>
