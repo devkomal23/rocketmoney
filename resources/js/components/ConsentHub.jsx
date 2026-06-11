@@ -27,6 +27,14 @@ const ConsentHub = ({ onConsentAccepted }) => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
+        <div style={styles.logoContainer}>
+            <img 
+              src="/images/rocketmoney-logo.png" 
+              alt="Take Personal Loan in India with RocketMoney" 
+              style ={styles.logoImage}
+            />
+        </div>
+
         <div style={styles.header}>
           <h2 style={styles.pageTitle}>Complete Your Application</h2>
         </div>
