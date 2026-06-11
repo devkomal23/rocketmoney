@@ -30,7 +30,7 @@ const ConsentHub = ({ onConsentAccepted }) => {
         <div className="min-h-screen bg-gray-50 flex items-center justify-center  bg-white">
           <div className="w-full max-w-md    overflow-hidden  verification_container">
             <div className="mb-8 p-2 header p-4">
-              <h2 className="text-2xl font-bold text-white pageTitle"></h2>
+              <h2 className="text-2xl font-bold text-white pageTitle">Consent</h2>
             </div>
             <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
             <h2 className="text-xl font-bold mb-4">Data Usage & Privacy</h2>

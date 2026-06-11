@@ -128,7 +128,7 @@ export default function VerifyKyc() {
     {!uploadSuccess && (
         <>
             <button
-                className="btn-selfie btn-retake p-2"
+                className="btn-selfie btn-retake "
                 onClick={() => setImage(null)}
                 disabled={uploadSuccess}
 

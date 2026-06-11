@@ -19,7 +19,7 @@ export default function VerifyKyc() {
       setStatus(currentStatus);
 
       if (currentStatus === 'verified') {
-        setPopup({ show: true, title: 'Verified', message: 'Identity verified!' });
+        //setPopup({ show: true, title: 'Verified', message: 'Identity verified!' });
         setTimeout(() => {
           navigate('/SelfieVerification');
         }, 2000);      
