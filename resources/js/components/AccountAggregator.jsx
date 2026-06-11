@@ -13,7 +13,7 @@ export default function RegistrationPage() {
     } else {
       setShowError(false); 
       console.log("Proceeding with due date:", dueDate);
-      navigate('/assessmentFee');
+      navigate('/assesmentFee');
     }
   };
 

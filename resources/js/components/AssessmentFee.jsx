@@ -74,9 +74,6 @@ useEffect(() => {
         navigate('/'); 
     };
 
-    if (loading) return <div>Loading...</div>;
-    if (!data) return <div>Error loading data.</div>;
-
     return (
         <div style={styles.card}>
             <div style={styles.header}>
