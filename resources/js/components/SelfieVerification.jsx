@@ -37,7 +37,7 @@ const isValid = await isImageGood(imageSrc);
             setImage(imageSrc);
         } else {
             alert("Lighting is too low! Please move to a brighter area.");
-            autoCapture(); // Restart timer to try again
+            autoCapture(); 
         }            }
         }
     },5000);
@@ -133,8 +133,7 @@ const isValid = await isImageGood(imageSrc);
                                         onUserMedia={autoCapture}
 videoConstraints={{
         facingMode: "user",
-        width: 400,
-        height: 400
+        width: 400
     }}
                                     />
                                 </div>
