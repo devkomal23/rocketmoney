@@ -27,17 +27,10 @@ const ConsentHub = ({ onConsentAccepted }) => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <div style={styles.logoContainer}>
-            <img 
-              src="/images/rocketmoney-logo.png" 
-              alt="Take Personal Loan in India with RocketMoney" 
-              style ={styles.logoImage}
-            />
-        </div>
 
         <div style={styles.header}>
-          <h2 style={styles.pageTitle}>Complete Your Application</h2>
-        </div>
+          <h5 style={styles.pageTitle}>Complete Your Application</h5>
+        
               
         <div style={styles.formContainer}>
           <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
@@ -57,87 +50,23 @@ const ConsentHub = ({ onConsentAccepted }) => {
         </div>
       </div>
     </div>
+    </div>
 
   );
 };
 const styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#cbdcf0', // Soft backdrop to mimic screen background
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-    height:'100dvh'
-  },
-  card: {
-    width: '360px',
-    backgroundColor: '#FFF', 
-    borderRadius: '32px',
-    padding: '24px',
-    boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-    maxHeight:'680px',
-    height:'100dvh'
-  },
-  logoContainer: {
-    marginBottom: '45px',
-    width: 'auto',
-    height: '90px',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'space-around'
-},
-  logoImage:{
-    width: '100%',
-    height: '140px',
-    objectFit: 'cover'
-  },
-  logoTextBold: { fontSize: '22px', fontWeight: '800', color: '#1a2b49' },
-  logoTextRed: { fontSize: '22px', fontWeight: '800', color: '#d93838' },
-  logoSubtext: { fontSize: '10px', color: '#4a5568', marginTop: '-2px', fontWeight: '600' },
-  bannerArea: {
-    width: '100%',
-    height: '220px',
-    background: '#5c4cee',
-    borderRadius: '1rem',
-    position: 'relative',
-    overflow: 'hidden',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: '24px',
-  },
-  bannerImage:{
-    width:'100%',
-    height:'auto',
-    object:'contain'
-  },
-  form: { display: 'flex', flexDirection: 'column',marginTop:'45px' },
-  signInLabel: { fontSize: '15px', fontWeight: '700', color: '#1a2b49', marginBottom: '10px' },
-  inputGroup: {
-    display: 'flex',
-    backgroundColor: '#ffffff',
-    borderRadius: '12px',
-    border: '1px solid',
-    alignItems: 'center',
-    padding: '0 16px',
-    height: '52px',
-    transition: 'border-color 0.2s',
-  },
-  countryCode: { display: 'flex', alignItems: 'center', gap: '4px', color: '#1a2b49', fontWeight: '700', fontSize: '15px' },
-  dropdownArrow: { fontSize: '10px', color: '#718096' },
-  divider: { width: '1px', height: '24px', backgroundColor: '#cbd5e1', margin: '0 12px' },
-  inputField: { border: 'none', outline: 'none', width: '100%', fontSize: '15px', fontWeight: '500' },
-  helperText: { fontSize: '11px', color: '#718096', marginTop: '8px', marginBottom: '24px', lineHeight: '1.4' },
-  errorText: { fontSize: '11px', color: '#d93838', marginTop: '8px', marginBottom: '24px', fontWeight: '600' },
-  submitButton: {
-    border: 'none',
-    height: '50px',
-    borderRadius: '25px',
-    color: '#ffffff',
-    fontSize: '16px',
-    fontWeight: '700',
-    boxShadow: '0 4px 12px rgba(0, 82, 204, 0.15)',
-  },
+  container: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f4f7f9', padding: '20px' },
+  card: { width: '400px', backgroundColor: '#FFF', borderRadius: '32px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', overflow: 'hidden' },
+  header: { background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)', height: '100px', padding: '20px', display: 'flex', justifyContent: 'center' },
+  pageTitle: { color: 'white', margin: 'auto' },
+  formContainer: { padding: '0 30px 30px 30px',
+    overflowY: 'auto',
+    height: '600px'},
+  label: { fontSize: '12px', fontWeight: '600', color: '#4a5568', display: 'block', marginTop: '15px', marginBottom: '5px' },
+  input: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e0', boxSizing: 'border-box' },
+  warningBox: { backgroundColor: '#fffaf0', border: '1px solid #feebc8', color: '#744210', padding: '12px', fontSize: '11px', borderRadius: '8px', marginTop: '20px' },
+  proceedButton: { width: '100%', marginTop: '20px', padding: '15px', borderRadius: '12px', border: 'none', color: '#fff', fontSize: '16px', fontWeight: '700' },
+  reactDatepickerPopper:{top:'30px !important'},
+  errorText: { color: 'red', fontSize: '10px', marginTop: '4px', display: 'block' }
 };
 export default ConsentHub;
