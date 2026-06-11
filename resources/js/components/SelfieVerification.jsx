@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import axios from 'axios';
 import { useNavigate,useLocation } from 'react-router-dom'; 
-
+import { FaceDetection } from "@mediapipe/face_detection";
 
 export default function VerifyKyc() {
     const webcamRef = useRef(null);
@@ -11,14 +11,15 @@ export default function VerifyKyc() {
     const [countdown, setCountdown] = useState(5);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const navigate = useNavigate(); // Hook for navigation
+const [retryCount, setRetryCount] = useState(0);
 
 
+const autoCapture = () => {
+    let count = 5;
 
-    const autoCapture = () => {
-            let count = 5;
     setCountdown(count);
 
-    const timer = setInterval(async ()  => {
+    const timer = setInterval(async () => {
         count--;
 
         if (count >= 0) {
@@ -28,44 +29,145 @@ export default function VerifyKyc() {
         if (count === 0) {
             clearInterval(timer);
 
-            const imageSrc = webcamRef.current?.getScreenshot();
+            const imageSrc =
+                webcamRef.current?.getScreenshot();
 
-            if (imageSrc) {
+            if (!imageSrc) {
+                autoCapture();
+                return;
+            }
 
-const isValid = await isImageGood(imageSrc);
-        if (isValid) {
-            setImage(imageSrc);
-        } else {
-            alert("Lighting is too low! Please move to a brighter area.");
-            autoCapture(); 
-        }            }
-        }
-    },5000);
+            const result = await isImageGood(
+                imageSrc
+            );
 
-    };
-    const isImageGood = (imageSrc) => {
+if (result.valid) {
+    setRetryCount(0);
+    setImage(imageSrc);
+} else {
+    if (retryCount >= 3) {
+        alert(
+            "Unable to capture a clear selfie. Please click Retake."
+        );
+        return;
+    }
+
+    setRetryCount(prev => prev + 1);
+
+    alert(result.message);
+
+    setTimeout(() => {
+        autoCapture();
+    }, 1000);
+}        }
+    }, 1000);
+};
+    const isImageBlurred = (imageSrc) => {
     return new Promise((resolve) => {
         const img = new Image();
-        img.src = imageSrc;
+
         img.onload = () => {
-            const canvas = document.createElement('canvas');
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+
             canvas.width = img.width;
             canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
+
             ctx.drawImage(img, 0, 0);
-            
-            // Check average brightness
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let brightness = 0;
-            for (let i = 0; i < imageData.data.length; i += 4) {
-                brightness += (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3;
+
+            const imageData = ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            const data = imageData.data;
+            let variance = 0;
+            let mean = 0;
+            let count = 0;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const gray =
+                    (data[i] + data[i + 1] + data[i + 2]) / 3;
+
+                mean += gray;
+                count++;
             }
-            brightness = brightness / (imageData.data.length / 4);
-            
-            // If brightness is < 50 (out of 255), it's too dark
-            resolve(brightness > 50);
+
+            mean /= count;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const gray =
+                    (data[i] + data[i + 1] + data[i + 2]) / 3;
+
+                variance += Math.pow(gray - mean, 2);
+            }
+
+            variance /= count;
+
+            resolve(variance < 300); // blurry if true
         };
+
+        img.src = imageSrc;
     });
+};
+const isImageGood = async (imageSrc) => {
+    const img = new Image();
+    img.src = imageSrc;
+
+    await new Promise((resolve) => {
+        img.onload = resolve;
+    });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    const imageData = ctx.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    let brightness = 0;
+
+    for (let i = 0; i < imageData.data.length; i += 4) {
+        brightness +=
+            (imageData.data[i] +
+                imageData.data[i + 1] +
+                imageData.data[i + 2]) / 3;
+    }
+
+    brightness =
+        brightness / (imageData.data.length / 4);
+
+    if (brightness < 50) {
+        return {
+            valid: false,
+            message:
+                "Lighting is too low. Please move to a brighter area."
+        };
+    }
+
+    const blurred = await isImageBlurred(imageSrc);
+
+    if (blurred) {
+        return {
+            valid: false,
+            message:
+                "Image is blurry. Please keep your face steady and look at the camera."
+        };
+    }
+
+    return {
+        valid: true,
+        message: ""
+    };
 };
 
     const uploadSelfie = async () => {
@@ -162,8 +264,10 @@ videoConstraints={{
         <>
             <button
                 className="btn-selfie btn-retake "
-                onClick={() => setImage(null)}
-                disabled={uploadSuccess}
+onClick={() => {
+    setImage(null);
+    autoCapture();
+}}                disabled={uploadSuccess}
 
                 
             >

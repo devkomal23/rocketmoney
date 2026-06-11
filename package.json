@@ -7,6 +7,8 @@
         "start": "node server.js"
     },
     "dependencies": {
+        "@mediapipe/camera_utils": "^0.3.1675466862",
+        "@mediapipe/face_detection": "^0.4.1646425229",
         "@stripe/stripe-js": "^9.7.0",
         "@vitejs/plugin-react": "^5.1.0",
         "lucide-react": "^1.16.0",
