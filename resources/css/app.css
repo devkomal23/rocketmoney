@@ -788,3 +788,6 @@ html, body {
 .p-2{
   padding:24px;
 }
+
+.reactDatepickerPopper{
+  top:30px !important}
