@@ -18,7 +18,7 @@ export default function VerifyKyc() {
             let count = 5;
     setCountdown(count);
 
-    const timer = setInterval(() => {
+    const timer = setInterval(async ()  => {
         count--;
 
         if (count >= 0) {
@@ -131,7 +131,11 @@ const isValid = await isImageGood(imageSrc);
                                         screenshotFormat="image/jpeg"
                                         width={400}
                                         onUserMedia={autoCapture}
-
+videoConstraints={{
+        facingMode: "user",
+        width: 400,
+        height: 400
+    }}
                                     />
                                 </div>
                                 <h5>Selfie Verification</h5>
