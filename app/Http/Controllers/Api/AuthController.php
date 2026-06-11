@@ -152,7 +152,7 @@ protected $underwritingService;
             'success' => true,
             'data' => [
                 'user' => [
-                    ...$user->toArray(),
+                    $user,
                     'is_registration_complete' => !empty($user->pan_number) ? 1 : 0 // Add this
                 ],
                 'token' => $token,

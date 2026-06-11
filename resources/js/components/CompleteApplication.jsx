@@ -12,6 +12,7 @@ export default function RegistrationPage() {
   const [successMsg, setSuccessMsg] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(false);
+  const mobile = location.state?.mobile || localStorage.getItem('user_mobile');
   
   const today = new Date();
   const minYear = today.getFullYear() - 18;
