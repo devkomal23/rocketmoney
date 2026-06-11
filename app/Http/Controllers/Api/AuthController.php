@@ -150,16 +150,17 @@ protected $underwritingService;
 
         return response()->json([
             'success' => true,
-            'message' => 'Authentication successful.',
-            'is_profile_complete' => $isProfileComplete,
             'data' => [
-                'user'  => $user,
+                'user' => [
+                    ...$user->toArray(),
+                    'is_registration_complete' => !empty($user->pan_number) ? 1 : 0 // Add this
+                ],
                 'token' => $token,
                 'is_fee_paid' => $isFeePaid,
-                'assessment_fee_status' => $feeStatus
+                'assessment_fee_status' => $feeStatus,
+                'kyc_status' => $user->kyc_status // Ensure this field exists in your User model
             ]
-        ], 200);
-    }
+        ], 200);    }
 
     public function completeApplication(Request $request)
     {        

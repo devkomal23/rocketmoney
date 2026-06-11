@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegistrationPage() {
   const [dueDate, setDueDate] = useState("");
   const [showError, setShowError] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleAccept = () => {
     if (dueDate === "") {
@@ -10,6 +13,7 @@ export default function RegistrationPage() {
     } else {
       setShowError(false); 
       console.log("Proceeding with due date:", dueDate);
+      navigate('/assessmentFee');
     }
   };
 

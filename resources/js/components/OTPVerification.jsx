@@ -65,20 +65,28 @@ export default function OTPVerification() {
 
       const result = await response.json();
         if (response.ok && result.success) {
-          const { token, user } = result.data;
+          const { token, user, is_fee_paid, assessment_fee_status, kyc_status } = result.data;
           localStorage.setItem('authToken', result.data.token);
 
           const isRegistrationComplete = user.is_registration_complete == 1; 
-          if (!isRegistrationComplete) {
-              navigate('/complete_application', { state: { mobile: mobileNumber, token: token } });
+          const isFeePaid = is_fee_paid === true || assessment_fee_status === 'paid';
+          const isKycVerified = kyc_status === 'verified';
+          if (user.is_registration_complete != 1) {
+              navigate('/complete_application');
           } 
-          else if (result.data.is_fee_paid === true || result.data.assessment_fee_status === 'paid') {
-            navigate('/assesmentFee');
+          // If KYC is not verified
+          else if (kyc_status !== 'verified') {
+              navigate('/verify-kyc');
           } 
+          // If Fee is not paid
+          else if (assessment_fee_status !== 'paid') {
+              navigate('/payment-gateway');
+          } 
+          // Final step
           else {
-              navigate('/complete_application', { state: { mobile: mobileNumber, token: token } });
-          }  
-        }  
+              navigate('/assessmentFee');
+          }
+       }  
       } catch (err) {
         alert(err);
         setError('Something went wrong. Check your connection.');

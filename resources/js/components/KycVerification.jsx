@@ -5,14 +5,14 @@ export default function KycVerification() {
   const [loading, setLoading] = useState(false);
 
   const handleDigiLockerClick = async () => {
-    setLoading(true); // Disable button or show spinner
+    setLoading(true); 
     try {
       const API_URL = import.meta.env.VITE_API_URL;
       const res = await fetch(`${API_URL}/digilocker/redirect`);
       const data = await res.json();
       
       if (data.url) {
-        window.location.href = data.url; // Redirect to DigiLocker
+        window.location.href = data.url; 
       }
     } catch (error) {
       console.error("Failed to initiate DigiLocker:", error);
@@ -21,7 +21,6 @@ export default function KycVerification() {
   };
 
   return (
-    // ... your existing JSX ...
     <div className= "container">
         <div className= "card">
             <div className="min-h-screen bg-gray-50 flex items-center justify-center  bg-white">
@@ -46,9 +45,9 @@ export default function KycVerification() {
                         </Link>
 
                         <div className="text-center text-sm text-gray-400 font-medium">OR</div>
-    <div 
-        className={`border border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-blue-500 transition-all ${loading ? 'opacity-50 cursor-wait' : ''}`} 
-        onClick={!loading ? handleDigiLockerClick : undefined}>
+                            <div 
+                                className={`border border-gray-200 rounded-2xl p-4 cursor-pointer hover:border-blue-500 transition-all ${loading ? 'opacity-50 cursor-wait' : ''}`} 
+                                onClick={!loading ? handleDigiLockerClick : undefined}>
 
                                 <div className="flex items-center gap-4">
                                     <span className="text-2xl">☁️</span>

@@ -28,7 +28,7 @@ const App = () => {
                 <Route path ="/AccountAggregator" element={<AccountAggregator/>}/> 
                 <Route path="/Consent" element={<ConsentPage />} />  
                 <Route path="/SelfieVerification" element={<SelfieVerification/>}/>         
-                 </Routes>
+            </Routes>
         </BrowserRouter>
     );
 };

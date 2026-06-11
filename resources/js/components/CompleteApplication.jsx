@@ -107,7 +107,6 @@ export default function RegistrationPage() {
 
     try {
       const token = localStorage.getItem('authToken'); 
-      console.log("token"+token);
       const response = await fetch(`${API_URL}/complete-application`, {
         method: 'POST',
         headers: {
@@ -119,7 +118,7 @@ export default function RegistrationPage() {
 
       const result = await response.json();
         if (response.ok && result.success) {
-            navigate('/assesmentFee'); 
+            navigate('/Consent'); 
         } else {
             alert(result.message || "Failed to submit application.");
         }

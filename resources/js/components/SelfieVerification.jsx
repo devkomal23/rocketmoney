@@ -56,7 +56,7 @@ export default function VerifyKyc() {
             );
             setUploadSuccess(true);
             setTimeout(() => {
-                navigate('/Consent');
+                navigate('/AccountAggregator');
             }, 2000);
 
         } catch (error) {
