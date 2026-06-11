@@ -166,10 +166,11 @@ export default function RegistrationPage() {
                     yearDropdownItemNumber={80}
                     showMonthDropdown 
                     dropdownMode="select"
-                    popperPlacement="bottom-start" 
+                    popperPlacement="bottom-end" 
                     className="w-full border border-gray-300 rounded-lg p-3 input-field" 
                     calendarClassName="custom-modern-calendar"
                     maxDate={getEighteenYearsAgo()}  
+                    withPortal
                   />
                 </div>         
               <label style={styles.label}>Email *</label>
