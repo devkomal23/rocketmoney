@@ -15,6 +15,7 @@ export default function VerifyKyc() {
     const [alertMessage, setAlertMessage] = useState("");
 
 
+
 const autoCapture = () => {
     let count = 5;
 
@@ -30,41 +31,38 @@ const autoCapture = () => {
         if (count === 0) {
             clearInterval(timer);
 
-            const imageSrc =
-                webcamRef.current?.getScreenshot();
+            const imageSrc = webcamRef.current?.getScreenshot();
 
             if (!imageSrc) {
                 autoCapture();
                 return;
             }
 
-            const result = await isImageGood(
-                imageSrc
-            );
+            const result = await isImageGood(imageSrc);
 
             if (result.valid) {
+                setAlertMessage("");
                 setRetryCount(0);
                 setImage(imageSrc);
             } else {
                 if (retryCount >= 3) {
-
-                    alert(
+                    setAlertMessage(
                         "Unable to capture a clear selfie. Please click Retake."
                     );
                     return;
                 }
 
                 setRetryCount(prev => prev + 1);
-
-                alert(result.message);
+                setAlertMessage(result.message);
 
                 setTimeout(() => {
                     autoCapture();
                 }, 1000);
-            }        }
-                }, 1000);
-            };
-    const isImageBlurred = (imageSrc) => {
+            }
+        }
+    }, 1000);
+};
+const isImageBlurred = (imageSrc) => {
     return new Promise((resolve) => {
         const img = new Image();
 
@@ -85,6 +83,7 @@ const autoCapture = () => {
             );
 
             const data = imageData.data;
+
             let variance = 0;
             let mean = 0;
             let count = 0;
@@ -108,7 +107,7 @@ const autoCapture = () => {
 
             variance /= count;
 
-            resolve(variance < 300); 
+            resolve(variance < 300);
         };
 
         img.src = imageSrc;
@@ -118,8 +117,9 @@ const isImageGood = async (imageSrc) => {
     const img = new Image();
     img.src = imageSrc;
 
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
         img.onload = resolve;
+        img.onerror = reject;
     });
 
     const canvas = document.createElement("canvas");
@@ -155,15 +155,6 @@ const isImageGood = async (imageSrc) => {
                 "Lighting is too low. Please move to a brighter area."
         };
     }
-    const faceDetected = await detectFace(imageSrc);
-    if (!faceDetected) {
-        return {
-            valid: false,
-            message:
-                "No face detected. Please position your face in the frame."
-        };
-    }
-
 
     const blurred = await isImageBlurred(imageSrc);
 
@@ -228,6 +219,12 @@ const isImageGood = async (imageSrc) => {
 
                 <div className="kyc-container">
                     <div className="kyc-card">
+                                                            alertMessage && (
+                                        <div className="alertMessages">
+                                            {alertMessage}
+                                        </div>
+                                    )
+
                         {!image && (
                             <div className="capture-badge">
                                 <div className="capture-title">
@@ -271,11 +268,6 @@ const isImageGood = async (imageSrc) => {
                                         </div>
                                     </div>
                                 )}   
-                                    alertMessage && (
-                                        <div className="alertMessages">
-                                            {alertMessage}
-                                        </div>
-                                    )
                                 <div className="button-group selfie-button-group">
     {!uploadSuccess && (
         <>
