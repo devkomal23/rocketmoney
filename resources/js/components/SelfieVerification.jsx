@@ -14,15 +14,26 @@
         const navigate = useNavigate(); // Hook for navigation
         const [retryCount, setRetryCount] = useState(0);
         const [alertMessage, setAlertMessage] = useState("");
+        const [modelsLoaded, setModelsLoaded] = useState(false);
 
     useEffect(() => {
         const loadModels = async () => {
+ try {
             await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
-        };
+            setModelsLoaded(true);
+            console.log("Face model loaded");
+        } catch (err) {
+            console.error("Model load failed:", err);
+        }        };
 
         loadModels();
     }, []);
     const detectFace = async (imageSrc) => {
+            if (!modelsLoaded) {
+        console.log("Model not loaded yet");
+        return false;
+    }
+
         const img = new Image();
         img.src = imageSrc;
 
@@ -32,8 +43,12 @@
 
         const detection = await faceapi.detectSingleFace(
             img,
-            new faceapi.TinyFaceDetectorOptions()
+    new faceapi.TinyFaceDetectorOptions({
+        inputSize: 320,
+        scoreThreshold: 0.2
+    })
         );
+    console.log("Detection:", detection);
 
         return !!detection;
     };
@@ -275,7 +290,8 @@
                                             onUserMedia={autoCapture}
                                             videoConstraints={{
                                                     facingMode: "user",
-                                                    width: 400
+                                                    width: 640,
+                                                    height:480
                                                 }}
                                         />
                                     </div>
