@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import axios from 'axios';
+import { useNavigate,useLocation } from 'react-router-dom'; 
+
 
 export default function VerifyKyc() {
     const webcamRef = useRef(null);
@@ -8,6 +10,8 @@ export default function VerifyKyc() {
     const API_URL = import.meta.env.VITE_API_URL;
     const [countdown, setCountdown] = useState(5);
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    const navigate = useNavigate(); // Hook for navigation
+
 
 
     const autoCapture = () => {
