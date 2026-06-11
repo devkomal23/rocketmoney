@@ -31,12 +31,42 @@ export default function VerifyKyc() {
             const imageSrc = webcamRef.current?.getScreenshot();
 
             if (imageSrc) {
-                setImage(imageSrc);
-            }
+
+const isValid = await isImageGood(imageSrc);
+        if (isValid) {
+            setImage(imageSrc);
+        } else {
+            alert("Lighting is too low! Please move to a brighter area.");
+            autoCapture(); // Restart timer to try again
+        }            }
         }
     },5000);
 
     };
+    const isImageGood = (imageSrc) => {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.src = imageSrc;
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            
+            // Check average brightness
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let brightness = 0;
+            for (let i = 0; i < imageData.data.length; i += 4) {
+                brightness += (imageData.data[i] + imageData.data[i+1] + imageData.data[i+2]) / 3;
+            }
+            brightness = brightness / (imageData.data.length / 4);
+            
+            // If brightness is < 50 (out of 255), it's too dark
+            resolve(brightness > 50);
+        };
+    });
+};
 
     const uploadSelfie = async () => {
         try {
