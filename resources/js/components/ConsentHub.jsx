@@ -25,15 +25,14 @@ const ConsentHub = ({ onConsentAccepted }) => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-
-        <div style={styles.header}>
-          <h5 style={styles.pageTitle}>Complete Your Application</h5>
-        
-              
-        <div style={styles.formContainer}>
-          <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+    <div className= "container">
+      <div className= "card">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center  bg-white">
+          <div className="w-full max-w-md    overflow-hidden  verification_container">
+            <div className="mb-8 p-2 header p-4">
+              <h2 className="text-2xl font-bold text-white pageTitle"></h2>
+            </div>
+            <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
             <h2 className="text-xl font-bold mb-4">Data Usage & Privacy</h2>
             <form onSubmit={handleSubmit}>
               <label className="flex items-start space-x-3 mb-6">
@@ -46,10 +45,10 @@ const ConsentHub = ({ onConsentAccepted }) => {
                 {loading ? "Processing..." : "Continue →"}
               </button>
             </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
 
   );
