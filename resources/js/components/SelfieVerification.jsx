@@ -286,12 +286,11 @@
                                             audio={false}
                                             ref={webcamRef}
                                             screenshotFormat="image/jpeg"
-                                            width={400}
                                             onUserMedia={autoCapture}
                                             videoConstraints={{
                                                     facingMode: "user",
-                                                    width: 150,
-                                                    height:100
+                                                    width: 640,
+                                                    height:480
                                                 }}
                                         />
                                     </div>
