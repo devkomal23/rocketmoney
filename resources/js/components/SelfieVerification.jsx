@@ -104,9 +104,6 @@ export default function VerifyKyc() {
                                 <p className="kyc-subtitle">
                                     Please capture a clear selfie for identity verification.
                                 </p>
-
-
-
                             </>
                         ) : (
                             <>

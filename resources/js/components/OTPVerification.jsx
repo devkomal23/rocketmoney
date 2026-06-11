@@ -128,7 +128,7 @@ export default function OTPVerification() {
         <div style={styles.header}>
           <h2 style={styles.pageTitle}>OTP Verification</h2>
         </div>
-        <div className = "scrollable-content" style = {styles.scrollableContainer}>
+        <div className = "scrollable-content p-2" style = {styles.scrollableContainer}>
           <div style={styles.dataContainer}>
             <div style={styles.badgeContainer}>
               <span style={styles.badgeText}>Enter OTP</span>

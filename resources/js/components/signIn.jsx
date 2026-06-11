@@ -76,7 +76,7 @@ const handleRequestOTP = async (e) => {
             style ={styles.logoImage}
           />
         </div>
-      <div className = "scrollable-content" style = {styles.scrollableContainer}>
+      <div className = "scrollable-content p-2" style = {styles.scrollableContainer}>
         <div style={styles.bannerArea}>
           <img 
             src="/images/rocketmoney-banner.png" 

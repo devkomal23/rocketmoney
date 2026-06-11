@@ -31,7 +31,7 @@ export default function RegistrationPage() {
             <p>RBI-Registered NBFC</p>
           </div>
         </div>
-        <div className="scrollable-content">
+        <div className="scrollable-content p-2">
 
         <div className="data-access">
           <h4>DATA WE WILL ACCESS</h4>

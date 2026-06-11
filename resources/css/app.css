@@ -784,3 +784,7 @@ html, body {
 .selfie-button-group{
   margin:10px;
 }
+
+.p-2{
+  padding:24px;
+}

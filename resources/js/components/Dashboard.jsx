@@ -185,7 +185,7 @@ useEffect(() => {
                 <p style={styles.p}>Here is your loan details.</p>
             </header>
         </div>
-        <div className="scrollable-content">
+        <div className="scrollable-content p-2">
             <section className="relative flex justify-center items-center py-10">
                 
                 <LoanDashboard loanProducts={loanProducts} />
