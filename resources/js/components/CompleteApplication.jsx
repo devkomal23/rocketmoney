@@ -220,5 +220,6 @@ const styles = {
   input: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #cbd5e0', boxSizing: 'border-box' },
   warningBox: { backgroundColor: '#fffaf0', border: '1px solid #feebc8', color: '#744210', padding: '12px', fontSize: '11px', borderRadius: '8px', marginTop: '20px' },
   proceedButton: { width: '100%', marginTop: '20px', padding: '15px', borderRadius: '12px', border: 'none', color: '#fff', fontSize: '16px', fontWeight: '700' },
+  reactDatepickerPopper:{top:'30px !important'},
   errorText: { color: 'red', fontSize: '10px', marginTop: '4px', display: 'block' }
 };
