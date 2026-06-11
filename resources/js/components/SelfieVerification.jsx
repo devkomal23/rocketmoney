@@ -192,16 +192,7 @@
                     "Lighting is too low. Please move to a brighter area."
             };
         }
-           /* const faceDetected = await detectFace(imageSrc);
-
-    if (!faceDetected) {
-        return {
-            valid: false,
-            message:
-                "Face not detected. Please position your face in the frame."
-        };
-    }*/
-
+          
 
         const blurred = await isImageBlurred(imageSrc);
 
