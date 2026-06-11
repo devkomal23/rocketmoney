@@ -219,11 +219,11 @@ const isImageGood = async (imageSrc) => {
 
                 <div className="kyc-container">
                     <div className="kyc-card">
-                                                            alertMessage && (
+                                                            {alertMessage && (
                                         <div className="alertMessages">
                                             {alertMessage}
                                         </div>
-                                    )
+                                    )}
 
                         {!image && (
                             <div className="capture-badge">
