@@ -80,7 +80,7 @@ export default function OTPVerification() {
           } 
           // If Fee is not paid
           else if (assessment_fee_status !== 'paid') {
-              navigate('/payment-gateway');
+              navigate('/assessmentFee');
           } 
           // Final step
           else {

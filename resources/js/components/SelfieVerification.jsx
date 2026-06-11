@@ -106,7 +106,7 @@ if (result.valid) {
 
             variance /= count;
 
-            resolve(variance < 300); // blurry if true
+            resolve(variance < 300); 
         };
 
         img.src = imageSrc;
@@ -249,17 +249,18 @@ videoConstraints={{
                             <div className="preview-frame">
                                 <img src={image} alt="selfie" />
                             </div>
-{uploadSuccess && (
-    <div className="success-message">
-        <div className="success-title">
-            ✅ Selfie Verified Successfully
-        </div>
+                                {uploadSuccess && (
+                                    <div className="success-message">
+                                        <div className="success-title">
+                                            ✅ Selfie Verified Successfully
+                                        </div>
 
-        <div className="success-subtitle">
-            Your identity verification is being processed.
-        </div>
-    </div>
-)}                                <div className="button-group selfie-button-group">
+                                        <div className="success-subtitle">
+                                            Your identity verification is being processed.
+                                        </div>
+                                    </div>
+                                )}                                
+                                <div className="button-group selfie-button-group">
     {!uploadSuccess && (
         <>
             <button
