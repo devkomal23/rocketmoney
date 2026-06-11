@@ -74,15 +74,12 @@ export default function OTPVerification() {
           if (user.is_registration_complete != 1) {
               navigate('/complete_application',{ state: { mobile: mobileNumber } });
           } 
-          // If KYC is not verified
           else if (kyc_status !== 'verified') {
               navigate('/verify-kyc');
           } 
-          // If Fee is not paid
           else if (assessment_fee_status !== 'paid') {
               navigate('/assessmentFee');
           } 
-          // Final step
           else {
               navigate('/assessmentFee');
           }
@@ -210,15 +207,11 @@ export default function OTPVerification() {
                 I authorize MoneyTime Technology Solutions Pvt. Ltd. (RocketMoney) and its lending partners to verify my KYC details and mobile number, contact me via Call, SMS, WhatsApp, VOIP, or Email, and access my credit report. I have read and agree to the <a href="https://uat.rocketmoney.in/terms-and-conditions" target="_blank" style={styles.inlineLink}>Terms & Conditions</a> & <a href="https://uat.rocketmoney.in/privacy-policy" target="_blank" style={styles.inlineLink}>Privacy Policy</a>.
               </label>
             </div>
-
-
             <button 
               onClick={handleVerify} 
-              // Disable if loading OR if the OTP isn't fully filled OR if checkbox isn't checked
               disabled={loading || !isOtpComplete || !isAuthorized} 
               style={{
                 ...styles.verifyButton, 
-                // Style change when disabled
                 backgroundColor: (loading || !isOtpComplete || !isAuthorized) ? '#b3cbe6' : '#0052cc',
                 cursor: (loading || !isOtpComplete || !isAuthorized) ? 'not-allowed' : 'pointer'
               }}

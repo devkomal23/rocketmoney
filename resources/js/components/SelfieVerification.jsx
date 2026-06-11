@@ -11,7 +11,8 @@ export default function VerifyKyc() {
     const [countdown, setCountdown] = useState(5);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const navigate = useNavigate(); // Hook for navigation
-const [retryCount, setRetryCount] = useState(0);
+    const [retryCount, setRetryCount] = useState(0);
+    const [alertMessage, setAlertMessage] = useState("");
 
 
 const autoCapture = () => {
@@ -41,27 +42,28 @@ const autoCapture = () => {
                 imageSrc
             );
 
-if (result.valid) {
-    setRetryCount(0);
-    setImage(imageSrc);
-} else {
-    if (retryCount >= 3) {
-        alert(
-            "Unable to capture a clear selfie. Please click Retake."
-        );
-        return;
-    }
+            if (result.valid) {
+                setRetryCount(0);
+                setImage(imageSrc);
+            } else {
+                if (retryCount >= 3) {
 
-    setRetryCount(prev => prev + 1);
+                    alert(
+                        "Unable to capture a clear selfie. Please click Retake."
+                    );
+                    return;
+                }
 
-    alert(result.message);
+                setRetryCount(prev => prev + 1);
 
-    setTimeout(() => {
-        autoCapture();
-    }, 1000);
-}        }
-    }, 1000);
-};
+                alert(result.message);
+
+                setTimeout(() => {
+                    autoCapture();
+                }, 1000);
+            }        }
+                }, 1000);
+            };
     const isImageBlurred = (imageSrc) => {
     return new Promise((resolve) => {
         const img = new Image();
@@ -153,6 +155,15 @@ const isImageGood = async (imageSrc) => {
                 "Lighting is too low. Please move to a brighter area."
         };
     }
+    const faceDetected = await detectFace(imageSrc);
+    if (!faceDetected) {
+        return {
+            valid: false,
+            message:
+                "No face detected. Please position your face in the frame."
+        };
+    }
+
 
     const blurred = await isImageBlurred(imageSrc);
 
@@ -233,10 +244,10 @@ const isImageGood = async (imageSrc) => {
                                         screenshotFormat="image/jpeg"
                                         width={400}
                                         onUserMedia={autoCapture}
-videoConstraints={{
-        facingMode: "user",
-        width: 400
-    }}
+                                        videoConstraints={{
+                                                facingMode: "user",
+                                                width: 400
+                                            }}
                                     />
                                 </div>
                                 <h5>Selfie Verification</h5>
@@ -259,7 +270,12 @@ videoConstraints={{
                                             Your identity verification is being processed.
                                         </div>
                                     </div>
-                                )}                                
+                                )}   
+                                    alertMessage && (
+                                        <div className="alertMessages">
+                                            {alertMessage}
+                                        </div>
+                                    )
                                 <div className="button-group selfie-button-group">
     {!uploadSuccess && (
         <>
