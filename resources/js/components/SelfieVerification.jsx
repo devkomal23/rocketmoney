@@ -290,8 +290,8 @@
                                             onUserMedia={autoCapture}
                                             videoConstraints={{
                                                     facingMode: "user",
-                                                    width: 640,
-                                                    height:480
+                                                    width: 150,
+                                                    height:150
                                                 }}
                                         />
                                     </div>
