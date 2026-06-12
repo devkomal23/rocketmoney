@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/../vendor/autoload.php';
 // AT THE VERY TOP
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
