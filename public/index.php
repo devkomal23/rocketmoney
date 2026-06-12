@@ -4,18 +4,19 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
-
-// Set storage and cache to writable /tmp directory
 $_ENV['APP_STORAGE'] = '/tmp';
 
-// Load the autoloader
 require __DIR__.'/../vendor/autoload.php';
 
-// Bootstrap Laravel
+// 1. Boot the application
 $app = require_once __DIR__.'/../bootstrap/app.php';
+
+// 2. IMPORTANT: Register core Service Providers manually if they aren't loading
+$app->register(Illuminate\View\ViewServiceProvider::class);
+$app->register(Illuminate\Routing\RoutingServiceProvider::class);
+
 $kernel = $app->make(Kernel::class);
 
-// Handle the request
 $response = $kernel->handle(
     $request = Request::capture()
 );
@@ -23,4 +24,3 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
-// REMOVED the extra handleRequest call
