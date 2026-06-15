@@ -29,7 +29,7 @@ export default function RegistrationPage() {
         </div>
 
         <div className="entity-card">
-          <div className="icon">🛡️</div>
+          <div className=" aggregator_icon">🛡️</div>
           <div>
             <h3>Pooja Finstock International Limited.</h3>
             <p>RBI-Registered NBFC</p>
@@ -39,9 +39,9 @@ export default function RegistrationPage() {
 
         <div className="data-access">
           <h4>DATA WE WILL ACCESS</h4>
-          <div className="item"><span>📄</span> Bank Statements <small>12-month transaction history</small></div>
-          <div className="item"><span>📈</span> Income Patterns <small>Salary credits & cash flow analysis</small></div>
-          <div className="item"><span>💳</span> Loan Assessment <small>Creditworthiness evaluation only</small></div>
+          <div className="item"><span>📄</span><p>Bank Statements</p><p>12-month transaction history</p></div>
+          <div className="item"><span>📈</span> <p>Income Patterns </p><p>Salary credits & cash flow analysis</p></div>
+          <div className="item"><span>💳</span><p> Loan Assessment </p><p>Creditworthiness evaluation only</p></div>
         </div>
 
         <div className="rights-box">
