@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
+// This handles the root path
 Route::get('/', function () {
     return view('welcome');
 });
-// routes/web.php
 
-// This must be the last route in your file
-Route::fallback(function () {
-    return view('componenets/CompleteApplication'); // Replace 'app' with the name of your main blade file
-});
+// This handles every other path (e.g., /signin, /dashboard)
+// It tells Laravel: "Whatever the path, just load the welcome view"
+Route::get('/{any}', function () {
+    return view('welcome');
+})->where('any', '.*');
