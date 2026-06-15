@@ -812,17 +812,29 @@ html, body {
     background: rgba(0,0,0,0.65);
     z-index: 1;
 }
-
 .back-btn {
     font-size: 28px;
     background-color: #4282c3;
-    width: 40px;
-    height: 65px;
-    border-radius: 50%;
+    width: 40px;  
+    height: 40px; 
+    border-radius: 50%; 
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    padding: 0;  
+}
+
+.back-btn button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 .aggregator_icon{
