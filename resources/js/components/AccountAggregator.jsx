@@ -10,7 +10,6 @@ export default function RegistrationPage() {
   const navigate = useNavigate();
 
   const handleAccept = () => {
-      navigate('/assesmentFee');
     }
 
   const handleSubmit = async (e) => {
@@ -21,7 +20,8 @@ export default function RegistrationPage() {
     setLoading(true); 
     
     try {
-      console.log("Consent submitted!");
+       navigate('/LoanApproval');
+
     } catch (error) {
       console.error("Submission failed:", error);
     } finally {
