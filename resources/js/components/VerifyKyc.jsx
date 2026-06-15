@@ -37,6 +37,7 @@ export default function VerifyKyc() {
 
   const handleVerify = async () => {
     setIsLoading(true);
+    setStatus('pending');
     try {
       const response = await axios.post(`${API_URL}/kyc/init`);
       const { client_secret } = response.data;
