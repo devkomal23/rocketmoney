@@ -372,7 +372,7 @@ html, body {
   font-weight: 600; 
 }
 
-.submit-button {
+.submit-button,.action-btn {
   border: none;
   height: 50px;
   border-radius: 25px;
@@ -858,4 +858,16 @@ html, body {
 
 .fw-bold{
   font-weight:bolder;
+}
+
+.select_box_due_date{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding:11px;
+    margin:10px;
+}
+
+.due_date_dropdown{
+  border:1px solid #8c9ed0
 }

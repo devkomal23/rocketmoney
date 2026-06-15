@@ -84,11 +84,11 @@ export default function RegistrationPage() {
           </ul>
         </div>
 
-        <div className="input-group">
+        <div className="input-group select_box_due_date">
           <label htmlFor="dueDate">Select Due Date</label>
           <select 
             id="dueDate" 
-            className="form-input"
+            className="form-input due_date_dropdown"
             value={dueDate}
             onChange={(e) => {
               setDueDate(e.target.value);
