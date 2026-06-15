@@ -38,7 +38,7 @@ export default function RegistrationPage() {
 
   return (
     <div className="container">
-      <div className="card">
+      <div className="card flex flex-col h-[600px]">
         <div className="header">
           <div class="back-btn">          
             <button className="" onClick={() => navigate('/verify-kyc')}>←</button>
@@ -48,7 +48,7 @@ export default function RegistrationPage() {
             <p>RBI-licensed · Secure data consent</p>
           </div>
         </div>
-        <div className="scrollable-content">
+        <div className="scrollable-content flex-grow overflow-y-auto">
 
         <div className="entity-card">
           <div className=" aggregator_icon">🛡️</div>
