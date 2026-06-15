@@ -27,6 +27,7 @@ export default function RegistrationPage() {
             <p>RBI-licensed · Secure data consent</p>
           </div>
         </div>
+        <div className="scrollable-content">
 
         <div className="entity-card">
           <div className=" aggregator_icon">🛡️</div>
@@ -35,7 +36,6 @@ export default function RegistrationPage() {
             <p>RBI-Registered NBFC</p>
           </div>
         </div>
-        <div className="scrollable-content">
 
         <div className="data-access">
           <h4>DATA WE WILL ACCESS</h4>
