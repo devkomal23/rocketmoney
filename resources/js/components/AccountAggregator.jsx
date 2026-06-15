@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function RegistrationPage() {
+  // 1. Declare all state variables at the top
   const [dueDate, setDueDate] = useState("");
   const [showError, setShowError] = useState(false);
-  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // 2. Declare hooks only once
   const navigate = useNavigate();
 
   const handleAccept = () => {
@@ -19,21 +20,25 @@ export default function RegistrationPage() {
       navigate('/assesmentFee');
     }
   };
+
   const handleSubmit = async (e) => {
-  e.preventDefault(); 
-  
-  if (!isChecked) return;
-  
-  setLoading(true); 
-  
-  try {
-    console.log("Consent submitted!");
-  } catch (error) {
-    console.error("Submission failed:", error);
-  } finally {
-    setLoading(false); 
-  }
-};
+    e.preventDefault(); 
+    
+    // Now 'isChecked' and 'setLoading' are correctly defined in this scope
+    if (!isChecked) return;
+    
+    setLoading(true); 
+    
+    try {
+      console.log("Consent submitted!");
+      // Example: navigate to next page after successful API call
+      // navigate('/next-step'); 
+    } catch (error) {
+      console.error("Submission failed:", error);
+    } finally {
+      setLoading(false); 
+    }
+  };
 
 
   return (
