@@ -1,29 +1,17 @@
 <?php
 
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Application;
 
 define('LARAVEL_START', microtime(true));
 
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
+}
+
+// Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
 
-// Create the application
-$app = new Application(dirname(__DIR__));
-
-// Manually bind the Kernel
-$app->singleton(Kernel::class, App\Http\Kernel::class);
-
-// CRITICAL: Manually register View and Routing providers
-$app->register(Illuminate\View\ViewServiceProvider::class);
-$app->register(Illuminate\Routing\RoutingServiceProvider::class);
-$app->register(Illuminate\Events\EventServiceProvider::class);
-
-$kernel = $app->make(Kernel::class);
-
-$response = $kernel->handle(
-    $request = Request::capture()
-);
-
-$response->send();
-$kernel->terminate($request, $response);
+// Bootstrap the application and handle the request...
+(require_once __DIR__.'/../bootstrap/app.php')
+    ->handleRequest(Request::capture());
