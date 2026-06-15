@@ -5,7 +5,10 @@ export default function RegistrationPage() {
   const [dueDate, setDueDate] = useState("");
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
 
   const handleAccept = () => {
     if (dueDate === "") {
