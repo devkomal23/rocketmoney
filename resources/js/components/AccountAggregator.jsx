@@ -41,7 +41,7 @@ export default function RegistrationPage() {
           <h4>DATA WE WILL ACCESS</h4>
 
           <div className="item">
-            <div><span>📄</span></div>
+            <div className= "item_icon"><span>📄</span></div>
             <div>
               <h5>Bank Statements</h5>
               <p>12-month transaction history</p>
@@ -53,7 +53,7 @@ export default function RegistrationPage() {
             <h4>DATA WE WILL ACCESS</h4>
 
             <div className="item">
-              <div><span>📈</span></div>
+              <div className= "item_icon"><span>📈</span></div>
               <div>
                 <h5>Income Patterns</h5>
                 <p>Salary credits & cash flow analysis</p>
@@ -66,7 +66,7 @@ export default function RegistrationPage() {
           <h4>DATA WE WILL ACCESS</h4>
 
           <div className="item">
-            <div><span>📄</span></div>
+            <div className= "item_icon"><span>📄</span></div>
             <div>
               <h5>Loan Assessment</h5>
               <p>Creditworthiness evaluation only</p>

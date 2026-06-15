@@ -836,8 +836,26 @@ html, body {
 .data-access .item{
   display:flex;
   align-items: center;
+  gap:20px;
+  margin-top:10px;
 }
 
 .data-access .item h5{
   font-weight: bolder;
+}
+
+.data-access .item .item_icon{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #5ab9e1;
+    display: flex;
+    align-content: space-around;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.fw-bold{
+  font-weight:bolder;
 }
