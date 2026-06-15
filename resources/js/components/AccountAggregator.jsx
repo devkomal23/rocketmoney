@@ -35,6 +35,10 @@ export default function RegistrationPage() {
             <h3>Pooja Finstock International Limited.</h3>
             <p>RBI-Registered NBFC</p>
           </div>
+        </div>
+
+        <div className="data-access">
+          <h4>DATA WE WILL ACCESS</h4>
 
           <div className="item">
             <div className= "item_icon"><span>📄</span></div>
@@ -45,8 +49,6 @@ export default function RegistrationPage() {
           </div>
           </div>
 
-          <div className="data-access">
-            <h4>DATA WE WILL ACCESS</h4>
 
             <div className="item">
               <div className= "item_icon"><span>📈</span></div>
