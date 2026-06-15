@@ -16,6 +16,21 @@ export default function RegistrationPage() {
       navigate('/assesmentFee');
     }
   };
+  const handleSubmit = async (e) => {
+  e.preventDefault(); 
+  
+  if (!isChecked) return;
+  
+  setLoading(true); 
+  
+  try {
+    console.log("Consent submitted!");
+  } catch (error) {
+    console.error("Submission failed:", error);
+  } finally {
+    setLoading(false); 
+  }
+};
 
 
   return (
