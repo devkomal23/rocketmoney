@@ -98,7 +98,7 @@ export default function RegistrationPage() {
 
 
 
-<div className="input-group select_box_due_date mt-6 mb-8 px-4">
+<div className=" mt-6 mb-8 px-4">
   <form onSubmit={handleSubmit} className="border border-gray-200 rounded-2xl p-6 bg-white shadow-inner">
     
     <label className="flex items-start gap-4 mb-6 cursor-pointer group">
@@ -136,7 +136,7 @@ export default function RegistrationPage() {
     <button 
       type="submit" 
       disabled={!isChecked || loading} 
-      className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-lg transition-colors flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-200"
+      className="w-full p-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-lg transition-colors flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-200 select_bank_btn"
     >
       {loading ? (
         <>
