@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{any}', function () {
+Route::get('/', function () {
     return view('welcome');
-})->where('any', '.*');
+});
+// routes/web.php
+
+// This must be the last route in your file
+Route::fallback(function () {
+    return view('componenets/CompleteApplication'); // Replace 'app' with the name of your main blade file
+});
