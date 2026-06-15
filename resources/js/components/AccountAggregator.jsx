@@ -10,14 +10,8 @@ export default function RegistrationPage() {
   const navigate = useNavigate();
 
   const handleAccept = () => {
-    if (dueDate === "") {
-      setShowError(true); 
-    } else {
-      setShowError(false); 
-      console.log("Proceeding with due date:", dueDate);
       navigate('/assesmentFee');
     }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -38,7 +32,7 @@ export default function RegistrationPage() {
 
   return (
     <div className="container">
-      <div className="card flex flex-col h-[600px]">
+      <div className="card flex flex-col h-[720px]">
         <div className="header">
           <div class="back-btn">          
             <button className="" onClick={() => navigate('/verify-kyc')}>←</button>
