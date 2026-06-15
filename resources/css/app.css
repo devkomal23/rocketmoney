@@ -831,3 +831,7 @@ html, body {
 .entity-card h3{
   font-weight:bolder;
 }
+
+.data-access .item{
+  display:flex;
+}

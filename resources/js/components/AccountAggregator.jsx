@@ -39,7 +39,14 @@ export default function RegistrationPage() {
 
         <div className="data-access">
           <h4>DATA WE WILL ACCESS</h4>
-          <div className="item"><span>📄</span><p>Bank Statements</p><p>12-month transaction history</p></div>
+
+          <div className="item">
+            <div><span>📄</span></div>
+            <div>
+              <p>Bank Statements</p>
+              <p>12-month transaction history</p>
+            </div>
+          </div>
           <div className="item"><span>📈</span> <p>Income Patterns </p><p>Salary credits & cash flow analysis</p></div>
           <div className="item"><span>💳</span><p> Loan Assessment </p><p>Creditworthiness evaluation only</p></div>
         </div>
