@@ -11,6 +11,7 @@ export default function RegistrationPage() {
 
   const handleAccept = () => {
     }
+    
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -21,7 +22,6 @@ export default function RegistrationPage() {
     
     try {
        navigate('/LoanApproval');
-
     } catch (error) {
       console.error("Submission failed:", error);
     } finally {

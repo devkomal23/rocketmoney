@@ -1,4 +1,10 @@
 export default function ApprovalPage() {
+const [selectedDay, setSelectedDay] = useState("");
+
+const dueDateOptions = [
+  { label: "1st of the month", value: "01" },
+  { label: "10th of the month", value: "10" }
+];
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-50 p-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden">
@@ -17,11 +23,22 @@ export default function ApprovalPage() {
         <div className="p-6 space-y-4">
           <DetailRow label="Amount Approved" value="₹ 1,000" />
           
-          <div className="space-y-1">
-            <label className="text-sm font-medium text-gray-600">Select Due Date</label>
-            <input type="date" className="w-full p-3 border rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500" />
-          </div>
-
+<div className="space-y-1">
+  <label className="text-sm font-medium text-gray-600">Select Due Date</label>
+  <select 
+    value={selectedDay} 
+    onChange={(e) => setSelectedDay(e.target.value)}
+    className="w-full p-3 border rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500"
+  >
+    <option value="" disabled>Select a date</option>
+    {dueDateOptions.map((option) => (
+      <option key={option.value} value={option.value}>
+        {option.label}
+      </option>
+    ))}
+  </select>
+</div>
+2.
           <DetailRow label="Tenure" value="NA" />
           <DetailRow label="Processing Fees" value="₹ 150 ( GST + ₹ 27 )" />
           <DetailRow label="Interest Rate" value="0.12%" />
