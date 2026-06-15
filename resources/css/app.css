@@ -580,6 +580,7 @@ html, body {
   box-shadow: 0 20px 60px #0f172a1a,0 8px 20px #2563eb05;
   align-content: space-around;
   flex-direction: row;
+  background-color: #fff;
 }
 
 .kyc-container {
@@ -834,4 +835,9 @@ html, body {
 
 .data-access .item{
   display:flex;
+  align-items: center;
+}
+
+.data-access .item h5{
+  font-weight: bolder;
 }

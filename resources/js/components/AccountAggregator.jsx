@@ -43,12 +43,35 @@ export default function RegistrationPage() {
           <div className="item">
             <div><span>📄</span></div>
             <div>
-              <p>Bank Statements</p>
+              <h5>Bank Statements</h5>
               <p>12-month transaction history</p>
             </div>
           </div>
-          <div className="item"><span>📈</span> <p>Income Patterns </p><p>Salary credits & cash flow analysis</p></div>
-          <div className="item"><span>💳</span><p> Loan Assessment </p><p>Creditworthiness evaluation only</p></div>
+          </div>
+
+          <div className="data-access">
+            <h4>DATA WE WILL ACCESS</h4>
+
+            <div className="item">
+              <div><span>📈</span></div>
+              <div>
+                <h5>Income Patterns</h5>
+                <p>Salary credits & cash flow analysis</p>
+              </div>
+            </div>
+          </div>
+
+
+        <div className="data-access">
+          <h4>DATA WE WILL ACCESS</h4>
+
+          <div className="item">
+            <div><span>📄</span></div>
+            <div>
+              <h5>Loan Assessment</h5>
+              <p>Creditworthiness evaluation only</p>
+            </div>
+          </div>
         </div>
 
         <div className="rights-box">
