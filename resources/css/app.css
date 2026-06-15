@@ -564,10 +564,11 @@ html, body {
 }
 
 .rights-box,.data-access{
-    padding: 24px;
+    padding: 11px;
     box-shadow: 0 20px 60px #0f172a1a, 0 8px 20px #2563eb05;
-    margin: 8px;
+    margin: 10px;
     border-radius:20px;
+    background-color: #fff;
 }
 
 .entity-card{
