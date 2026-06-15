@@ -17,7 +17,7 @@ export default function RegistrationPage() {
     }
   };
 
-  
+
   return (
     <div className="container">
       <div className="card">
@@ -78,31 +78,26 @@ export default function RegistrationPage() {
           </ul>
         </div>
 
+
+
         <div className="input-group select_box_due_date">
-          <label htmlFor="dueDate">Select Due Date</label>
-          <select 
-            id="dueDate" 
-            className="form-input due_date_dropdown"
-            value={dueDate}
-            onChange={(e) => {
-              setDueDate(e.target.value);
-              if (e.target.value !== "") setShowError(false); // Hide error if user selects a date
-            }}
-          >
-            <option value="">-- Select --</option>
-            <option value="10">10 TH OF MONTH</option>
-          </select>
-
-          {showError && (
-            <div className="error-message" style={{ color: 'red', marginTop: '10px' }}>
-              ⚠️ Please select a due date before accepting.
-            </div>
-          )}
+            <form onSubmit={handleSubmit}>
+              <label className="flex items-start space-x-3 mb-6">
+                <input type="checkbox" checked={isChecked} onChange={(e) => setIsChecked(e.target.checked)} required />
+                  <span className="text-sm text-gray-700">
+                    I authorize <strong> Pooja Finstock International Limited</strong> to fetch my bank statements via the RBI-regulated Accountant Aggregator framework 
+                    for loan assessment purposes only.This is read-only access.
+                  </span>        
+              </label>
+              <button 
+                type="submit" 
+                disabled={!isChecked || loading} 
+                className="w-full py-3 bg-blue-600 text-white rounded-lg action-btn disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              >
+                {loading ? "Processing..." : "Give Consent & Select Bank →"}
+              </button>           
+            </form>
         </div>
-
-        <button className="action-btn" onClick={handleAccept}>
-          Give Consent & Select Bank →
-        </button>
         </div>
       </div>
     </div>

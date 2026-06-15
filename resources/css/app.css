@@ -831,6 +831,7 @@ html, body {
 
 .entity-card h3{
   font-weight:bolder;
+  font-size:15px;
 }
 
 .data-access .item{
@@ -880,5 +881,10 @@ html, body {
 .rights-box{
   color:rgb(38, 123, 173);
   border:1px solid rgb(38, 123, 173);
-  background-color: rgb(99, 117, 145);
+  background-color: #a4bfe95e;
+}
+
+.rights-box ul{
+  font-size:13px;
+
 }
