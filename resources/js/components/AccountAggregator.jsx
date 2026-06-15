@@ -40,7 +40,9 @@ export default function RegistrationPage() {
     <div className="container">
       <div className="card">
         <div className="header">
-          <button className="back-btn" onClick={() => navigate('/verify-kyc')}>←</button>
+          <div class="back-btn">          
+            <button className="" onClick={() => navigate('/verify-kyc')}>←</button>
+          </div>
           <div className ="header_info">
             <h1>Account Aggregator</h1>
             <p>RBI-licensed · Secure data consent</p>
@@ -102,7 +104,6 @@ export default function RegistrationPage() {
   <form onSubmit={handleSubmit} className="border border-gray-200 rounded-2xl p-6 bg-white shadow-inner">
     
     <label className="flex items-start gap-4 mb-6 cursor-pointer group">
-      {/* 1. Styled Checkbox */}
       <div className="relative flex items-center justify-center mt-1">
         <input 
           type="checkbox" 
@@ -111,7 +112,6 @@ export default function RegistrationPage() {
           required 
           className="peer appearance-none h-6 w-6 border-2 border-gray-300 rounded-md checked:bg-blue-600 checked:border-blue-600 transition-all cursor-pointer focus:ring-2 focus:ring-blue-200 focus:outline-none"
         />
-        {/* SVG Checkmark Icon (Visible when checked) */}
         <svg 
           className="absolute w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" 
           xmlns="http://www.w3.org/2000/svg" 
@@ -126,17 +126,15 @@ export default function RegistrationPage() {
         </svg>
       </div>
 
-      {/* 2. Optimized Text */}
       <span className="text-sm text-gray-700 leading-relaxed pt-0.5">
-        I authorize <strong className="text-gray-900">Pooja Finstock International Limited</strong> to fetch my bank statements via the RBI-regulated Account Aggregator framework for loan assessment purposes only. <span className="block mt-1 font-medium text-gray-900">This is read-only access.</span>
+        I authorize <strong className="text-gray-900">Pooja Finstock International Limited</strong> to fetch my bank statements via the RBI-regulated Account Aggregator framework for loan assessment purposes only. 
       </span>        
     </label>
     
-    {/* 3. Button (Respects same state) */}
     <button 
       type="submit" 
       disabled={!isChecked || loading} 
-      className="w-full p-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-lg transition-colors flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-200 select_bank_btn"
+      className="w-full p-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-lg transition-colors flex items-center justify-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-200 select_bank_btn"
     >
       {loading ? (
         <>
