@@ -3,6 +3,8 @@ import { useNavigate,useLocation } from 'react-router-dom';
 
 export default function SignIn() {
   const API_URL = import.meta.env.VITE_API_URL;
+    console.log("API_URL =", API_URL);
+
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation(); // 2. Initialize useLocation
   const [loading, setLoading] = useState(false);
