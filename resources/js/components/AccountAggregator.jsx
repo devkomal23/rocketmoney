@@ -47,7 +47,7 @@ export default function RegistrationPage() {
               <p>12-month transaction history</p>
             </div>
           </div>
-          </div>
+        
 
 
             <div className="item">

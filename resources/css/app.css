@@ -871,3 +871,14 @@ html, body {
 .due_date_dropdown{
   border:1px solid #8c9ed0
 }
+
+.action-btn{
+  width:-webkit-fill-available;
+  margin:10px;
+}
+
+.rights-box{
+  color:rgb(38, 123, 173);
+  border:1px solid rgb(38, 123, 173);
+  background-color: rgb(99, 117, 145);
+}
