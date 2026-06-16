@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 export default function BankAccountDetails() {
     const [formData, setFormData] = useState({ name: '', accNo: '', confirmAccNo: '', ifsc: '', bankName: '' });
     const [message, setMessage] = useState('');
+    const API_URL = import.meta.env.VITE_API_URL;
+
 
     const handleSubmit = async () => {
         console.log("click");
