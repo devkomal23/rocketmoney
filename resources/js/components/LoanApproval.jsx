@@ -50,7 +50,7 @@ const handleSubmit =()=>{
 
         {/* Action Button */}
         <div className="p-6">
-          <button className="w-full py-4 bg-blue-700 text-white rounded-2xl font-bold hover:bg-blue-800 transition" onClick="{handleSubmit}">
+          <button className="w-full py-4 bg-blue-700 text-white rounded-2xl font-bold hover:bg-blue-800 transition" onClick={handleSubmit}>
             Accept
           </button>
         </div>
