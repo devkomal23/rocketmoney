@@ -60,35 +60,49 @@ class PaymentController extends Controller
     }
 
 
-    public function verifyBank(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'accNo' => 'required|string',
-            'ifsc' => 'required|string',
-        ]);
+public function verifyBank(Request $request)
+{
+    $validated = $request->validate([
+        'name'  => 'required|string',
+        'accNo' => 'required|string',
+        'ifsc'  => 'required|string',
+    ]);
 
-        $response = Http::withHeaders([
-            'x-client-id' => env('CASHFREE_SANDBOX_ID'),
-            'x-client-secret' => env('CASHFREE_SANDBOX_SECRET'),
-            'x-api-version' => '2022-09-01',
-        ])->post('https://sandbox.cashfree.com/verification/bank-account/sync', [
+    $response = Http::withHeaders([
+        'x-client-id'     => env('CASHFREE_SANDBOX_ID'),
+        'x-client-secret' => env('CASHFREE_SANDBOX_SECRET'),
+        'x-api-version'   => '2022-09-01',
+    ])->post(
+        'https://sandbox.cashfree.com/verification/bank-account/sync',
+        [
             'bank_account' => $validated['accNo'],
-            'bank_ifsc' => $validated['ifsc'],
-            'name' => $validated['name'],
+            'ifsc'         => $validated['ifsc'], // fixed
+            'name'         => $validated['name'],
             'phone'        => '9999999999',
-        ]);
+        ]
+    );
 
     $data = $response->json();
-    
-    if (isset($data['status']) && $data['status'] === 'VERIFIED') {
-        return response()->json(['message' => 'Success: Bank account verified!']);
-    } else {
-        return response()->json([
-            'message' => 'Verification failed',
-            'reason' => $data['reason'] ?? 'Unknown mismatch'
-        ], 400);
-    }
-   }
 
+    // Debug temporarily
+    \Log::info($data);
+
+    if (
+        isset($data['account_status']) &&
+        $data['account_status'] === 'VALID'
+    ) {
+        return response()->json([
+            'message' => 'Bank account verified successfully',
+            'data'    => $data
+        ]);
+    }
+
+    return response()->json([
+        'message' => 'Verification failed',
+        'reason'  => $data['message']
+                    ?? $data['name_match_result']
+                    ?? 'Unknown mismatch',
+        'data'    => $data
+    ], 400);
+}
 }
