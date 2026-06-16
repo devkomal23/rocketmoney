@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Payment; 
-use Razorpay\Api\Api;   
+use Razorpay\Api\Api; 
+use Illuminate\Support\Facades\Http;   
 
 class PaymentController extends Controller
 {
@@ -14,7 +15,7 @@ class PaymentController extends Controller
     public function createOrder(Request $request)
     {
         $user = $request->user();
-        $amount = 49.00; // Your fee
+        $amount = 49.00; 
 
         $api = new \Razorpay\Api\Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
         $order = $api->order->create(['amount' => $amount * 100, 'currency' => 'INR']);
@@ -56,6 +57,32 @@ class PaymentController extends Controller
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Invalid signature'], 400);
         }
+    }
+
+
+    public function verifyBank(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'accNo' => 'required|string',
+            'ifsc' => 'required|string',
+        ]);
+
+        $response = Http::withHeaders([
+            'x-client-id' => env('CASHFREE_SANDBOX_ID'),
+            'x-client-secret' => env('CASHFREE_SANDBOX_SECRET'),
+            'x-api-version' => '2022-09-01',
+        ])->post('https://sandbox.cashfree.com/verification/bank-account', [
+            'bank_account' => $validated['accNo'],
+            'bank_ifsc' => $validated['ifsc'],
+            'name' => $validated['name'],
+        ]);
+
+        if ($response->successful() && $response->json('status') === 'VERIFIED') {
+            return response()->json(['message' => 'Success: Bank account verified!']);
+        }
+
+        return response()->json(['message' => 'Verification failed: Data mismatch.'], 400);
     }
 
 }

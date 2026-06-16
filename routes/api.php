@@ -47,3 +47,4 @@ Route::get('/digilocker/redirect', [DigiLockerController::class, 'redirectToProv
 Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback']);
 Route::middleware('auth:sanctum')->post('/consent', [ConsentController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/upload-selfie', [SelfieController::class, 'upload']);
+Route::middleware('auth:sanctum')->post('/verify-bank',[PaymentController::class,'verifyBank']);

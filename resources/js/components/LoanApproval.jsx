@@ -1,4 +1,5 @@
 import react,{useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 export default function ApprovalPage() {
 const [selectedDay, setSelectedDay] = useState("");
 
@@ -6,6 +7,9 @@ const dueDateOptions = [
   { label: "1st of the month", value: "01" },
   { label: "10th of the month", value: "10" }
 ];
+const handleSubmit =()=>{
+    navigate('/BankAccountDetails');
+};
   return (
     <div className="flex justify-center items-center min-h-screen bg-blue-50 p-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden">
@@ -39,7 +43,6 @@ const dueDateOptions = [
     ))}
   </select>
 </div>
-2.
           <DetailRow label="Tenure" value="NA" />
           <DetailRow label="Processing Fees" value="₹ 150 ( GST + ₹ 27 )" />
           <DetailRow label="Interest Rate" value="0.12%" />
@@ -47,7 +50,7 @@ const dueDateOptions = [
 
         {/* Action Button */}
         <div className="p-6">
-          <button className="w-full py-4 bg-blue-700 text-white rounded-2xl font-bold hover:bg-blue-800 transition">
+          <button className="w-full py-4 bg-blue-700 text-white rounded-2xl font-bold hover:bg-blue-800 transition" onClick="{handleSubmit}">
             Accept
           </button>
         </div>

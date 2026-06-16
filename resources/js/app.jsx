@@ -15,6 +15,7 @@ import axios from 'axios';
 import ConsentPage from './components/ConsentPage';
 import SelfieVerification from './components/SelfieVerification';
 import LoanApproval from'./components/LoanApproval';
+import BankAccountDetails from './components/BankAccountDetails';
 const App = () => {
     return (
         <BrowserRouter>
@@ -29,7 +30,8 @@ const App = () => {
                 <Route path ="/AccountAggregator" element={<AccountAggregator/>}/> 
                 <Route path="/Consent" element={<ConsentPage />} />  
                 <Route path="/SelfieVerification" element={<SelfieVerification/>}/>
-                <Route path="/LoanApproval" element={<LoanApproval/>}/>         
+                <Route path="/LoanApproval" element={<LoanApproval/>}/>    
+                <Route path ="/BankAccountDetails" element ={<BankAccountDetails/>}/>     
             </Routes>
         </BrowserRouter>
     );
