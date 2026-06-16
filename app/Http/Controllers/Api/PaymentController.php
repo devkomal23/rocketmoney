@@ -79,7 +79,6 @@ class PaymentController extends Controller
             'phone'        => '9999999999',
         ]);
 
-if ($response->successful()) {
     $data = $response->json();
     
     if (isset($data['status']) && $data['status'] === 'VERIFIED') {
@@ -90,6 +89,6 @@ if ($response->successful()) {
             'reason' => $data['reason'] ?? 'Unknown mismatch'
         ], 400);
     }
-}    }
+   }
 
 }
