@@ -76,16 +76,16 @@ public function verifyBank(Request $request)
         'https://sandbox.cashfree.com/verification/bank-account/sync',
         [
             'bank_account' => $validated['accNo'],
-            'ifsc'         => $validated['ifsc'], // fixed
+            'ifsc'         => $validated['ifsc'], 
             'name'         => $validated['name'],
             'phone'        => '9999999999',
         ]
     );
+\Log::info('Cashfree status: '.$response->status());
+\Log::info('Cashfree body: '.$response->body());
 
     $data = $response->json();
 
-    // Debug temporarily
-    \Log::info($data);
 
     if (
         isset($data['account_status']) &&
