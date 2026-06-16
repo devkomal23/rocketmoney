@@ -72,7 +72,7 @@ public function verifyBank(Request $request)
         'x-client-id' => env('CASHFREE_SANDBOX_ID'),
         'x-client-secret' => env('CASHFREE_SANDBOX_SECRET'),
         'x-api-version' => '2022-09-01',
-    ])->post('https://sandbox.cashfree.com/verification/bank-account/sync', [
+    ])->post('https://sandbox.cashfree.com/verification/bank-account', [
         'bank_account' => $validated['accNo'],
         'ifsc' => $validated['ifsc'],
         'name' => $validated['name'],
@@ -81,7 +81,7 @@ public function verifyBank(Request $request)
 
     return response()->json([
         'status' => $response->status(),
-        'body' => $response->json(),
+        'body' => $response->body(),
     ]);
 }
 }
