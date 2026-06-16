@@ -2,6 +2,7 @@ import react,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 export default function ApprovalPage() {
 const [selectedDay, setSelectedDay] = useState("");
+const navigate = useNavigate();
 
 const dueDateOptions = [
   { label: "1st of the month", value: "01" },
