@@ -72,11 +72,13 @@ class PaymentController extends Controller
             'x-client-id' => env('CASHFREE_SANDBOX_ID'),
             'x-client-secret' => env('CASHFREE_SANDBOX_SECRET'),
             'x-api-version' => '2022-09-01',
-        ])->post('https://sandbox.cashfree.com/verification/bank-account', [
+        ])->post('https://sandbox.cashfree.com/verification/bank-account/sync', [
             'bank_account' => $validated['accNo'],
             'bank_ifsc' => $validated['ifsc'],
             'name' => $validated['name'],
+            'phone'        => '9999999999', // Add a test phone number here
         ]);
+        https://sandbox.cashfree.com/verification/bank-account/sync
 
         if ($response->successful() && $response->json('status') === 'VERIFIED') {
             return response()->json(['message' => 'Success: Bank account verified!']);
