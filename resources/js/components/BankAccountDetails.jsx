@@ -53,7 +53,7 @@ return (
       <span className="mr-2">🔒</span> Your bank details are encrypted and securely stored.
     </div>
 
-    <button className="w-full mt-6 py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition shadow-md">
+    <button className="w-full mt-6 py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition shadow-md" onClick={handleSubmit}>
       Verify Bank Account →
     </button>
   </div>
