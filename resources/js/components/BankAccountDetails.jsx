@@ -6,12 +6,14 @@ export default function BankAccountDetails() {
     const [message, setMessage] = useState('');
 
     const handleSubmit = async () => {
+        console.log("click");
         if (formData.accNo !== formData.confirmAccNo) {
             alert("Account numbers do not match!");
             return;
         }
 
         try {
+            console.log("try");
             // Ensure API_URL is defined globally or import it
             const response = await axios.post(`${API_URL}/verify-bank`, formData);
             setMessage(response.data.message);
