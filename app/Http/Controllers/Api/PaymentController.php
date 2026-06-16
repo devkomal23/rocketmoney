@@ -76,15 +76,20 @@ class PaymentController extends Controller
             'bank_account' => $validated['accNo'],
             'bank_ifsc' => $validated['ifsc'],
             'name' => $validated['name'],
-            'phone'        => '9999999999', // Add a test phone number here
+            'phone'        => '9999999999',
         ]);
-        https://sandbox.cashfree.com/verification/bank-account/sync
 
-        if ($response->successful() && $response->json('status') === 'VERIFIED') {
-            return response()->json(['message' => 'Success: Bank account verified!']);
-        }
-
-        return response()->json(['message' => 'Verification failed: Data mismatch.'], 400);
+if ($response->successful()) {
+    $data = $response->json();
+    
+    if (isset($data['status']) && $data['status'] === 'VERIFIED') {
+        return response()->json(['message' => 'Success: Bank account verified!']);
+    } else {
+        return response()->json([
+            'message' => 'Verification failed',
+            'reason' => $data['reason'] ?? 'Unknown mismatch'
+        ], 400);
     }
+}    }
 
 }
