@@ -26,55 +26,38 @@ const handleSubmit = async()=>{
 return (
         <div className="container">
             <div className="card flex flex-col h-[720px]">
-                <div className="header">
-                    <h1>Bank Account Details</h1>
-                </div>
-                <div className="scrollable-content flex-grow overflow-y-auto">
-                    {/* 2. Connect inputs to state using onChange */}
-                    <label>Enter Account Holder Name</label>
-                    <input 
-                        type="text" 
-                        placeholder="as per Bank records" 
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    />
+<div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">
+  <div className="w-full max-w-md bg-white rounded-3xl shadow-lg p-8">
+    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Bank Account Details</h2>
+    
+    <div className="space-y-4">
+      {[
+        { label: "Account Holder Name *", placeholder: "As per bank records" },
+        { label: "Account Number *", placeholder: "Enter account number" },
+        { label: "Confirm Account Number *", placeholder: "Re-enter account number" },
+        { label: "IFSC Code *", placeholder: "SBIN0001234" },
+        { label: "Bank Name", placeholder: "Bank Name" }
+      ].map((field, idx) => (
+        <div key={idx} className="flex flex-col">
+          <label className="text-sm font-semibold text-gray-700 mb-1">{field.label}</label>
+          <input 
+            type="text" 
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+            placeholder={field.placeholder}
+          />
+        </div>
+      ))}
+    </div>
 
-                    <label>Account Number</label>
-                    <input 
-                        type="text" 
-                        placeholder="Enter Your Account Number" 
-                        value={formData.accNo}
-                        onChange={(e) => setFormData({...formData, accNo: e.target.value})}
-                    />
+    <div className="bg-green-50 text-green-700 p-3 rounded-lg text-sm flex items-center mt-6">
+      <span className="mr-2">🔒</span> Your bank details are encrypted and securely stored.
+    </div>
 
-                    <label>Confirm Account Number</label>
-                    <input 
-                        type="text" 
-                        placeholder="Re-enter Your Account Number" 
-                        value={formData.confirmAccNo}
-                        onChange={(e) => setFormData({...formData, confirmAccNo: e.target.value})}
-                    />
-
-                    <label>IFSC Code</label>
-                    <input 
-                        type="text" 
-                        placeholder="SBI0000001" 
-                        value={formData.ifsc}
-                        onChange={(e) => setFormData({...formData, ifsc: e.target.value})}
-                    />
-
-                    <label>Bank Name</label>
-                    <input 
-                        type="text" 
-                        placeholder="Bank Name" 
-                        value={formData.bankName}
-                        onChange={(e) => setFormData({...formData, bankName: e.target.value})}
-                    />
-
-                    <button onClick={handleSubmit}>Verify Bank Details</button>
-                    <p>{message}</p>
-                </div>
-            </div>
+    <button className="w-full mt-6 py-4 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition shadow-md">
+      Verify Bank Account →
+    </button>
+  </div>
+</div>            </div>
         </div>
     );
 }
