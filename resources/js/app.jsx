@@ -38,7 +38,7 @@ const App = () => {
         </BrowserRouter>
     );
 };
-axios.defaults.baseURL = 'https://rocketmoney-production.up.railway.app/api'; 
+axios.defaults.baseURL = import.meta.env.VITE_API_URL; 
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use((config) => {
     const token = localStorage.getItem('authToken');
