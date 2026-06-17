@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\KYCController;
 use App\Http\Controllers\Api\DigiLockerController;
 use App\Http\Controllers\ConsentController;
 use App\Http\Controllers\SelfieController;
+use App\Http\Controllers\LoanController;
+
 Route::get('/health', function () {
     try {
         DB::connection()->getPdo();
@@ -48,3 +50,4 @@ Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback
 Route::middleware('auth:sanctum')->post('/consent', [ConsentController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/upload-selfie', [SelfieController::class, 'upload']);
 Route::post('/verify-bank',[PaymentController::class,'verifyBank']);
+Route::get('/download-loan/{id}', [LoanController::class, 'generatePdf']);

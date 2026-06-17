@@ -206,7 +206,7 @@ export default function OTPVerification() {
                 style={styles.checkboxInput}
               />
               <label htmlFor="authCheckbox" style={styles.authLabel}>
-                I authorize MoneyTime Technology Solutions Pvt. Ltd. (RocketMoney) and its lending partners to verify my KYC details and mobile number, contact me via Call, SMS, WhatsApp, VOIP, or Email, and access my credit report. I have read and agree to the <a href="https://uat.rocketmoney.in/terms-and-conditions" target="_blank" style={styles.inlineLink}>Terms & Conditions</a> & <a href="https://uat.rocketmoney.in/privacy-policy" target="_blank" style={styles.inlineLink}>Privacy Policy</a>.
+                I authorize MoneyTime Technology Solutions Pvt. Ltd. (MoneyRocket) and its lending partners to verify my KYC details and mobile number, contact me via Call, SMS, WhatsApp, VOIP, or Email, and access my credit report. I have read and agree to the <a href="https://uat.rocketmoney.in/terms-and-conditions" target="_blank" style={styles.inlineLink}>Terms & Conditions</a> & <a href="https://uat.rocketmoney.in/privacy-policy" target="_blank" style={styles.inlineLink}>Privacy Policy</a>.
               </label>
             </div>
             <button 

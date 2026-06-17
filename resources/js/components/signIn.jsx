@@ -74,7 +74,7 @@ const handleRequestOTP = async (e) => {
         <div style={styles.logoContainer}>
           <img 
             src="/images/rocketmoney-logo.png" 
-            alt="Take Personal Loan in India with RocketMoney" 
+            alt="Take Personal Loan in India with MoneyRocket" 
             style ={styles.logoImage}
           />
         </div>
@@ -82,7 +82,7 @@ const handleRequestOTP = async (e) => {
         <div style={styles.bannerArea}>
           <img 
             src="/images/rocketmoney-banner.png" 
-            alt="Take Personal Loan in India with RocketMoney" 
+            alt="Take Personal Loan in India with MoneyRocket" 
             style ={styles.bannerImage}
           />
         </div>
