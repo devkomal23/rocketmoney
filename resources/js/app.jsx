@@ -16,6 +16,7 @@ import ConsentPage from './components/ConsentPage';
 import SelfieVerification from './components/SelfieVerification';
 import LoanApproval from'./components/LoanApproval';
 import BankAccountDetails from './components/BankAccountDetails';
+import LoanDocument from './components/LoanDocument';
 const App = () => {
     return (
         <BrowserRouter>
@@ -31,12 +32,13 @@ const App = () => {
                 <Route path="/Consent" element={<ConsentPage />} />  
                 <Route path="/SelfieVerification" element={<SelfieVerification/>}/>
                 <Route path="/LoanApproval" element={<LoanApproval/>}/>    
-                <Route path ="/BankAccountDetails" element ={<BankAccountDetails/>}/>     
+                <Route path ="/BankAccountDetails" element ={<BankAccountDetails/>}/> 
+                <Route path="/loan-document/:loanId" element={<LoanDocument />} />    
             </Routes>
         </BrowserRouter>
     );
 };
-axios.defaults.baseURL = 'https://rocketmoney-production.up.railway.app/api'; 
+axios.defaults.baseURL = 'https://MoneyRocket-production.up.railway.app/api'; 
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use((config) => {
     const token = localStorage.getItem('authToken');

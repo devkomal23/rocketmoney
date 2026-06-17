@@ -173,11 +173,11 @@ useEffect(() => {
             <div style={styles.logoContainer}>
                 <img src="/images/menu.png" alt="profileView" style={styles.dbMenu}></img>
             <img 
-                src="/images/rocketmoney-logo.png" 
-                alt="Take Personal Loan in India with RocketMoney" 
+                src="/images/MoneyRocket-logo.png" 
+                alt="Take Personal Loan in India with MoneyRocket" 
                 style={styles.dbLogoImage}
             />
-            <img src="/images/notification-bell.png" alt="Take Personal Loan in India with RocketMoney" 
+            <img src="/images/notification-bell.png" alt="Take Personal Loan in India with MoneyRocket" 
                 style={styles.dbBell}/>
             </div>
             <header style={styles.header}>

@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // e.g., "Term Loan"
-            
-            $table->decimal('max_amount', 12, 2);
-            $table->integer('term_days');
-            $table->json('tags')->nullable(); // Store tags like ["Fast", "Low Interest"] as JSON
+            $table->foreignId('user_id')->constrained(); // Links to your users table
+            $table->decimal('loan_amount', 10, 2);
+            $table->string('account_number');
+            $table->string('ifsc_code');
+            $table->string('status')->default('pending');
+            $table->string('agreement_path')->nullable(); // To store the PDF file path
             $table->timestamps();
         });
     }

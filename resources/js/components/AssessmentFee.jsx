@@ -79,8 +79,8 @@ useEffect(() => {
             <div style={styles.header}>
                 <div style={styles.logoContainer}>
                     <img 
-                        src="/images/rocketmoney-logo.png" 
-                        alt="Take Personal Loan in India with RocketMoney" 
+                        src="/images/MoneyRocket-logo.png" 
+                        alt="Take Personal Loan in India with MoneyRocket" 
                         style ={styles.logoImage}
                     />
                 </div>

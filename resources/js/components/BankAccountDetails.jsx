@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function BankAccountDetails() {
     const [formData, setFormData] = useState({ name: '', accNo: '', confirmAccNo: '', ifsc: '', bankName: '' });
     const [message, setMessage] = useState('');
     const API_URL = import.meta.env.VITE_API_URL;
 
-
+const navigate = useNavigate();
     const handleSubmit = async () => {
         console.log("click");
         if (formData.accNo !== formData.confirmAccNo) {
@@ -18,8 +19,12 @@ export default function BankAccountDetails() {
             console.log("try");
             // Ensure API_URL is defined globally or import it
             const response = await axios.post(`${API_URL}/verify-bank`, formData);
-            setMessage(response.data.message);
-        } catch (error) {
+if (response.data.success) {
+            setMessage("✅ Success: " + response.data.message);
+            navigate(`/loan-document/${response.data.loanId}`);
+        } else {
+            setMessage("❌ Verification failed: " + response.data.message);
+        }        } catch (error) {
             setMessage("Verification failed. Please check your details.");
         }
     };

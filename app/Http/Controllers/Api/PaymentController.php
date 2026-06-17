@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Payment; 
 use Razorpay\Api\Api; 
+use App\Models\Loans;
 use Illuminate\Support\Facades\Http;   
 
 class PaymentController extends Controller
@@ -63,25 +64,47 @@ class PaymentController extends Controller
 public function verifyBank(Request $request)
 {
     $validated = $request->validate([
-        'name' => 'required|string',
         'accNo' => 'required|string',
         'ifsc' => 'required|string',
+        'name' =>'required !string',
+        'bankName' => 'required !string'
     ]);
 
+    
     $response = Http::withHeaders([
-        'x-client-id' => env('CASHFREE_SANDBOX_ID'),
-        'x-client-secret' => env('CASHFREE_SANDBOX_SECRET'),
-        'x-api-version' => '2022-09-01',
-    ])->post('https://sandbox.cashfree.com/verification/bank-account', [
-        'bank_account' => $validated['accNo'],
-        'ifsc' => $validated['ifsc'],
-        'name' => $validated['name'],
-        'phone' => '9999999999',
+        'x-client-id'           => env('SETU_CLIENT_ID'),
+        'x-client-secret'       => env('SETU_CLIENT_SECRET'),
+        'x-product-instance-id' => env('SETU_INSTANCE_ID'),
+        'Content-Type'          => 'application/json',
+    ])->post('https://dg-sandbox.setu.co/api/verify/ban', [
+        'accountNumber' => (string) $validated['accNo'],
+        'ifsc'          => (string) $validated['ifsc'],
     ]);
+    $loan = Loans::create([
+            'user_id' => 1,
+            'accNo'   => $request->accNo,
+            'loan_amount' =>1000,
+            'account_number'=> $validated['accNo'],
+            'ifsc_code' =>$validated['ifsc'],
+            'agreement_path' => 'loans/agreement_' . rand() . '.pdf',
+            'full_name' =>$validated['name'],
+            'bank_name' => $validated['bankName']
+        ]);
+    if ($response->successful()) {
+        return response()->json([
+            'success' => true,
+            'message' => 'Bank account verified successfully!',
+            'data' => $response->json(),
+            'loanId'  => $loan->id, 
+        ]);
+    }
 
-    return response()->json([
-        'status' => $response->status(),
-        'body' => $response->body(),
-    ]);
-}
+        return response()->json([
+            'success' => false, 
+            'message' => 'Verification failed', 
+            'error' => $response->json() 
+        ], $response->status());
+    }
+
+
 }

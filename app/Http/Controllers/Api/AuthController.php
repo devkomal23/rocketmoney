@@ -70,7 +70,7 @@ protected $underwritingService;
                     ->post("https://api.twilio.com/2010-04-01/Accounts/{$sid}/Messages.json", [
                         'To'   => $cleanMobile,
                         'From' => $from,
-                        'Body' => "Your RocketMoney security OTP verification code is: " . $otp,
+                        'Body' => "Your MoneyRocket security OTP verification code is: " . $otp,
                     ]);
             } catch (\Illuminate\Http\Client\ConnectionException $e) {
                 return response()->json([
@@ -292,7 +292,7 @@ protected $underwritingService;
                 ->post("https://api.twilio.com/2010-04-01/Accounts/{$sid}/Messages.json", [
                     'To'   => $cleanMobile,
                     'From' => $from,
-                    'Body' => "Your new RocketMoney verification code is: " . $otp . ". It is valid for 5 minutes.",
+                    'Body' => "Your new MoneyRocket verification code is: " . $otp . ". It is valid for 5 minutes.",
                 ]);
 
             $responseData = $response->json();
