@@ -81,7 +81,7 @@ const handleRequestOTP = async (e) => {
       <div className = "scrollable-content p-2" style = {styles.scrollableContainer}>
         <div style={styles.bannerArea}>
           <img 
-            src="/images/MoneyRocket-banner.png" 
+            src="/images/rocketmoney-banner.png" 
             alt="Take Personal Loan in India with MoneyRocket" 
             style ={styles.bannerImage}
           />
