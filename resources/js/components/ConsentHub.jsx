@@ -5,16 +5,12 @@ const ConsentHub = ({ onConsentAccepted }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const API_URL = import.meta.env.VITE_API_URL;
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // Required if using cookies for auth
-});
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isChecked) {
       setLoading(true);
       try {
-        await apiClient.post(`/consent`, { agree: true });
+        await axios.post(`${API_URL}/consent`, { agree: true });
         if (typeof onConsentAccepted === 'function') {
           onConsentAccepted();
         }
