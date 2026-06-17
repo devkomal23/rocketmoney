@@ -79,11 +79,7 @@ useEffect(() => {
             <div style={styles.header}>
                 <div style={styles.logoContainer}>
                     <img 
-<<<<<<< HEAD
-                        src="/images/MoneyRocket-logo.png" 
-=======
                         src="/images/rocketmoney-logo.png" 
->>>>>>> 51cdbbb (bank account info)
                         alt="Take Personal Loan in India with MoneyRocket" 
                         style ={styles.logoImage}
                     />
