@@ -6,9 +6,17 @@ export default defineConfig({
     plugins: [
         react(),
         laravel({
-            // Look how clean this is now! No more "backend/" prefixes.
             input: ['resources/css/app.css', 'resources/js/app.jsx'],
             refresh: true,
         }),
     ],
+    server: {
+        proxy: {
+            '/api': {
+                target: 'https://rocketmoney-production.up.railway.app',
+                changeOrigin: true,
+                secure: false,
+            },
+        },
+    },
 });
