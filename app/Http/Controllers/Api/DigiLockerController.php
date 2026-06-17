@@ -21,7 +21,7 @@ $state = bin2hex(random_bytes(16));
 
 $query = http_build_query([
     'client_id' => 'MNRNJVXE', // Sandbox test value from API Setu docs
-    'redirect_uri' => 'https://MoneyRocket-1.onrender.com',
+    'redirect_uri' => 'https://rocketmoney-1.onrender.com',
     'response_type' => 'code',
     'state' => 'easd231sdsdf12dd',
     'code_challenge' => 'n6Li6eP2UzbkRvu5uCxWj-nUabNu15NpvA48FpAaPhg',
