@@ -93,11 +93,7 @@ useEffect(() => {
                 <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
                 <h2 style={styles.title}>Congratulations! 🥳</h2>
                 <p style={styles.subTitle}>You can apply for a loan of up to</p>
-<<<<<<< HEAD
                 <h1 style={styles.amount}>₹ 10000/-</h1>
-=======
-                <h1 style={styles.amount}>₹ 1000/-</h1>
->>>>>>> 6d397cc (bank account info)
             </div>
 
             <div style={styles.body}>
