@@ -52,7 +52,7 @@ public function getAssestment(Request $request)
         ->latest()
         ->first();
     $isFeePaid = $payment?->status === 'paid';
-    $loanProducts = \App\Models\Loans::all()->map(function ($loan) {
+    $loanProducts = \App\Models\LoansInfo::all()->map(function ($loan) {
         return [
             'id' => $loan->id,
             'title' => $loan->title,
