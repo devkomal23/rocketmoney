@@ -7,6 +7,11 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const API_URL = import.meta.env.VITE_API_URL;
+    const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true, // Required if using cookies for auth
+});
+
 
 
     const handlePaymentClick = async () => {
@@ -18,9 +23,9 @@ export default function Dashboard() {
     const token = localStorage.getItem('auth_token');
     
     try {
-        const { data: orderData } = await axios.post(`${API_URL}/create-payment-order`, {}, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+
+        const { data: orderData } = await apiClient.post(`/create-payment-order`, { agree: true,headers:{ 'Authorization': `Bearer ${token}` }});
+
 
         const options = {
             key: "rzp_test_Sumaw519a0l05l", 
