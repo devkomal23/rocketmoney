@@ -11,7 +11,7 @@
     @vite(['resources/js/app.jsx'])
 </head>
 <body style="margin: 0; padding: 0; background-color: #cbdcf0;">
-
+php
     <div id="root"></div>
 
 </body>
