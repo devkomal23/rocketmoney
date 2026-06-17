@@ -66,8 +66,8 @@ public function verifyBank(Request $request)
     $validated = $request->validate([
         'accNo' => 'required|string',
         'ifsc' => 'required|string',
-        'name' =>'required !string',
-        'bankName' => 'required !string'
+        'name' =>'required |string',
+        'bankName' => 'required |string'
     ]);
 
     

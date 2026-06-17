@@ -38,16 +38,17 @@ const App = () => {
         </BrowserRouter>
     );
 };
-axios.defaults.baseURL = import.meta.env.VITE_API_URL; 
-axios.defaults.withCredentials = true;
+// Remove withCredentials if you are strictly using Bearer tokens
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+axios.defaults.withCredentials = false; // Set to false if using JWT/Bearer tokens
+
 axios.interceptors.request.use((config) => {
     const token = localStorage.getItem('authToken');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-});
-const rootElement = document.getElementById('root');
+});const rootElement = document.getElementById('root');
 if (rootElement) {
     const root = createRoot(rootElement);
     root.render(<App />); 
