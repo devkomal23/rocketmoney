@@ -72,21 +72,18 @@ export default function OTPVerification() {
           const isFeePaid = is_fee_paid === true || assessment_fee_status === 'paid';
           const isKycVerified = kyc_status === 'verified';
           if (user.is_registration_complete != 1) {
-             //navigate('/complete_application',{ state: { mobile: mobileNumber } });
-             navigate('/BankAccountDetails');
+             navigate('/complete_application',{ state: { mobile: mobileNumber } });
 
           } 
           else if (kyc_status !== 'verified') {
               navigate('/verify-kyc');
           } 
           else if (assessment_fee_status !== 'paid') {
-              //navigate('/assesmentFee');
-                           navigate('/BankAccountDetails');
+              navigate('/assesmentFee');
 
           } 
           else {
-             // navigate('/assesmentFee');
-                          navigate('/BankAccountDetails');
+             navigate('/assesmentFee');
 
           }
        }  
