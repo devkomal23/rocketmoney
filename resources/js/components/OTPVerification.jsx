@@ -134,30 +134,25 @@ export default function OTPVerification() {
   };
 
   return (
-    <div className = "container">
-      <div className = "card">
-        <div className = "header">
-          <h2 className = "pageTitle">OTP Verification</h2>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <div style={styles.header}>
+          <h2 style={styles.pageTitle}>OTP Verification</h2>
         </div>
-        <div className = "scrollable-content p-2 scrollableContainer">
-          <div className = "dataContainer">
-            <div className = "badgeContainer">
-              <span className = "badgeText">Enter OTP</span>
+        <div className = "scrollable-content p-2" style = {styles.scrollableContainer}>
+          <div style={styles.dataContainer}>
+            <div style={styles.badgeContainer}>
+              <span style={styles.badgeText}>Enter OTP</span>
             </div>
-            <p className = "subtext">
+            <p style={styles.subtext}>
               Sent To {maskMobileNumber(mobileNumber)}
-              <span 
-                className="editLink" 
-                onClick={() => navigate('/', { state: { mobile: mobileNumber } })}
-              > 
-                Edit
-              </span>            
+              <span style={styles.editLink} onClick={() => navigate('/',{ state: { mobile: mobileNumber } })}> Edit</span>
             </p>
 
-            {error && <p className = "errorText">{error}</p>}
-            {resendMessage && <p className = "successText">{resendMessage}</p>}
+            {error && <p style={styles.errorText}>{error}</p>}
+            {resendMessage && <p style={styles.successText}>{resendMessage}</p>}
 
-            <div className = "otpContainer">
+            <div style={styles.otpContainer}>
               {otp.map((digit, i) => (
                 <input
                   key={i}
@@ -182,16 +177,17 @@ export default function OTPVerification() {
                     }
                   }}
                   ref={(el) => (inputRefs.current[i] = el)}
-                  className = "otpBox"
+                  style={styles.otpBox}
                 />
               ))}
             </div>
 
-            <p className = "resendText">
+            <p style={styles.resendText}>
               Didn't Receive OTP ? <br />
               {canResend ? (
-                <span className="blue"
+                <span 
                   style={{
+                    ...styles.link, 
                     opacity: resendLoading ? 0.5 : 1,
                     cursor: resendLoading ? 'not-allowed' : 'pointer'
                   }} 
@@ -200,27 +196,28 @@ export default function OTPVerification() {
                   {resendLoading ? ' Sending...' : ' Resend OTP'}
                 </span>
               ) : (
-                <span className = "disabledTimer"> Re-send in 00:{timer < 10 ? `0${timer}` : timer}s</span>
+                <span style={styles.disabledTimer}> Re-send in 00:{timer < 10 ? `0${timer}` : timer}s</span>
               )}
             </p>
 
             {/* Authorization Terms Checkbox */}
-            <div className = "authRow">
+            <div style={styles.authRow}>
               <input 
                 type="checkbox" 
                 id="authCheckbox"
                 checked={isAuthorized}
                 onChange={(e) => setIsAuthorized(e.target.checked)}
-                className = "checkboxInput"
+                style={styles.checkboxInput}
               />
-              <label htmlFor="authCheckbox" className = "authLabel">
-                I authorize MoneyTime Technology Solutions Pvt. Ltd. (MoneyRocket) and its lending partners to verify my KYC details and mobile number, contact me via Call, SMS, WhatsApp, VOIP, or Email, and access my credit report. I have read and agree to the <a href="https://uat.MoneyRocket.in/terms-and-conditions" target="_blank" className = "inlineLink">Terms & Conditions</a> & <a href="https://uat.MoneyRocket.in/privacy-policy" target="_blank" className = "inlineLink">Privacy Policy</a>.
+              <label htmlFor="authCheckbox" style={styles.authLabel}>
+                I authorize MoneyTime Technology Solutions Pvt. Ltd. (MoneyRocket) and its lending partners to verify my KYC details and mobile number, contact me via Call, SMS, WhatsApp, VOIP, or Email, and access my credit report. I have read and agree to the <a href="https://uat.MoneyRocket.in/terms-and-conditions" target="_blank" style={styles.inlineLink}>Terms & Conditions</a> & <a href="https://uat.MoneyRocket.in/privacy-policy" target="_blank" style={styles.inlineLink}>Privacy Policy</a>.
               </label>
             </div>
-            <button className='submitButton'
+            <button 
               onClick={handleVerify} 
               disabled={loading || !isOtpComplete || !isAuthorized} 
               style={{
+                ...styles.verifyButton, 
                 backgroundColor: (loading || !isOtpComplete || !isAuthorized) ? '#b3cbe6' : '#0052cc',
                 cursor: (loading || !isOtpComplete || !isAuthorized) ? 'not-allowed' : 'pointer'
               }}
@@ -228,9 +225,62 @@ export default function OTPVerification() {
               {loading ? 'Verifying...' : 'Continue →'}
             </button>
           </div>
-          <div className = "footer"></div>
+          <div style={styles.footer}></div>
         </div>
       </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh',
+    backgroundColor: '#cbdcf0', fontFamily: 'system-ui, -apple-system, sans-serif', height:'100dvh'
+  },
+  card: {
+    width: '360px', backgroundColor: '#FFF', borderRadius: '32px',
+    boxShadow: '0 20px 40px rgba(0,0,0,0.1)', height:'100dvh',
+    display: 'flex', flexDirection: 'column', overflow: 'hidden'
+  },
+  header: { 
+    background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)', 
+    height: '100px', padding: '20px', display: 'flex',justifyContent: 'center' 
+  },
+  backArrow: { color: '#fff', fontSize: '24px', cursor: 'pointer', position: 'absolute', top: '20px', left: '20px' },
+  dataContainer:{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' },
+  title: { color: '#fff', fontSize: '22px', fontWeight: '700', marginTop: '-60px', marginBottom: '40px', width: '100%', textAlign: 'center' },
+  
+  badgeContainer: { backgroundColor: '#0033aa', padding: '6px 20px', borderRadius: '20px', marginBottom: '10px' },
+  badgeText: { color: '#fff', fontWeight: '700', fontSize: '14px' },
+  subtext: { fontSize: '14px', color: '#718096', margin: '5px 0 20px 0' },
+  editLink: { color: '#0052cc', fontWeight: '700', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' },
+  
+  otpContainer: { display: 'flex', justifyContent: 'center', gap: '12px', margin: '15px 0', width: '100%' },
+  otpBox: {
+    width: '55px', height: '55px', borderRadius: '12px', border: '1.5px solid #b3cbe6',
+    textAlign: 'center', fontSize: '20px', fontWeight: '600', color: '#0052cc'
+  },
+  
+  verifyButton: {
+    width: '100%', height: '50px', borderRadius: '12px', border: 'none',
+    color: '#fff', fontSize: '16px', fontWeight: '700',
+    marginTop: 'auto', transition: 'background-color 0.2s ease'
+  },
+  link: { color: '#0052cc', fontWeight: '700', cursor: 'pointer' },
+  resendText: { fontSize: '13px', color: '#718096', textAlign: 'center', margin: '15px 0', lineHeight: '1.6' },
+  disabledTimer: { color: '#0033aa', fontWeight: '700' },
+  errorText: { color: '#e53e3e', fontSize: '12px', textAlign: 'center', margin: '5px 0' },
+  successText: { color: '#38a169', fontSize: '12px', textAlign: 'center', margin: '5px 0' },
+
+  authRow: {
+    display: 'flex', alignItems: 'flex-start', gap: '10px',
+    border: '1.5px solid #e2e8f0', borderRadius: '8px', padding: '12px',
+    backgroundColor: '#fafafa', margin: '20px 0', width: '100%', boxSizing: 'border-box'
+  },
+  checkboxInput: { marginTop: '4px', transform: 'scale(1.2)', cursor: 'pointer' },
+  authLabel: { fontSize: '11px', color: '#718096', lineHeight: '1.5', cursor: 'pointer', textAlign: 'left' },
+  inlineLink: { color: '#0052cc', textDecoration: 'underline', fontWeight: '600' },
+  pageTitle:{
+    color:'white',margin:'auto'
+  },
 };

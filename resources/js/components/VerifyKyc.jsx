@@ -11,34 +11,6 @@ export default function VerifyKyc() {
   const [popup, setPopup] = useState({ show: false, title: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(null);
-  const issetstatus = false;
-  const [isTestMode, setIsTestMode] = useState(true); 
-  const TestModeView = ({ onComplete, onProceed }) => (
-  <div className="test-mode-section">
-    <div className="test-mode-alert">
-      <strong>You're currently in test mode</strong>
-      <p>This page is only shown in test mode.</p>
-    </div>
-
-    <div className="test-mode-data">
-      <h3>Complete with test data</h3>
-      <p>Save time by choosing a desired result.</p>
-      
-      <select id="mock-result" className="test-select">
-        <option value="verified">Verification success</option>
-        <option value="rejected">Verification rejected</option>
-      </select>
-      
-      <button className="submitButton" onClick={onComplete}>Submit</button>
-    </div>
-
-    <div className="test-mode-preview">
-      <h3>Preview user experience</h3>
-      <p>Proceed to preview as an end user.</p>
-      <button className="proceedButton" onClick={onProceed}>Proceed</button>
-    </div>
-  </div>
-);
   const checkStatus = async () => {
     try {
       const response = await axios.get(`${API_URL}/kyc/status`);
@@ -74,7 +46,6 @@ export default function VerifyKyc() {
 
       if (error) throw new Error(error.message);
       setStatus('pending');
-      issetstatus= true;
     } catch (err) {
       console.error(err);
       alert('Verification failed: ' + err.message);
@@ -85,16 +56,17 @@ export default function VerifyKyc() {
   
 
   return (
-    <div className = "container">
-      <div className = "card">
-        <div className = "header"><h2 className = "pageTitle">Identity Verification</h2></div>
-        <div className = "formContainer">
-          <p className = "instruction">To proceed with your loan, we need to verify your identity.</p>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <div style={styles.header}><h2 style={styles.pageTitle}>Identity Verification</h2></div>
+        <div style={styles.formContainer}>
+          <p style={styles.instruction}>To proceed with your loan, we need to verify your identity.</p>
           
-            {status === 'pending' && <p className="status-text text-pending">Processing...</p>}
-            {status === 'verified' && <p className="status-text text-verified">Success ✅</p>}
-            {status === 'rejected' && <p className="status-text text-rejected">Rejected ❌</p>}          
-            <button className= "submitButton" onClick={handleVerify} disabled={isLoading || status === 'verified'} style={{backgroundColor: (isLoading || status === 'verified') ? '#cbd5e0' : '#6200ea'}}>
+          {status === 'pending' && <p style={{textAlign: 'center', color: '#0f52ba'}}>Processing...</p>}
+          {status === 'verified' && <p style={{textAlign: 'center', color: 'green'}}>Success ✅</p>}
+          {status === 'rejected' && <p style={{textAlign: 'center', color: 'green'}}>Rejected ❌</p>}
+
+          <button onClick={handleVerify} disabled={isLoading || status === 'verified'} style={{...styles.proceedButton, backgroundColor: (isLoading || status === 'verified') ? '#cbd5e0' : '#6200ea'}}>
             {isLoading ? 'Launching...' : 'Verify Identity →'}
           </button>
         </div>
@@ -105,7 +77,7 @@ export default function VerifyKyc() {
           <div className="popup">
             <h2>{popup.title}</h2>
             <p>{popup.message}</p>
-            <button className="popupButton" onClick="{() => navigate('/dashboard')}">Continue</button>
+            <button className="popupButton" onClick={() => navigate('/dashboard')}>Continue</button>
           </div>
         </div>
       )}
@@ -113,3 +85,52 @@ export default function VerifyKyc() {
   );
 }
 
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+    backgroundColor: '#f4f7f9',
+    padding: '20px',
+  },
+  card: {
+    width: '400px',
+    backgroundColor: '#FFF',
+    borderRadius: '32px',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+    overflow: 'hidden',
+    height:'100vh'
+  },
+  header: {
+    background: 'linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%)',
+    height: '100px',
+    padding: '20px',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  pageTitle: {
+    color: 'white',
+    margin: 'auto',
+  },
+  formContainer: {
+    padding: '30px',
+  },
+  instruction: {
+    fontSize: '14px',
+    color: '#4a5568',
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  proceedButton: {
+    width: '100%',
+    padding: '15px',
+    borderRadius: '12px',
+    border: 'none',
+    color: '#fff',
+    fontSize: '16px',
+    fontWeight: '700',
+    cursor: 'pointer',
+  },
+};
