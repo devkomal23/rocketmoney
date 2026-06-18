@@ -54,13 +54,14 @@ export default function KycVerification() {
                                     <div>
                                         <h4 className="font-semibold text-gray-800">DigiLocker</h4>
                                         <p className="text-xs text-gray-500">Fetch records securely</p>
-                                    </div>
-                                    <span className="ml-auto text-gray-400">→</span>
                                 </div>
+                                <span className="ml-auto text-gray-400">→</span>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>  );
+    </div>  
+    );
 }

@@ -18,7 +18,6 @@ export default function VerifyKyc() {
       setStatus(currentStatus);
 
       if (currentStatus === 'verified') {
-        //setPopup({ show: true, title: 'Verified', message: 'Identity verified!' });
         setTimeout(() => {
           navigate('/SelfieVerification');
         }, 2000);      
@@ -37,7 +36,6 @@ export default function VerifyKyc() {
   const handleVerify = async () => {
     setIsLoading(true);
     setStatus('pending');
-    //const result = document.getElementById('mock-result').value;
     try {
       const response = await axios.post(`${API_URL}/kyc/init`);
       const { client_secret } = response.data;

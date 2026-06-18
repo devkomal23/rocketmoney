@@ -8,13 +8,11 @@ export default function LoanDocument() {
         <div className="p-6">
             <h2 className="text-xl font-bold mb-4">Your Loan Agreement</h2>
             
-            {/* Display PDF */}
             <iframe 
                 src={pdfUrl} 
                 className="w-full h-[600px] border"
             />
             
-            {/* Download Link */}
             <a href={pdfUrl} download className="mt-4 block bg-blue-600 text-white py-2 px-4 rounded">
                 Download PDF
             </a>

@@ -42,36 +42,36 @@ export default function Dashboard() {
             }
         };
 
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-    } catch (err) {
-        console.error("Payment error:", err);
-        alert("Payment initiation failed.");
-    }
-};
-
-useEffect(() => {
-    const fetchDashboard = async () => {
-        const token = localStorage.getItem('auth_token');
-        try {
-            const res = await axios.get(`${API_URL}/assessment`, {
-                headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
-            });
-                        
-            setData(res.data.data); 
-} catch (err) {
-    console.error("Dashboard Error Details:", err.response ? err.response.data : err.message);
-    if (err.response?.status === 401) {
-        navigate('/');
-    } else {
-        alert("Server error: " + (err.response?.data?.message || err.message));
-    }
-} finally {
-    setLoading(false);
-}
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch (err) {
+            console.error("Payment error:", err);
+            alert("Payment initiation failed.");
+        }
     };
-    fetchDashboard();
-}, [navigate]);
+
+    useEffect(() => {
+        const fetchDashboard = async () => {
+            const token = localStorage.getItem('auth_token');
+            try {
+                const res = await axios.get(`${API_URL}/assessment`, {
+                    headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+                });
+                            
+                setData(res.data.data); 
+            } catch (err) {
+                console.error("Dashboard Error Details:", err.response ? err.response.data : err.message);
+                if (err.response?.status === 401) {
+                    navigate('/');
+                } else {
+                    alert("Server error: " + (err.response?.data?.message || err.message));
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchDashboard();
+    }, [navigate]);
     const handleLogout = () => {
         localStorage.removeItem('auth_token');
         navigate('/'); 

@@ -16,199 +16,197 @@
         const [alertMessage, setAlertMessage] = useState("");
         const [modelsLoaded, setModelsLoaded] = useState(false);
 
-    useEffect(() => {
-        const loadModels = async () => {
- try {
-            await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
-            setModelsLoaded(true);
-            console.log("Face model loaded");
-        } catch (err) {
-            console.error("Model load failed:", err);
-        }        };
+        useEffect(() => {
+            const loadModels = async () => {
+            try {
+                await faceapi.nets.tinyFaceDetector.loadFromUri("/models");
+                setModelsLoaded(true);
+                console.log("Face model loaded");
+            } catch (err) {
+                console.error("Model load failed:", err);
+            }        };
 
-        loadModels();
-    }, []);
-    const detectFace = async (imageSrc) => {
+            loadModels();
+        }, []);
+        const detectFace = async (imageSrc) => {
             if (!modelsLoaded) {
-        console.log("Model not loaded yet");
-        return false;
-    }
-
-        const img = new Image();
-        img.src = imageSrc;
-
-        await new Promise((resolve) => {
-            img.onload = resolve;
-        });
-
-        const detection = await faceapi.detectSingleFace(
-            img,
-    new faceapi.TinyFaceDetectorOptions({
-        inputSize: 320,
-        scoreThreshold: 0.2
-    })
-        );
-    console.log("Detection:", detection);
-
-        return !!detection;
-    };
-
-    const autoCapture = () => {
-        let count = 5;
-
-        setCountdown(count);
-
-        const timer = setInterval(async () => {
-            count--;
-
-            if (count >= 0) {
-                setCountdown(count);
+                return false;
             }
 
-            if (count === 0) {
-                clearInterval(timer);
+            const img = new Image();
+            img.src = imageSrc;
 
-                const imageSrc = webcamRef.current?.getScreenshot();
+            await new Promise((resolve) => {
+                img.onload = resolve;
+            });
 
-                if (!imageSrc) {
-                    autoCapture();
-                    return;
+            const detection = await faceapi.detectSingleFace(
+                img,
+                new faceapi.TinyFaceDetectorOptions({
+                inputSize: 320,
+                scoreThreshold: 0.2
+                })
+            );
+
+            return !!detection;
+        };
+
+        const autoCapture = () => {
+            let count = 5;
+
+            setCountdown(count);
+
+            const timer = setInterval(async () => {
+                count--;
+
+                if (count >= 0) {
+                    setCountdown(count);
                 }
 
-                const result = await isImageGood(imageSrc);
+                if (count === 0) {
+                    clearInterval(timer);
 
-                if (result.valid) {
-                    setAlertMessage("");
-                    setRetryCount(0);
-                    setImage(imageSrc);
-                } else {
-                    if (retryCount >= 3) {
-                        setAlertMessage(
-                            "Unable to capture a clear selfie. Please click Retake."
-                        );
+                    const imageSrc = webcamRef.current?.getScreenshot();
+
+                    if (!imageSrc) {
+                        autoCapture();
                         return;
                     }
 
-                    setRetryCount(prev => prev + 1);
-                    setAlertMessage(result.message);
+                    const result = await isImageGood(imageSrc);
 
-                    setTimeout(() => {
-                        autoCapture();
-                    }, 1000);
+                    if (result.valid) {
+                        setAlertMessage("");
+                        setRetryCount(0);
+                        setImage(imageSrc);
+                    } else {
+                        if (retryCount >= 3) {
+                            setAlertMessage(
+                                "Unable to capture a clear selfie. Please click Retake."
+                            );
+                            return;
+                        }
+
+                        setRetryCount(prev => prev + 1);
+                        setAlertMessage(result.message);
+
+                        setTimeout(() => {
+                            autoCapture();
+                        }, 1000);
+                    }
                 }
-            }
-        }, 1000);
-    };
-    const isImageBlurred = (imageSrc) => {
-        return new Promise((resolve) => {
-            const img = new Image();
-
-            img.onload = () => {
-                const canvas = document.createElement("canvas");
-                const ctx = canvas.getContext("2d");
-
-                canvas.width = img.width;
-                canvas.height = img.height;
-
-                ctx.drawImage(img, 0, 0);
-
-                const imageData = ctx.getImageData(
-                    0,
-                    0,
-                    canvas.width,
-                    canvas.height
-                );
-
-                const data = imageData.data;
-
-                let variance = 0;
-                let mean = 0;
-                let count = 0;
-
-                for (let i = 0; i < data.length; i += 4) {
-                    const gray =
-                        (data[i] + data[i + 1] + data[i + 2]) / 3;
-
-                    mean += gray;
-                    count++;
-                }
-
-                mean /= count;
-
-                for (let i = 0; i < data.length; i += 4) {
-                    const gray =
-                        (data[i] + data[i + 1] + data[i + 2]) / 3;
-
-                    variance += Math.pow(gray - mean, 2);
-                }
-
-                variance /= count;
-
-                resolve(variance < 300);
-            };
-
-            img.src = imageSrc;
-        });
-    };
-    const isImageGood = async (imageSrc) => {
-        const img = new Image();
-        img.src = imageSrc;
-
-        await new Promise((resolve, reject) => {
-            img.onload = resolve;
-            img.onerror = reject;
-        });
-
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0);
-
-        const imageData = ctx.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        let brightness = 0;
-
-        for (let i = 0; i < imageData.data.length; i += 4) {
-            brightness +=
-                (imageData.data[i] +
-                    imageData.data[i + 1] +
-                    imageData.data[i + 2]) / 3;
-        }
-
-        brightness =
-            brightness / (imageData.data.length / 4);
-
-        if (brightness < 50) {
-            return {
-                valid: false,
-                message:
-                    "Lighting is too low. Please move to a brighter area."
-            };
-        }
-          
-
-        const blurred = await isImageBlurred(imageSrc);
-
-        if (blurred) {
-            return {
-                valid: false,
-                message:
-                    "Image is blurry. Please keep your face steady and look at the camera."
-            };
-        }
-
-        return {
-            valid: true,
-            message: ""
+            }, 1000);
         };
-    };
+        const isImageBlurred = (imageSrc) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    ctx.drawImage(img, 0, 0);
+
+                    const imageData = ctx.getImageData(
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
+
+                    const data = imageData.data;
+
+                    let variance = 0;
+                    let mean = 0;
+                    let count = 0;
+
+                    for (let i = 0; i < data.length; i += 4) {
+                        const gray =
+                            (data[i] + data[i + 1] + data[i + 2]) / 3;
+
+                        mean += gray;
+                        count++;
+                    }
+
+                    mean /= count;
+
+                    for (let i = 0; i < data.length; i += 4) {
+                        const gray =
+                            (data[i] + data[i + 1] + data[i + 2]) / 3;
+
+                        variance += Math.pow(gray - mean, 2);
+                    }
+
+                    variance /= count;
+
+                    resolve(variance < 300);
+                };
+
+                img.src = imageSrc;
+            });
+        };
+        const isImageGood = async (imageSrc) => {
+            const img = new Image();
+            img.src = imageSrc;
+
+            await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+            });
+
+            const canvas = document.createElement("canvas");
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+
+            const imageData = ctx.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            let brightness = 0;
+
+            for (let i = 0; i < imageData.data.length; i += 4) {
+                brightness +=
+                    (imageData.data[i] +
+                        imageData.data[i + 1] +
+                        imageData.data[i + 2]) / 3;
+            }
+
+            brightness =
+                brightness / (imageData.data.length / 4);
+
+            if (brightness < 50) {
+                return {
+                    valid: false,
+                    message:
+                        "Lighting is too low. Please move to a brighter area."
+                };
+            }
+            
+
+            const blurred = await isImageBlurred(imageSrc);
+
+            if (blurred) {
+                return {
+                    valid: false,
+                    message:
+                        "Image is blurry. Please keep your face steady and look at the camera."
+                };
+            }
+
+            return {
+                valid: true,
+                message: ""
+            };
+        };
 
         const uploadSelfie = async () => {
             try {
@@ -245,101 +243,99 @@
         return (
             <div style={styles.container}>
                 <div style={styles.card}>
-            
                     <div style={styles.logoContainer}>
-                    <img 
-                        src="/images/rocketmoney-logo.png" 
-                        alt="Take Personal Loan in India with MoneyRocket" 
-                        style ={styles.logoImage}
-                    />
+                        <img 
+                            src="/images/rocketmoney-logo.png" 
+                            alt="Take Personal Loan in India with MoneyRocket" 
+                            style ={styles.logoImage}
+                        />
                     </div>
                     <div className = "scrollable-content p-0" style = {styles.scrollableContainer}>
+                        <div className="kyc-container">
+                            <div className="kyc-card">
+                                                                    {alertMessage && (
+                                                <div className="alertMessages">
+                                                    {alertMessage}
+                                                </div>
+                                            )}
 
-                    <div className="kyc-container">
-                        <div className="kyc-card">
-                                                                {alertMessage && (
-                                            <div className="alertMessages">
-                                                {alertMessage}
-                                            </div>
-                                        )}
-
-                            {!image && (
-                                <div className="capture-badge">
-                                    <div className="capture-title">
-                                        📸 Capturing selfie in <strong>{countdown}s</strong>
-                                    </div>
-                                </div>                        
-                            )}
-                            {!image ? (
-                                <>
-                                    <div className="camera-frame">
-                                        <Webcam
-                                            audio={false}
-                                            ref={webcamRef}
-                                            screenshotFormat="image/jpeg"
-                                            onUserMedia={autoCapture}
-                                            videoConstraints={{
-                                                    facingMode: "user",
-                                                    width: 640,
-                                                    height:480
-                                                }}
-                                        />
-                                    </div>
-                                    <h5>Selfie Verification</h5>
-                                    <p className="kyc-subtitle">
-                                        Please capture a clear selfie for identity verification.
-                                    </p>
-                                </>
-                            ) : (
-                                <>
-                                <div className="preview-frame">
-                                    <img src={image} alt="selfie" />
-                                </div>
-                                    {uploadSuccess && (
-                                        <div className="success-message">
-                                            <div className="success-title">
-                                                ✅ Selfie Verified Successfully
-                                            </div>
-
-                                            <div className="success-subtitle">
-                                                Your identity verification is being processed.
-                                            </div>
+                                {!image && (
+                                    <div className="capture-badge">
+                                        <div className="capture-title">
+                                            📸 Capturing selfie in <strong>{countdown}s</strong>
                                         </div>
-                                    )}   
-                                    <div className="button-group selfie-button-group">
-        {!uploadSuccess && (
-            <>
-                <button
-                    className="btn-selfie btn-retake "
-    onClick={() => {
-        setImage(null);
-        autoCapture();
-    }}                disabled={uploadSuccess}
-
-                    
-                >
-                    📸 Retake
-                </button>
-
-                <button
-                    className="btn-selfie btn-success"
-                    onClick={uploadSelfie}
-                >
-                    ✅ Confirm & Upload
-                </button>
-            </>
-        )}
+                                    </div>                        
+                                )}
+                                {!image ? (
+                                    <>
+                                        <div className="camera-frame">
+                                            <Webcam
+                                                audio={false}
+                                                ref={webcamRef}
+                                                screenshotFormat="image/jpeg"
+                                                onUserMedia={autoCapture}
+                                                videoConstraints={{
+                                                        facingMode: "user",
+                                                        width: 640,
+                                                        height:480
+                                                    }}
+                                            />
+                                        </div>
+                                        <h5>Selfie Verification</h5>
+                                        <p className="kyc-subtitle">
+                                            Please capture a clear selfie for identity verification.
+                                        </p>
+                                    </>
+                                ) : (
+                                    <>
+                                    <div className="preview-frame">
+                                        <img src={image} alt="selfie" />
                                     </div>
-                                </>
-                            )}
-                                <div className="capture-tips">
-                                    <div>✓ Look directly at the camera</div>
-                                    <div>✓ Ensure good lighting</div>
-                                    <div>✓ Remove sunglasses or face coverings</div>
-                                </div>
+                                        {uploadSuccess && (
+                                            <div className="success-message">
+                                                <div className="success-title">
+                                                    ✅ Selfie Verified Successfully
+                                                </div>
 
+                                                <div className="success-subtitle">
+                                                    Your identity verification is being processed.
+                                                </div>
+                                            </div>
+                                        )}   
+                                        <div className="button-group selfie-button-group">
+            {!uploadSuccess && (
+                <>
+                    <button
+                        className="btn-selfie btn-retake "
+        onClick={() => {
+            setImage(null);
+            autoCapture();
+        }}                disabled={uploadSuccess}
+
+                        
+                    >
+                        📸 Retake
+                    </button>
+
+                    <button
+                        className="btn-selfie btn-success"
+                        onClick={uploadSelfie}
+                    >
+                        ✅ Confirm & Upload
+                    </button>
+                </>
+            )}
+                                        </div>
+                                    </>
+                                )}
+                                    <div className="capture-tips">
+                                        <div>✓ Look directly at the camera</div>
+                                        <div>✓ Ensure good lighting</div>
+                                        <div>✓ Remove sunglasses or face coverings</div>
+                                    </div>
+
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>

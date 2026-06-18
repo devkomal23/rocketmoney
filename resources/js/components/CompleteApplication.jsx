@@ -39,20 +39,20 @@ export default function RegistrationPage() {
         msg = "Pincode must be 6 digits.";
       }
       setErrors(prev => ({ ...prev, [name]: msg }));
-    };
+  };
 
-    const isFormValid = useMemo(() => {
-      const allFieldsFilled = formData.fullName && formData.fatherName && formData.email && formData.panNumber && formData.pincode && formData.dob;
-      const hasNoErrors = Object.values(errors).every(err => !err);
+  const isFormValid = useMemo(() => {
+    const allFieldsFilled = formData.fullName && formData.fatherName && formData.email && formData.panNumber && formData.pincode && formData.dob;
+    const hasNoErrors = Object.values(errors).every(err => !err);
       return !!(allFieldsFilled && hasNoErrors);
-    }, [formData, errors]);
+  }, [formData, errors]);
     
-    const getEighteenYearsAgo = () => {
-      const today = new Date();
-      const date = new Date(today);
-      date.setFullYear(today.getFullYear() - 18);
-      return date;
-    };
+  const getEighteenYearsAgo = () => {
+    const today = new Date();
+    const date = new Date(today);
+    date.setFullYear(today.getFullYear() - 18);
+    return date;
+  };
 
   const handleChange = (e) => {
     let { name, value } = e.target;
@@ -126,89 +126,90 @@ export default function RegistrationPage() {
       } catch (e) {
         alert("Something went wrong. Please check your connection.");
       }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
     };
+    document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
-        useEffect(() => {
-          const handleClickOutside = (event) => {
-            if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-              setIsOpen(false);
-            }
-          };
-          document.addEventListener("mousedown", handleClickOutside);
-          return () => document.removeEventListener("mousedown", handleClickOutside);
-        }, []);
-
-        return (
-          <div style={styles.container}>
-            <div style={styles.card}>
-              <div style={styles.header}>
-                <h2 style={styles.pageTitle}>Complete Your Application</h2>
-              </div>
+  return (
+      <div style={styles.container}>
+        <div style={styles.card}>
+          <div style={styles.header}>
+            <h2 style={styles.pageTitle}>Complete Your Application</h2>
+          </div>
               
-              <div style={styles.formContainer}>
-                <label style={styles.label}>Full Name as per PAN *</label>
-                <input name="fullName" className="input-field" style={styles.input} placeholder="Enter your full name" onChange={handleChange} />
-                {errors.fullName && <span style={styles.errorText}>{errors.fullName}</span>}
-                <label style={styles.label}>Pan Card Number *</label>
-                <input name="panNumber" className="input-field"style={styles.input} placeholder="ABCDE1234F" maxLength="10" onChange={handleChange} />
-                {errors.panNumber && <span style={styles.errorText}>{errors.panNumber}</span>}
-                <label style={styles.label}>Father's Name as per PAN *</label>
-                <input name="fatherName" className="input-field" style={styles.input} placeholder="Enter your father name" onChange={handleChange} />
+          <div style={styles.formContainer}>
+            <label style={styles.label}>Full Name as per PAN *</label>
+            <input name="fullName" className="input-field" style={styles.input} placeholder="Enter your full name" onChange={handleChange} />
+              {errors.fullName && <span style={styles.errorText}>{errors.fullName}</span>}
+            <label style={styles.label}>Pan Card Number *</label>
+            <input name="panNumber" className="input-field"style={styles.input} placeholder="ABCDE1234F" maxLength="10" onChange={handleChange} />
+              {errors.panNumber && <span style={styles.errorText}>{errors.panNumber}</span>}
+            <label style={styles.label}>Father's Name as per PAN *</label>
+            <input name="fatherName" className="input-field" style={styles.input} placeholder="Enter your father name" onChange={handleChange} />
                 {errors.fatherName && <span style={styles.errorText}>{errors.fatherName}</span>}
-                <div className="relative w-full">
-                  <label style={styles.label}>Date of Birth *</label>
-                  <DatePicker
-                    selected={formData.dob}
-                    onChange={(date) => handleDateChange(date)}
-                    dateFormat="dd/MM/yyyy"
-                    placeholderText="DD/MM/YYYY"
-                    showYearDropdown={true}
-                    scrollableYearDropdown={true}
-                    yearDropdownItemNumber={80}
-                    showMonthDropdown 
-                    dropdownMode="select"
-                    popperPlacement="bottom-end" 
-                    className="w-full border border-gray-300 rounded-lg p-3 input-field" 
-                    calendarClassName="custom-modern-calendar"
-                    maxDate={getEighteenYearsAgo()}  
-                    withPortal
-                  />
-                </div>         
-              <label style={styles.label}>Email *</label>
-                <input name="email" className="input-field" style={styles.input} placeholder="Enter email ID" onChange={handleChange} />
+            <div className="relative w-full">
+              <label style={styles.label}>Date of Birth *</label>
+              <DatePicker
+                selected={formData.dob}
+                onChange={(date) => handleDateChange(date)}
+                dateFormat="dd/MM/yyyy"
+                placeholderText="DD/MM/YYYY"
+                showYearDropdown={true}
+                scrollableYearDropdown={true}
+                yearDropdownItemNumber={80}
+                showMonthDropdown 
+                dropdownMode="select"
+                popperPlacement="bottom-end" 
+                className="w-full border border-gray-300 rounded-lg p-3 input-field" 
+                calendarClassName="custom-modern-calendar"
+                maxDate={getEighteenYearsAgo()}  
+                withPortal
+              />
+            </div>         
+            <label style={styles.label}>Email *</label>
+            <input name="email" className="input-field" style={styles.input} placeholder="Enter email ID" onChange={handleChange} />
                 {errors.email && <span style={styles.errorText}>{errors.email}</span>}
 
-                <label style={styles.label}>Pincode *</label>
-                <input name="pincode" className="input-field" style={styles.input} placeholder="Enter your 6-digit pincode" maxLength="6" onChange={handleChange} />
+            <label style={styles.label}>Pincode *</label>
+            <input name="pincode" className="input-field" style={styles.input} placeholder="Enter your 6-digit pincode" maxLength="6" onChange={handleChange} />
                 {errors.pincode && <span style={styles.errorText}>{errors.pincode}</span>}
 
-                <label style={styles.label}>Agreement Document Language</label>
-                <select name="language" style={styles.input} onChange={handleChange} className="input-field">
-                  <option>English</option>
-                  <option>Hindi</option>
-                </select>
+            <label style={styles.label}>Agreement Document Language</label>
+            <select name="language" style={styles.input} onChange={handleChange} className="input-field">
+                <option>English</option>
+                <option>Hindi</option>
+            </select>
 
-                <div style={styles.warningBox}>
-                  <strong>IMPORTANT*</strong> Your PAN, Full Name and Date of Birth help us verify your details quickly. Please ensure you enter correct information.
-                </div>
+            <div style={styles.warningBox}>
+                <strong>IMPORTANT*</strong> Your PAN, Full Name and Date of Birth help us verify your details quickly. Please ensure you enter correct information.
+            </div>
 
-                <button 
-                  onClick={(e) => handleSubmit(e)}                 
-                  disabled={!isFormValid} 
-                  style={{ 
+            <button 
+                onClick={(e) => handleSubmit(e)}                 
+                disabled={!isFormValid} 
+                style={{ 
                     ...styles.proceedButton, 
                     backgroundColor: (isFormValid && !isLoading) ? '#6200ea' : '#cbd5e0',
                     cursor: (isFormValid && !isLoading) ? 'pointer' : 'not-allowed',
                     opacity: (isFormValid && !isLoading) ? 1 : 0.7,
                     transition: 'background-color 0.3s ease'            
                   }}
-                >
-                {isLoading ? "Processing..." : "Proceed →"}          </button>
-              </div>
-            </div>
+              >
+              {isLoading ? "Processing..." : "Proceed →"}          
+            </button>
           </div>
-        );
-    }
+        </div>
+      </div>
+  );
+}
 
 const styles = {
   container: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f4f7f9', padding: '20px' },

@@ -87,19 +87,19 @@ export default function OTPVerification() {
 
           }
        }  
-      } catch (err) {
-        alert(err);
-        setError('Something went wrong. Check your connection.');
-      } finally {
-        setLoading(false);
-      }
+    } catch (err) {
+      alert(err);
+       setError('Something went wrong. Check your connection.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleResend = async () => {
     if (!canResend || resendLoading) return; 
-            setError('');
-            setResendMessage('');
-            setResendLoading(true);
+      setError('');
+      setResendMessage('');
+      setResendLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/resend-otp`, {
@@ -197,7 +197,6 @@ export default function OTPVerification() {
               )}
             </p>
 
-            {/* Authorization Terms Checkbox */}
             <div style={styles.authRow}>
               <input 
                 type="checkbox" 

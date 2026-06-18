@@ -7,24 +7,22 @@ export default function BankAccountDetails() {
     const [message, setMessage] = useState('');
     const API_URL = import.meta.env.VITE_API_URL;
 
-const navigate = useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = async () => {
-        console.log("click");
         if (formData.accNo !== formData.confirmAccNo) {
             alert("Account numbers do not match!");
             return;
         }
 
         try {
-            console.log("try");
-            // Ensure API_URL is defined globally or import it
             const response = await axios.post(`${API_URL}/verify-bank`, formData);
-if (response.data.success) {
-            setMessage("✅ Success: " + response.data.message);
-            navigate(`/loan-document/${response.data.loanId}`);
-        } else {
-            setMessage("❌ Verification failed: " + response.data.message);
-        }        } catch (error) {
+            if (response.data.success) {
+                setMessage("✅ Success: " + response.data.message);
+                navigate(`/loan-document/${response.data.loanId}`);
+            } else {
+                setMessage("❌ Verification failed: " + response.data.message);
+            }       
+        } catch (error) {
             setMessage("Verification failed. Please check your details.");
         }
     };
