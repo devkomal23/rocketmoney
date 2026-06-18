@@ -19,15 +19,15 @@ html, body {
   background-color: #cbdcf0;
 }
 
-/* 2. Container centers the "Phone Frame" */
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100dvh;
-  width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #cbdcf0;
+    font-family: system-ui, -apple-system, sans-serif;
+    height: 100dvh;
 }
-
 /* 3. The Phone Frame */
 .card {
   width: 360px;
@@ -38,17 +38,148 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow: hidden; /* Important: Clip the inner content */
+  height:100dvh;
 }
 
-.scrollable-content {
+.logoContainer{
+  margin-bottom: 45px;
+  width: auto;
+  height: 90px;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+}
+.logoImage {
+    object-fit: cover;
+}
+
+.logoTextBold {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1a2b49;
+}
+
+.logoTextRed {
+    font-size: 22px;
+    font-weight: 800;
+    color: #d93838;
+}
+
+.logoSubtext {
+    font-size: 10px;
+    color: #4a5568;
+    margin-top: -2px;
+    font-weight: 600;
+}
+
+.bannerArea {
+    width: 100%;
+    height: 220px;
+    background: #5c4cee;
+    border-radius: 1rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.bannerImage {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 45px;
+}
+
+.signInLabel {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a2b49;
+    margin-bottom: 10px;
+}
+
+.inputGroup {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: 1px solid;
+    align-items: center;
+    padding: 0 16px;
+    height: 52px;
+    transition: border-color 0.2s;
+}
+
+.countryCode {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #1a2b49;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.dropdownArrow {
+    font-size: 10px;
+    color: #718096;
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: #cbd5e1;
+    margin: 0 12px;
+}
+
+.inputField {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.helperText {
+    font-size: 11px;
+    color: #718096;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    line-height: 1.4;
+}
+
+.errorText {
+    font-size: 11px;
+    color: #d93838;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    font-weight: 600;
+}
+
+.submitButton {
+    border: none;
+    height: 50px;
+    border-radius: 25px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.15);
+    width:-webkit-fill-available;
+    background-color: #0052cc;
+}
+
+.scrollableContent {
   flex: 1;          
   overflow-y: auto;  
   padding: 0px;
   background-color: #f5f7fb;
-;
 }
-.input-field:hover, 
-.input-field:focus-visible {
+.inputField:hover, 
+.inputField:focus-visible {
     border: 1px solid #0870df;
     box-shadow: 0 0 8px rgba(30, 144, 255, 0.6); /* DodgerBlue shadow */
     outline:unset;
@@ -95,6 +226,15 @@ html, body {
 
 .react-datepicker {
   border: none !important;
+}
+
+.blue{
+  color:#0052cc;
+  font-weight:500;
+}
+
+.error-border{
+  color: red;
 }
 
 /* ===== HEADER ===== */
@@ -458,13 +598,12 @@ html, body {
 
 .header {
   background: linear-gradient(135deg, #0f52ba 0%, #1e90ff 100%);
-  height: 120px;
+  height: 100px;
   padding: 20px;
   display: flex;
   justify-content: center;
   color:white;
   font-weight:500;
-  display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
@@ -904,3 +1043,189 @@ html, body {
 .select_bank_btn{
   font-size:15px;
 }
+
+.backArrow {
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.dataContainer {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: -60px;
+    margin-bottom: 40px;
+    width: 100%;
+    text-align: center;
+}
+
+.badgeContainer {
+    background-color: #0033aa;
+    padding: 6px 20px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+.badgeText {
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.subtext {
+    font-size: 14px;
+    color: #718096;
+    margin: 5px 0 20px 0;
+}
+
+.editLink {
+    color: #0052cc;
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 5px;
+    text-decoration: underline;
+}
+
+.otpContainer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.otpBox {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    border: 1.5px solid #b3cbe6;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #0052cc;
+}
+
+.verifyButton {
+    width: 100%;
+    height: 50px;
+    border-radius: 12px;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: auto;
+    transition: background-color 0.2s ease;
+}
+
+.link {
+    color: #0052cc;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.resendText {
+    font-size: 13px;
+    color: #718096;
+    text-align: center;
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.disabledTimer {
+    color: #0033aa;
+    font-weight: 700;
+}
+
+.errorText {
+    color: #e53e3e;
+    font-size: 12px;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.successText {
+    color: #38a169;
+    font-size: 12px;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.authRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #fafafa;
+    margin: 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.checkboxInput {
+    margin-top: 4px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.authLabel {
+    font-size: 11px;
+    color: #718096;
+    line-height: 1.5;
+    cursor: pointer;
+    text-align: left;
+}
+
+.inlineLink {
+    color: #0052cc;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.pageTitle {
+    color: white;
+    margin: auto;
+}
+
+.formContainer {
+    padding: 30px;
+}
+
+.instruction {
+    font-size: 14px;
+    color: #4a5568;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.proceedButton {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.status-text {
+    text-align: center;
+}
+
+.text-pending { color: #0f52ba; }
+.text-verified { color: green; }
+.text-rejected { color: #e53e3e; }

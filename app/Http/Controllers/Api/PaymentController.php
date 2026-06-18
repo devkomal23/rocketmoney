@@ -34,7 +34,6 @@ class PaymentController extends Controller
 
     public function verifyPayment(Request $request)
     {
-        // 1. Logic to verify signature (CRITICAL for security)
         $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
 
         try {
@@ -46,7 +45,6 @@ class PaymentController extends Controller
 
             $api->utility->verifyPaymentSignature($attributes);
 
-            // 2. If valid, update the payment status
             $payment = Payment::where('order_id', $request->razorpay_order_id)->first();
             if ($payment) {
                 $payment->update(['status' => 'paid']);
@@ -61,50 +59,46 @@ class PaymentController extends Controller
     }
 
 
-public function verifyBank(Request $request)
-{
-    $validated = $request->validate([
-        'accNo' => 'required|string',
-        'ifsc' => 'required|string',
-        'name' =>'required |string',
-        'bankName' => 'required |string'
-    ]);
+    public function verifyBank(Request $request)
+    {
+        $validated = $request->validate([
+            'accNo'    => 'required|string',
+            'ifsc'     => 'required|string',
+        ]);
 
-    
-    $response = Http::withHeaders([
-        'x-client-id'           => env('SETU_CLIENT_ID'),
-        'x-client-secret'       => env('SETU_CLIENT_SECRET'),
-        'x-product-instance-id' => env('SETU_INSTANCE_ID'),
-        'Content-Type'          => 'application/json',
-    ])->post('https://dg-sandbox.setu.co/api/verify/ban', [
-        'accountNumber' => (string) $validated['accNo'],
-        'ifsc'          => (string) $validated['ifsc'],
-    ]);
-    $loan = Loans::create([
-            'user_id' => 1,
-            'accNo'   => $request->accNo,
-            'loan_amount' =>1000,
-            'account_number'=> $validated['accNo'],
-            'ifsc_code' =>$validated['ifsc'],
-            'agreement_path' => 'loans/agreement_' . rand() . '.pdf',
-            'full_name' =>$validated['name'],
-            'bank_name' => $validated['bankName']
+        $response = Http::withHeaders([
+            'x-client-id'           => '292c6e76-dabf-49c4-8e48-90fba2916673',
+            'x-client-secret'       => '7IZMe9zvoBBuBukLiCP7n4KLwSOy11oP',
+            'x-product-instance-id' => '9480d765-ebaf-4061-91d4-66af89c3e434',
+            'Accept'                => 'application/json', 
+        ])->post('https://dg-sandbox.setu.co/api/verify/ban', [ 
+            'accountNumber' => (string) $validated['accNo'],
+            'ifsc'          => (string) $validated['ifsc'],
         ]);
-    if ($response->successful()) {
-        return response()->json([
-            'success' => true,
-            'message' => 'Bank account verified successfully!',
-            'data' => $response->json(),
-            'loanId'  => $loan->id, 
+
+        $loan = Loans::create([
+                'user_id'        => auth()->id,
+                'loan_amount'    => 1000,
+                'account_number' => $validated['accNo'],
+                'ifsc_code'      => $validated['ifsc'],
+                'agreement_path' => 'loans/agreement_' . rand() . '.pdf',
+                'status' =>'pending'
         ]);
-    }
+        if ($response->successful()) {
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Bank account verified successfully!',
+                'data'    => $response->json(),
+                'loanId'  => $loan->id, 
+            ]);
+        }
+        
 
         return response()->json([
             'success' => false, 
             'message' => 'Verification failed', 
-            'error' => $response->json() 
         ], $response->status());
     }
-
 
 }
