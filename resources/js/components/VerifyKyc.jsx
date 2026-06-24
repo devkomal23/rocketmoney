@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
-import api, { getCsrfCookie } from './api/axios';
 
 const stripePromise = loadStripe('pk_test_51TdR50CwBSCb9sXM2IdrxeRSsE6nNE1gAVHeHg5N7qYb2SB8dKMYrBYGUul00NlkCpcISEBW94RKzZ6juqFsNVmi00SA8INkKP');
 
@@ -14,7 +13,6 @@ export default function VerifyKyc() {
   const [status, setStatus] = useState(null);
   const checkStatus = async () => {
     try {
-      await getCsrfCookie(); // Do this once first
       const response = await axios.get(`${API_URL}/kyc/status`);
       const currentStatus = response.data.status;
       setStatus(currentStatus);
