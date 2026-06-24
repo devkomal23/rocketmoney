@@ -93,7 +93,7 @@ const Dashboard = () => {
     footerRow: { marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
     tagGroup: { display: 'flex', gap: '5px' },
     tag: { backgroundColor: '#389cde', padding: '4px 8px', borderRadius: '8px', fontSize: '10px',color:'white' },
-    applyBtn: { background: 'none', border: 'none', color: '#3182ce', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer' },
+    applyBtn: { background: 'none', border: 'none', color: '#8c3e07', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer' },
       footerNav: {
   display: 'flex',
   justifyContent: 'space-around',
@@ -115,7 +115,20 @@ navItem: {
 navIcon: {
   width: '20px',
   height: '20px'
-}
+},
+pendingCard: {
+    margin: '20px',
+    padding: '20px',
+    backgroundColor: '#a12020',
+    borderRadius: '20px',
+    border: '1px solid #e2e8f0',
+    boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+},
+cardHeader: { display: 'flex', justifyContent: 'space-between', marginBottom: '10px' },
+statusBadge: { backgroundColor: '#ebf8ff', color: '#3182ce', fontSize: '10px', padding: '4px 8px', borderRadius: '12px' },
+amountText: { fontSize: '24px', fontWeight: 'bold', margin: '10px 0' },
+detailsRow: { display: 'flex', gap: '20px', marginBottom: '15px' },
+actionButton: { width: '100%', padding: '12px', backgroundColor: '#003399', color: 'white', borderRadius: '10px', border: 'none', cursor: 'pointer' }
 
   };
   const API_URL = import.meta.env.VITE_API_URL;
@@ -149,7 +162,7 @@ navIcon: {
                 <div style={styles.tagGroup}>
                   {loan.tags?.map((tag, i) => <span key={i} style={styles.tag}>{tag}</span>)}
                 </div>
-                <button style={styles.applyBtn}>Apply Now →</button>
+                <button style={styles.applyBtn}>Apply Now jjjjjjjjj→</button>
               </div>
             </div>
           ))
@@ -189,6 +202,7 @@ navIcon: {
 
   return (
     <div  style={styles.container}>
+
       <div style={styles.card}>
         <div style = {styles.headerContainer}>
             <div style={styles.logoContainer}>
@@ -203,15 +217,34 @@ navIcon: {
             </div>
             <header style={styles.header}>
                 <h1 style={styles.h1}>{dashboardData.user.full_name}</h1>
-                <p style={styles.p}>Here is your loan details.</p>
+                <p style={styles.p}>Here is your loan detailssssssssssss.</p>
             </header>
         </div>
-        <div className="scrollable-content p-2">
-            <section className="relative flex justify-center items-center py-10">
-                
-                <LoanDashboard loanProducts={loanProducts} />
 
-            </section>
+        <div className="scrollable-content p-2">
+                   <section className="relative flex justify-center items-center py-10">
+
+  <div style={styles.pendingCard}>
+    <div style={styles.cardHeader}>
+      <span>Loan Amount</span>
+      <span style={styles.statusBadge}>{dashboardData.pending_loan.status}</span>
+    </div>
+    <h2 style={styles.amountText}>₹{dashboardData.pending_loan.amount}</h2>
+    <div style={styles.detailsRow}>
+      <div>
+        <p>EMI Amount</p>
+        <p>₹{dashboardData.pending_loan.emi_amount}</p> {/* Changed from emi */}
+      </div>
+      <div>
+        <p>Tenure</p>
+        {/* If 'tenure' key is missing from JSON, use tenure_days if available */}
+        <p>{dashboardData.pending_loan.tenure} DAYS</p> 
+      </div>
+    </div>
+    <button style={styles.actionButton}>Sign Loan Agreement</button>
+  </div>
+            <LoanDashboard loanProducts={loanProducts} />
+          </section>
         </div>
         <footer style={styles.footerNav}>
           <div style={styles.navItem}>
@@ -244,7 +277,6 @@ const styles = {
   footerRow: { marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   tagGroup: { display: 'flex', gap: '5px' },
   tag: { backgroundColor: '#f7fafc', padding: '4px 8px', borderRadius: '8px', fontSize: '9px' },
-  applyBtn: { background: 'none', border: 'none', color: '#3182ce', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer' },
 };
 
 export default Dashboard;

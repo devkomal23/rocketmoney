@@ -12,22 +12,34 @@ class DashboardController extends Controller
 {
 public function getDashboardData(Request $request)
 {
-    //$user = $request->user();
+    $user = $request->user();
 
     $payment = Payment::where('user_id', 1)
         ->where('type', 'assessment_fee')
         ->latest()
         ->first();
 
-    $loanProducts = \App\Models\Loans::all()->map(function ($loan) {
+$pendingLoan = \App\Models\Loans::where('user_id',1)
+        ->where('status', 'pending') 
+        ->latest()
+        ->first();
+
+    // 2. Format the pending loan card data
+    $pendingLoanData = $pendingLoan ? [
+        'amount' => $pendingLoan->loan_amount,
+        'tenure' => $pendingLoan->term_days,
+        'emi_amount' =>$pendingLoan->emi_amount,
+        'status' => 'Pending For Disbursement'
+    ] : null;     $loanProducts = \App\Models\LoansInfo::all()->map(function ($loan) {
         return [
             'id' => $loan->id,
-            'title' => $loan->title,
-            'max_amount' => (int) $loan->max_amount,
+            'title' =>$loan->title,
+            'max_amount' => (int) $loan->loan_amount,
             'term_days' => (int) $loan->term_days,
             'tags' => explode(',', $loan->tags), 
         ];
     });
+
 
     return response()->json([
         'success' => true,
@@ -35,6 +47,7 @@ public function getDashboardData(Request $request)
             'user' => ['full_name' => 'komal'],
             'approved_loan' => ['amount' => $user->approved_loan_amount ?? 1000],
             'loan_products' => $loanProducts, 
+            'pending_loan' =>  $pendingLoanData,
             'meta' => [
                 'is_fee_paid' => $payment?->status === 'paid',
                 'referral_bonus' => 500

@@ -75,14 +75,20 @@ class PaymentController extends Controller
             'accountNumber' => (string) $validated['accNo'],
             'ifsc'          => (string) $validated['ifsc'],
         ]);
+        $loan_amount =1000;
 
+    $monthlyRate = ($loan_amount / 12) / 100;
+    $emi = $loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
+    $emi_amount= round($emi, 2);
         $loan = Loans::create([
                 'user_id'        => 1,
-                'loan_amount'    => 1000,
+                'loan_amount'    => $loan_amount,
                 'account_number' => $validated['accNo'],
                 'ifsc_code'      => $validated['ifsc'],
                 'agreement_path' => 'loans/agreement_' . rand() . '.pdf',
-                'status' =>'pending'
+                'status' =>'pending',
+                'term_days' => 30,
+                'emi_amount' =>$emi_amount
         ]);
         if ($response->successful()) {
 

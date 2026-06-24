@@ -14,6 +14,8 @@ class Loans extends Model
         'status', 
         'agreement_path',
         'full_name',
-        'bank_name'
+        'bank_name',
+        'emi_amount',
+        'term_days'
     ];
 }
