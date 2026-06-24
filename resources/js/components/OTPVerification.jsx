@@ -72,7 +72,7 @@ export default function OTPVerification() {
           const isFeePaid = is_fee_paid === true || assessment_fee_status === 'paid';
           const isKycVerified = kyc_status === 'verified';
           if (user.is_registration_complete != 1) {
-             navigate('/complete_application',{ state: { mobile: mobileNumber } });
+             navigate('/dashboard',{ state: { mobile: mobileNumber } });
 
           } 
           else if (kyc_status !== 'verified') {

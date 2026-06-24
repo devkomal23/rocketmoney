@@ -77,7 +77,7 @@ class PaymentController extends Controller
         ]);
 
         $loan = Loans::create([
-                'user_id'        => auth()->id,
+                'user_id'        => 1,
                 'loan_amount'    => 1000,
                 'account_number' => $validated['accNo'],
                 'ifsc_code'      => $validated['ifsc'],

@@ -93,7 +93,30 @@ const Dashboard = () => {
     footerRow: { marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
     tagGroup: { display: 'flex', gap: '5px' },
     tag: { backgroundColor: '#389cde', padding: '4px 8px', borderRadius: '8px', fontSize: '10px',color:'white' },
-    applyBtn: { background: 'none', border: 'none', color: '#3182ce', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer' }
+    applyBtn: { background: 'none', border: 'none', color: '#3182ce', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer' },
+      footerNav: {
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  padding: '15px 0',
+  borderTop: '1px solid #edf2f7',
+  backgroundColor: '#FFF',
+  marginTop: 'auto' // Pushes the footer to the bottom
+},
+navItem: {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '4px',
+  cursor: 'pointer',
+  fontSize: '10px',
+  color: '#718096'
+},
+navIcon: {
+  width: '20px',
+  height: '20px'
+}
+
   };
   const API_URL = import.meta.env.VITE_API_URL;
   const [dashboardData, setDashboardData] = useState(null);
@@ -137,13 +160,13 @@ const Dashboard = () => {
     );
   };
   useEffect(() => {
-    const token = localStorage.getItem('auth_token'); 
+   // const token = localStorage.getItem('auth_token'); 
 
     fetch(`${API_URL}/dashboard`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json', 
-        'Authorization': `Bearer ${token}` 
+        //'Authorization': `Bearer ${token}` 
       }
     })
     .then((res) => {
@@ -190,6 +213,24 @@ const Dashboard = () => {
 
             </section>
         </div>
+        <footer style={styles.footerNav}>
+          <div style={styles.navItem}>
+            <img src="/images/account.png" alt="Home" style={styles.navIcon} />
+            <span>Home</span>
+          </div>
+          <div style={styles.navItem}>
+            <img src="/images/money-bag.png" alt="My Loan" style={styles.navIcon} />
+            <span>My Loan</span>
+          </div>
+          <div style={styles.navItem}>
+            <img src="/images/history.png" alt="History" style={styles.navIcon} />
+            <span>History</span>
+          </div>
+          <div style={styles.navItem}>
+            <img src="/images/account.png" alt="Profile" style={styles.navIcon} />
+            <span>Profile</span>
+          </div>
+        </footer>
     </div>
     </div>
   );
@@ -203,7 +244,7 @@ const styles = {
   footerRow: { marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   tagGroup: { display: 'flex', gap: '5px' },
   tag: { backgroundColor: '#f7fafc', padding: '4px 8px', borderRadius: '8px', fontSize: '9px' },
-  applyBtn: { background: 'none', border: 'none', color: '#3182ce', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer' }
+  applyBtn: { background: 'none', border: 'none', color: '#3182ce', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer' },
 };
 
 export default Dashboard;

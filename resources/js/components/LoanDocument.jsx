@@ -13,8 +13,8 @@ export default function LoanDocument() {
                 className="w-full h-[600px] border"
             />
             
-            <a href={pdfUrl} download className="mt-4 block bg-blue-600 text-white py-2 px-4 rounded">
-                Download PDF
+            <a href="\dashboard"  className="mt-4 block bg-blue-600 text-white py-2 px-4 rounded">
+                Sign & Proceed
             </a>
         </div>
     );

@@ -12,9 +12,9 @@ class DashboardController extends Controller
 {
 public function getDashboardData(Request $request)
 {
-    $user = $request->user();
+    //$user = $request->user();
 
-    $payment = Payment::where('user_id', $user->id)
+    $payment = Payment::where('user_id', 1)
         ->where('type', 'assessment_fee')
         ->latest()
         ->first();
@@ -32,7 +32,7 @@ public function getDashboardData(Request $request)
     return response()->json([
         'success' => true,
         'data' => [
-            'user' => ['full_name' => $user->full_name],
+            'user' => ['full_name' => 'komal'],
             'approved_loan' => ['amount' => $user->approved_loan_amount ?? 1000],
             'loan_products' => $loanProducts, 
             'meta' => [

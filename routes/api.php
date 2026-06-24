@@ -32,11 +32,12 @@ Route::post('/verifyOtp', [AuthController::class, 'verifyOtp']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/complete-application', [AuthController::class, 'completeApplication']);
     Route::post('/update-mobile', [AuthController::class, 'updateMobile']);
-    Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
     Route::get('/assessment', [DashboardController::class, 'getAssestment']);
     Route::post('/create-payment-order', [PaymentController::class, 'createOrder']);
     Route::post('/verify-payment', [PaymentController::class, 'verifyPayment']);
 });
+    Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
+
 Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 Route::middleware('auth:sanctum')->post('/kyc/init', [KYCController::class, 'createVerificationSession']);
 Route::post('/webhooks/stripe', [KYCController::class, 'handleStripe']);
