@@ -1,7 +1,7 @@
 import './bootstrap';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; // 1. Import these
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import SignIn from './components/signIn';
 import OTPVerification from './components/OTPVerification';
 import Completeapplication from './components/CompleteApplication';
@@ -38,9 +38,8 @@ const App = () => {
         </BrowserRouter>
     );
 };
-// Remove withCredentials if you are strictly using Bearer tokens
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-axios.defaults.withCredentials = false; // Set to false if using JWT/Bearer tokens
+axios.defaults.withCredentials = false;
 
 axios.interceptors.request.use((config) => {
     const token = localStorage.getItem('authToken');

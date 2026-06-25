@@ -19,7 +19,7 @@ public function getDashboardData(Request $request)
         ->latest()
         ->first();
 
-$pendingLoan = \App\Models\Loans::where('user_id',1)
+    $pendingLoan = \App\Models\Loans::where('user_id',1)
         ->where('status', 'pending') 
         ->latest()
         ->first();
@@ -29,12 +29,15 @@ $pendingLoan = \App\Models\Loans::where('user_id',1)
         'amount' => $pendingLoan->loan_amount,
         'tenure' => $pendingLoan->term_days,
         'emi_amount' =>$pendingLoan->emi_amount,
-        'status' => 'Pending For Disbursement'
-    ] : null;     $loanProducts = \App\Models\LoansInfo::all()->map(function ($loan) {
+        'status' => 'Pending For Disbursement',
+        'id' => $pendingLoan->id
+    ] : null;    
+    
+    $loanProducts = \App\Models\LoansInfo::all()->map(function ($loan) {
         return [
             'id' => $loan->id,
             'title' =>$loan->title,
-            'max_amount' => (int) $loan->loan_amount,
+            'max_amount' => (int) $loan->max_amount,
             'term_days' => (int) $loan->term_days,
             'tags' => explode(',', $loan->tags), 
         ];

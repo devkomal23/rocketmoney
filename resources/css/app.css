@@ -30,7 +30,7 @@ html, body {
 /* 3. The Phone Frame */
 .card {
   width: 360px;
-  max-height: 100dvh; /* Don't force height, use max-height */
+  height: 100dvh; /* Don't force height, use max-height */
   background-color: #FFF;
   border-radius: 32px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0);
@@ -902,4 +902,18 @@ html, body {
 
 .select_bank_btn{
   font-size:15px;
+}
+
+.proceedButton
+{ 
+  width: 100%; 
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px; 
+  border: none; 
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700 ;
+  background-color: #6200ea;
+  cursor:pointer;
 }
