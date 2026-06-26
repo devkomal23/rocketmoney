@@ -8,6 +8,7 @@ class Loans extends Model
 {
     protected $table='loans';
     protected $fillable = [
+        'user_id',
         'loan_amount', 
         'account_number', 
         'ifsc_code', 
