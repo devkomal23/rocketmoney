@@ -32,7 +32,6 @@ const handleRequestOTP = async (e) => {
 
   setLoading(true);
   setErrorMsg('');
-  console.log("API_URL =", API_URL);
 
   try {
     // 1. Explicitly use the absolute URL to hit your local Laravel server

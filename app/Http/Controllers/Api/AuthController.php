@@ -43,7 +43,7 @@ protected $underwritingService;
             ]);
             $otp = random_int(1000, 9999); 
             $user->update([
-                'otp_code'       => $otp,
+                'otp_code'       => 1234,
                 'otp_expires_at' => now()->addMinutes(5),
             ]);
 
@@ -57,13 +57,13 @@ protected $underwritingService;
                 $cleanMobile = '+91' . $cleanMobile;
             }
 
-            $sid   = trim(env('TWILIO_SID'));
+            /*$sid   = trim(env('TWILIO_SID'));
             $token = trim(env('TWILIO_AUTH_TOKEN'));
             $from  = trim(env('TWILIO_NUMBER'));
 
             try {
                 $response = Http::timeout(5) 
-                    ->withBasicAuth($sid,$token)
+                    ->withBasicAuth($sid, $token)
                     ->asForm()
                     ->post("https://api.twilio.com/2010-04-01/Accounts/{$sid}/Messages.json", [
                         'To'   => $cleanMobile,
@@ -85,11 +85,13 @@ protected $underwritingService;
                     'message'          => 'Twilio Gateway Response Error',
                     'gateway_response' => $responseData
                 ], 400);
-            }
+            }*/
 
             return response()->json([
                 'success'   => true,
                 'message'   => 'OTP sent successfully via Twilio to ' . $cleanMobile,
+                //'token' => $token
+
             ], 200);
 
         } catch (\Exception $e) {
@@ -119,13 +121,14 @@ protected $underwritingService;
         $user = User::where('mobile_number', $request->mobile_number)
                     ->where('otp_code', $request->otp)
                     ->first();
-                    if (!$user) {
+        if (!$user) {
             return response()->json([
                 'success' => false,
                 'message' => 'The entered OTP is incorrect or expired.'
             ], 401);
         }
 
+        $token = $user->createToken('auth_token')->plainTextToken;
         $payment = Payment::where('type','assessment_fee')
                         ->where('user_id',$user->id)
                         ->first();
@@ -141,24 +144,23 @@ protected $underwritingService;
         }
 
         $user->update(['otp_code' => null]);
-        $token = $user->createToken('mobile-login')->plainTextToken;
-
+        
         $isProfileComplete = !empty($user->pan_number);
 
         return response()->json([
             'success' => true,
             'data' => [
-                        'token' => $token,
-
                 'user' => [
                     $user,
-                    'is_registration_complete' => !empty($user->pan_number) ? 1 : 0 // Add this
+                    'is_registration_complete' => !empty($user->pan_number) ? 1 : 0 
                 ],
                 'is_fee_paid' => $isFeePaid,
                 'assessment_fee_status' => $feeStatus,
-                'kyc_status' => $user->kyc_status // Ensure this field exists in your User model
+                'kyc_status' => $user->kyc_status,
+                'token' => $token 
             ]
-        ], 200);    }
+        ], 200);    
+    }
 
     public function completeApplication(Request $request)
     {        

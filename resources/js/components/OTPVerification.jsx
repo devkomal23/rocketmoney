@@ -67,10 +67,8 @@ export default function OTPVerification() {
         if (response.ok && result.success) {
           const { token, user, is_fee_paid, assessment_fee_status, kyc_status } = result.data;
           localStorage.setItem('authToken', result.data.token);
-console.log("Token from API:", result.data.token);
-
-
-console.log("Saved Token:", localStorage.getItem("authToken"));
+          console.log("Token from API:", result.data.token);
+          console.log("Saved Token:", localStorage.getItem("authToken"));
           const isRegistrationComplete = user.is_registration_complete == 1; 
           const isFeePaid = is_fee_paid === true || assessment_fee_status === 'paid';
           const isKycVerified = kyc_status === 'verified';
@@ -98,7 +96,7 @@ console.log("Saved Token:", localStorage.getItem("authToken"));
              navigate('/assesmentFee');
 
           }*/
-                      navigate('/dashboard',{ state: { mobile: mobileNumber,token } });
+          navigate('/dashboard',{ state: { mobile: mobileNumber,token:result.data.token } });
 
        }  
     } catch (err) {
