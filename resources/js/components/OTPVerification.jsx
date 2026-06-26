@@ -97,7 +97,9 @@ export default function OTPVerification() {
 
           }*/
           //navigate('/dashboard',{ state: { mobile: mobileNumber,token:result.data.token } });
-          navigate('/verify-kyc');
+         // navigate('/verify-kyc');
+               navigate('/BankAccountDetails');
+
 
 
        }  

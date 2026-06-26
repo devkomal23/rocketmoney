@@ -64,7 +64,7 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
-        $payment = Payment::where('user_id', $user->id)
+        $payment = Payment::where('user_id', 1)
             ->where('type', 'assessment_fee')
             ->latest()
             ->first();
@@ -82,8 +82,8 @@ class DashboardController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'user' => ['full_name' => $user->full_name,'is_fee_paid' => $isFeePaid],
-                'approved_loan' => ['amount' => $user->approved_loan_amount ?? 1000],
+                'user' => ['full_name' => 'komal','is_fee_paid' => $isFeePaid],
+                'approved_loan' => ['amount' => 10000 ?? 1000],
                 'loan_products' => $loanProducts, 
                 'meta' => [
                     'is_fee_paid' => $payment?->status === 'paid',
