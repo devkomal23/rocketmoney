@@ -88,7 +88,9 @@ class PaymentController extends Controller
                 'agreement_path' => 'loans/agreement_' . rand() . '.pdf',
                 'status' =>'pending',
                 'term_days' => 30,
-                'emi_amount' =>$emi_amount
+                'emi_amount' =>$emi_amount,
+                'full_name' =>$request->name,
+                'bank_name' =>$request->bankName,
         ]);
         if ($response->successful()) {
 
