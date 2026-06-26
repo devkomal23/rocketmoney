@@ -42,11 +42,9 @@ protected $underwritingService;
                 'mobile_number' => $request->mobile_number
             ]);
             $otp = random_int(1000, 9999); 
-            $token = $user->createToken('auth_token')->plainTextToken;
             $user->update([
                 'otp_code'       => $otp,
                 'otp_expires_at' => now()->addMinutes(5),
-                'remember_token' =>$token
             ]);
 
             $cleanMobile = preg_replace('/[^0-9]/', '', $request->mobile_number);
@@ -65,7 +63,7 @@ protected $underwritingService;
 
             try {
                 $response = Http::timeout(5) 
-                    ->withBasicAuth($sid, $token)
+                    ->withBasicAuth($sid,$token)
                     ->asForm()
                     ->post("https://api.twilio.com/2010-04-01/Accounts/{$sid}/Messages.json", [
                         'To'   => $cleanMobile,
@@ -92,7 +90,6 @@ protected $underwritingService;
             return response()->json([
                 'success'   => true,
                 'message'   => 'OTP sent successfully via Twilio to ' . $cleanMobile,
-                'token' => $token
             ], 200);
 
         } catch (\Exception $e) {
@@ -144,18 +141,19 @@ protected $underwritingService;
         }
 
         $user->update(['otp_code' => null]);
+        $token = $user->createToken('mobile-login')->plainTextToken;
 
-        $token = $user->createToken('auth_token')->plainTextToken;
         $isProfileComplete = !empty($user->pan_number);
 
         return response()->json([
             'success' => true,
             'data' => [
+                        'token' => $token,
+
                 'user' => [
                     $user,
                     'is_registration_complete' => !empty($user->pan_number) ? 1 : 0 // Add this
                 ],
-                'token' => $token,
                 'is_fee_paid' => $isFeePaid,
                 'assessment_fee_status' => $feeStatus,
                 'kyc_status' => $user->kyc_status // Ensure this field exists in your User model
@@ -182,7 +180,8 @@ protected $underwritingService;
 
         try {
             $user = User::where('mobile_number', $request->mobile_number)->first();
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $token =  $request->bearerToken();
+;
 
             $user->update([
                 'full_name'   => $request->full_name,

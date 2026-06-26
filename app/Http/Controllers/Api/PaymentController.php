@@ -107,4 +107,58 @@ class PaymentController extends Controller
         ], $response->status());
     }
 
+
+    public function createSubscription(Request $request)
+    {
+        $api = new Api(
+            env('RAZORPAY_KEY'),
+            env('RAZORPAY_SECRET')
+        );
+
+        // Create customer
+        $customer = $api->customer->create([
+            'name' => 'Komal',
+            'email' => 'devshuklakomal@gmail.com',
+            'contact' => '9687411172'
+        ]);
+
+        // Create subscription
+        $subscription = $api->subscription->create([
+            'plan_id' => 'plan_xxxxxxxxx',
+            'customer_notify' => 1,
+            'quantity' => 1,
+            'total_count' => 12
+        ]);
+
+        return response()->json([
+            'key' => env('RAZORPAY_KEY'),
+            'subscription_id' => $subscription['id']
+        ]);
+    }
+
+    public function handle(Request $request)
+    {
+        $secret = env('RAZORPAY_SECRET');
+
+        $payload = $request->getContent();
+        $signature = $request->header('X-Razorpay-Signature');
+
+        $expected = hash_hmac('sha256', $payload, $secret);
+
+        if ($expected !== $signature) {
+            return response()->json(['error' => 'Invalid'], 401);
+        }
+
+        $data = json_decode($payload, true);
+
+        if ($data['event'] === 'payment.captured') {
+            // update order/payment status in DB
+        }
+
+        if ($data['event'] === 'subscription.charged') {
+            // renew subscription in DB
+        }
+
+        return response()->json(['status' => 'ok']);
+    }
 }

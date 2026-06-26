@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // 1. Track menu state
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
     const styles = {
     container: {
       height: '100dvh',
@@ -11,7 +11,8 @@ const Dashboard = () => {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: '#131b25',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      position:'relative'
     },
     card: {
       width: '360px',
@@ -21,7 +22,8 @@ const Dashboard = () => {
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column',
-      boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+      boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+      position:'relative'
     },
     scrollArea: {
       flex: 1,
@@ -59,7 +61,6 @@ const Dashboard = () => {
     h1:{
         color:'white',
         fontSize:'20px',
-        textTransform:'uppercase'
     },
     p:{
         fontColor:'blue',
@@ -90,7 +91,7 @@ const Dashboard = () => {
     badge: { backgroundColor: '#f0fff4', color: '#38a169', fontSize: '10px', padding: '4px 8px', borderRadius: '12px' },
     metricsRow: { display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #edf2f7', paddingTop: '16px' },
     column: { display: 'flex', flexDirection: 'column' },
-    label: { fontSize: '10px', color: '#718096', textTransform: 'uppercase' },
+    label: { fontSize: '10px', color: '#718096' },
     value: { fontSize: '15px', fontWeight: 'bold', marginTop: '4px' },
     footerRow: { marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
     tagGroup: { display: 'flex', gap: '5px' },
@@ -149,7 +150,7 @@ const Dashboard = () => {
     menuOverlay: {
       position: 'absolute',
       top: 0, left: 0, width: '70%', height: '100%',
-      background: 'linear-gradient(183deg, var(--color-blue-950) 0%, var(--color-blue-700) 100%)', // Changed to white to match your screenshot
+      background: 'linear-gradient(180deg,#1E2F78 0%,#2446B5 100%)',      
       zIndex: 10,
       color:'white'
     },
@@ -162,7 +163,7 @@ const Dashboard = () => {
       gap:'15px',
       alignItems:'center',
       padding:'10px 20px',
-      border:'1px solid rgba(255,255,255,0.5)',
+      border:'1px solid rgba(255,255,255,.35)',
       borderRadius:'10px',
       marginBottom:'12px'
     },
@@ -171,9 +172,12 @@ const Dashboard = () => {
       top: '9px',
       right: '12px',
       padding: '5px 9px',
-      background:' rgba(255,255,255,0.2)',
+      background:'rgba(255,255,255,.12)',
       borderRadius: '50%',
-      fontSize: '10px'
+      fontSize: '10px',
+      width:'36px',
+      height:'36px',
+
     },
     sideMenu:{
       padding:'0px 20px',
@@ -279,11 +283,12 @@ const Dashboard = () => {
     );
   };
   useEffect(() => {
-   // const token = localStorage.getItem('auth_token'); 
+const token = localStorage.getItem("authToken");    console.log(token);
 
     fetch(`${API_URL}/dashboard`, {
       method: 'GET',
       headers: {
+        Authorization: `Bearer ${token}`,
         'Accept': 'application/json', 
       }
     })
@@ -330,6 +335,8 @@ const Dashboard = () => {
 
                         <img style={styles.profileImg} src="/images/default_profile_picture.png" alt="profile picture"/>
                         <p style={styles.h1}>{dashboardData.user.full_name}</p>
+                        <h7 style={styles.h7}>Welcome Back</h7>
+
                       </div>
                       <div style={styles.sideMenu}>
                         <div  style={styles.menuContentItem} onClick={() => navigate('/my-loans')}>        
@@ -399,7 +406,7 @@ const styles = {
   badge: { backgroundColor: '#f0fff4', color: '#38a169', fontSize: '10px', padding: '4px 8px', borderRadius: '12px' },
   metricsRow: { display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #edf2f7', paddingTop: '16px' },
   column: { display: 'flex', flexDirection: 'column' },
-  label: { fontSize: '10px', color: '#718096', textTransform: 'uppercase' },
+  label: { fontSize: '10px', color: '#718096',  },
   value: { fontSize: '15px', fontWeight: 'bold', marginTop: '4px' },
   footerRow: { marginTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   tagGroup: { display: 'flex', gap: '5px' },

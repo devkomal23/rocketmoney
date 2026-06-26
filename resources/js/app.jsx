@@ -17,6 +17,9 @@ import SelfieVerification from './components/SelfieVerification';
 import LoanApproval from'./components/LoanApproval';
 import BankAccountDetails from './components/BankAccountDetails';
 import LoanDocument from './components/LoanDocument';
+import PayMandate from './components/PayMandate';
+import PaymentScanner from './components/PaymentScanner';
+
 const App = () => {
     return (
         <BrowserRouter>
@@ -33,7 +36,9 @@ const App = () => {
                 <Route path="/SelfieVerification" element={<SelfieVerification/>}/>
                 <Route path="/LoanApproval" element={<LoanApproval/>}/>    
                 <Route path ="/BankAccountDetails" element ={<BankAccountDetails/>}/> 
-                <Route path="/loan-document/:loanId" element={<LoanDocument />} />    
+                <Route path="/loan-document/:loanId" element={<LoanDocument />} />
+                <Route path="/pay-mandate/:loanId"element={<PayMandate />}/>              
+                <Route path="/PaymentScanner/:loanId" element={<PaymentScanner />} />            
             </Routes>
         </BrowserRouter>
     );

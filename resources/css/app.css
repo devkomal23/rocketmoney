@@ -25,6 +25,7 @@ html, body {
   align-items: center;
   height: 100dvh;
   width: 100vw;
+  position:relative;
   }
 
 /* 3. The Phone Frame */
@@ -37,6 +38,7 @@ html, body {
   display: flex;
   flex-direction: column;
   overflow: hidden; /* Important: Clip the inner content */
+  position:relative;
 }
 
 .scrollable-content {

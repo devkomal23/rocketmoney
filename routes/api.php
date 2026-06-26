@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\DigiLockerController;
 use App\Http\Controllers\ConsentController;
 use App\Http\Controllers\SelfieController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\PayUController;
 
 Route::get('/health', function () {
     try {
@@ -36,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/create-payment-order', [PaymentController::class, 'createOrder']);
     Route::post('/verify-payment', [PaymentController::class, 'verifyPayment']);
 });
-Route::get('/dashboard', [DashboardController::class, 'getDashboardData']);
+Route::middleware('auth:sanctum')->get('/dashboard', [DashboardController::class, 'getDashboardData']);
 
 Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
 Route::middleware('auth:sanctum')->post('/kyc/init', [KYCController::class, 'createVerificationSession']);
@@ -52,3 +53,7 @@ Route::middleware('auth:sanctum')->post('/consent', [ConsentController::class, '
 Route::middleware('auth:sanctum')->post('/upload-selfie', [SelfieController::class, 'upload']);
 Route::post('/verify-bank',[PaymentController::class,'verifyBank']);
 Route::get('/download-loan/{id}', [LoanController::class, 'generatePdf']);
+Route::post('/initiateUpiAutopay', [PayUController::class, 'initiateUpiAutopay']);
+Route::post('/initiate-enach', [PaymentController::class, 'initiateEnach']);
+Route::post('/create-subscription',[PaymentController::class,'createSubscription']);
+Route::post('/api/razorpay/webhook', [PaymentController::class, 'handle']);

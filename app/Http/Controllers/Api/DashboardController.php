@@ -12,14 +12,14 @@ class DashboardController extends Controller
 {
 public function getDashboardData(Request $request)
 {
-    $user = $request->user();
 
-    $payment = Payment::where('user_id', 1)
+    $user = Auth::user();
+        $payment = Payment::where('user_id', $user->id)
         ->where('type', 'assessment_fee')
         ->latest()
         ->first();
 
-    $pendingLoan = \App\Models\Loans::where('user_id',1)
+    $pendingLoan = \App\Models\Loans::where('user_id',$user->id)
         ->where('status', 'pending') 
         ->latest()
         ->first();
@@ -47,7 +47,7 @@ public function getDashboardData(Request $request)
     return response()->json([
         'success' => true,
         'data' => [
-            'user' => ['full_name' => 'komal'],
+            'user' => ['full_name' => ucwords($user->full_name)],
             'approved_loan' => ['amount' => $user->approved_loan_amount ?? 1000],
             'loan_products' => $loanProducts, 
             'pending_loan' =>  $pendingLoanData,
