@@ -103,11 +103,12 @@ class PaymentController extends Controller
         }
         
 
-        return response()->json([
-            'success' => false, 
-            'message' => 'Verification failed', 
-        ], $response->status());
-    }
+return response()->json([
+    'success' => false,
+    'status' => $response->status(),
+    'setu_response' => $response->json(),
+    'raw_response' => $response->body(),
+], $response->status());    }
 
 
     public function createSubscription(Request $request)
