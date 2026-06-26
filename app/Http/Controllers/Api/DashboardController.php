@@ -14,6 +14,7 @@ class DashboardController extends Controller
     {
 
         $user = Auth::user();
+        
             $payment = Payment::where('user_id', $user->id)
             ->where('type', 'assessment_fee')
             ->latest()

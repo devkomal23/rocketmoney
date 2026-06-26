@@ -96,7 +96,9 @@ export default function OTPVerification() {
              navigate('/assesmentFee');
 
           }*/
-          navigate('/dashboard',{ state: { mobile: mobileNumber,token:result.data.token } });
+          //navigate('/dashboard',{ state: { mobile: mobileNumber,token:result.data.token } });
+          navigate('/verify-kyc');
+
 
        }  
     } catch (err) {
