@@ -75,7 +75,7 @@ export default function OTPVerification() {
           if (user.is_registration_complete != 1) {
             navigate('/complete_application',{ state: { mobile: mobileNumber } });
           } 
-          else if(Users.bank_account_verified !=1){
+          else if(user.bank_account_verified !=1){
             navigate('/BankAccountDetails');
 
           }
