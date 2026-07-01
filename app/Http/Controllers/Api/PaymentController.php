@@ -121,23 +121,19 @@ class PaymentController extends Controller
 
     public function createSubscription(Request $request)
     {
-        dd([
-            'key' => 'rzp_test_T86h4SohuMycZ3',
-            'secret' =>'6M9oBNdWT5IwzGjtQK7xPIuB',
-        ]);
         $api = new Api(
             'rzp_test_T86h4SohuMycZ3',
             '6M9oBNdWT5IwzGjtQK7xPIuB'
         );
 
         $customer = $api->customer->create([
-            'name' => 'Komal',
-            'email' => 'devshuklakomal@gmail.com',
+            'name' => 'komal',
+            'email' => 'developerkol@gmail.com',
             'contact' => '9687411172'
         ]);
 
         $subscription = $api->subscription->create([
-            'plan_id' => 'plan_xxxxxxxxx',
+            'plan_id' => 'plan_T87rpZKncj9M75',
             'customer_notify' => 1,
             'quantity' => 1,
             'total_count' => 12
