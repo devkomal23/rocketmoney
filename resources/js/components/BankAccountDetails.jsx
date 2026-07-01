@@ -14,18 +14,34 @@ export default function BankAccountDetails() {
             return;
         }
 
-        try {
-            const response = await axios.post(`${API_URL}/verify-bank`, formData);
-            if (response.data.success) {
-                setMessage("✅ Success: " + response.data.message);
-                navigate(`/loan-document/${response.data.loanId}`);
-            } else {
-                setMessage("❌ Verification failed: " + response.data.message);
-            }       
-        } catch (error) {
-            setMessage("Verification failed. Please check your details.");
+const token = localStorage.getItem("authToken");
+
+try {
+    const response = await axios.post(
+        `${API_URL}/verify-bank`,
+        formData,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "multipart/form-data",
+            },
         }
-    };
+    );
+
+    if (response.data.success) {
+        setMessage("✅ Success: " + response.data.message);
+        navigate(`/loan-document/${response.data.loanId}`);
+    } else {
+        setMessage("❌ Verification failed: " + response.data.message);
+    }
+} catch (error) {
+    console.log(error.response?.data);
+    setMessage(
+        error.response?.data?.message ||
+        "Verification failed. Please check your details."
+    );
+}    };
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-50 p-4">

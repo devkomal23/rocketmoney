@@ -51,7 +51,7 @@ Route::get('/digilocker/redirect', [DigiLockerController::class, 'redirectToProv
 Route::get('/digilocker/callback', [DigiLockerController::class, 'handleCallback']);
 Route::middleware('auth:sanctum')->post('/consent', [ConsentController::class, 'store']);
 Route::middleware('auth:sanctum')->post('/upload-selfie', [SelfieController::class, 'upload']);
-Route::post('/verify-bank',[PaymentController::class,'verifyBank']);
+Route::middleware('auth:sanctum')->post('/verify-bank',[PaymentController::class,'verifyBank']);
 Route::get('/download-loan/{id}', [LoanController::class, 'generatePdf']);
 Route::post('/initiateUpiAutopay', [PayUController::class, 'initiateUpiAutopay']);
 Route::post('/initiate-enach', [PaymentController::class, 'initiateEnach']);
