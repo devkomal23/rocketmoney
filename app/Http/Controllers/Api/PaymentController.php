@@ -66,21 +66,21 @@ class PaymentController extends Controller
             'ifsc'     => 'required|string',
         ]);
 
-$response = Http::acceptJson()
-    ->contentType('application/json')
-    ->withHeaders([
-        'x-client-id' => '292c6e76-dabf-49c4-8e48-90fba2916673',
-        'x-client-secret' => '7IZMe9zvoBBuBukLiCP7n4KLwSOy11oP',
-        'x-product-instance-id' => '9480d765-ebaf-4061-91d4-66af89c3e434',
-    ])
-    ->post('https://dg-sandbox.setu.co/api/verify/ban', [
-        'accountNumber' => $validated['accNo'],
-        'ifsc' => $validated['ifsc'],
-    ]);        $loan_amount =1000;
+        $response = Http::acceptJson()
+        ->contentType('application/json')
+        ->withHeaders([
+            'x-client-id' => '292c6e76-dabf-49c4-8e48-90fba2916673',
+            'x-client-secret' => '7IZMe9zvoBBuBukLiCP7n4KLwSOy11oP',
+            'x-product-instance-id' => '9480d765-ebaf-4061-91d4-66af89c3e434',
+        ])
+        ->post('https://dg-sandbox.setu.co/api/verify/ban', [
+            'accountNumber' => $validated['accNo'],
+            'ifsc' => $validated['ifsc'],
+        ]);        $loan_amount =1000;
 
-    $monthlyRate = ($loan_amount / 12) / 100;
-    $emi = $loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
-    $emi_amount= round($emi, 2);
+        $monthlyRate = ($loan_amount / 12) / 100;
+        $emi = $loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
+        $emi_amount= round($emi, 2);
         $loan = Loans::create([
                 'user_id'        => 1,
                 'loan_amount'    => $loan_amount,
@@ -104,18 +104,19 @@ $response = Http::acceptJson()
         }
         
 
-return response()->json([
-    'status' => $response->status(),
-    'headers' => $response->headers(),
-    'body' => $response->body(),
-    'request' => [
-        'url' => 'https://dg-sandbox.setu.co/api/verify/ban',
-        'payload' => [
-            'accountNumber' => $validated['accNo'],
-            'ifsc' => $validated['ifsc'],
-        ]
-    ]
-]);    }
+        return response()->json([
+            'status' => $response->status(),
+            'headers' => $response->headers(),
+            'body' => $response->body(),
+            'request' => [
+                'url' => 'https://dg-sandbox.setu.co/api/verify/ban',
+                'payload' => [
+                    'accountNumber' => $validated['accNo'],
+                    'ifsc' => $validated['ifsc'],
+                ]
+            ]
+        ]);    
+    }
 
 
     public function createSubscription(Request $request)

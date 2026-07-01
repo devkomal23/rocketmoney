@@ -1,6 +1,7 @@
 //import { position } from 'html2canvas/dist/types/css/property-descriptors/position';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useOnclickOutside from "react-cool-onclickoutside";
 
 const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
@@ -218,6 +219,7 @@ const Dashboard = () => {
     ...styles.navItem,
     color: currentPage === pageName ? activeColor : inactiveColor
   });
+  const ref = useOnclickOutside(() => setIsOpen(false));
 
 
   return (
@@ -328,7 +330,7 @@ const token = localStorage.getItem("authToken");    console.log(token);
                   <img src="/images/menu.png" alt="profileView" style={styles.dbMenu} ></img>
                 </div>
                 {isMenuOpen && (
-                  <div style={styles.menuOverlay}>
+                  <div ref={ref} style={styles.menuOverlay}>
                     <div style={styles.menuContent}>
                      <div style={styles.profileSection}>
                         <button style={styles.closeBtn} onClick={() => setIsMenuOpen(false)}>✕</button>
