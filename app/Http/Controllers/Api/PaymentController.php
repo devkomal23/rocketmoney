@@ -83,7 +83,10 @@ class PaymentController extends Controller
 
         $emi = $loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
         $emi_amount= round($emi, 2);
-        $loan = Loans::create([
+        if ($response->successful()) {
+                $user->bank_account_verified = 1;
+                $user->save();
+                        $loan = Loans::create([
                 'user_id'        => $user->id,
                 'loan_amount'    => $loan_amount,
                 'account_number' => $validated['accNo'],
@@ -95,7 +98,8 @@ class PaymentController extends Controller
                 'full_name' =>$request->name,
                 'bank_name' =>$request->bankName,
         ]);
-        if ($response->successful()) {
+
+
 
             return response()->json([
                 'success' => true,
