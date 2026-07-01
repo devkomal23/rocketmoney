@@ -71,7 +71,7 @@ class PaymentController extends Controller
         ->withHeaders([
             'x-client-id' => '292c6e76-dabf-49c4-8e48-90fba2916673',
             'x-client-secret' => '7IZMe9zvoBBuBukLiCP7n4KLwSOy11oP',
-            'x-product-instance-id' => '439244ff-114e-41a8-ae74-a783f160622d',
+            'x-product-instance-id' => '9480d765-ebaf-4061-91d4-66af89c3e434',
         ])
         ->post('https://dg-sandbox.setu.co/api/verify/ban', [
             'accountNumber' => $validated['accNo'],
