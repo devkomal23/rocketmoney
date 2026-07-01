@@ -79,10 +79,12 @@ class PaymentController extends Controller
         ]);        $loan_amount =1000;
 
         $monthlyRate = ($loan_amount / 12) / 100;
+        $user = auth()->user();
+
         $emi = $loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
         $emi_amount= round($emi, 2);
         $loan = Loans::create([
-                'user_id'        => 1,
+                'user_id'        => $user->id,
                 'loan_amount'    => $loan_amount,
                 'account_number' => $validated['accNo'],
                 'ifsc_code'      => $validated['ifsc'],
