@@ -59,13 +59,10 @@ export default function PayMandate() {
               }
             );
 
-            console.log(verify.data);
-
-            alert("Mandate Created Successfully");
+          alert("Mandate Created Successfully");
 
             navigate("/dashboard");
           } catch (err) {
-            console.log(err.response?.data);
             alert("Mandate verification failed.");
           }
         },
@@ -84,7 +81,6 @@ export default function PayMandate() {
       const rzp = new window.Razorpay(options);
 
       rzp.on("payment.failed", function (response) {
-        console.log(response.error);
 
         alert(response.error.description);
       });

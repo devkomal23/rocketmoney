@@ -121,19 +121,21 @@ class PaymentController extends Controller
 
     public function createSubscription(Request $request)
     {
+        dd([
+            'key' => 'rzp_test_T86h4SohuMycZ3',
+            'secret' =>'6M9oBNdWT5IwzGjtQK7xPIuB',
+        ]);
         $api = new Api(
-            env('RAZORPAY_KEY'),
-            env('RAZORPAY_SECRET')
+            'rzp_test_T86h4SohuMycZ3',
+            '6M9oBNdWT5IwzGjtQK7xPIuB'
         );
 
-        // Create customer
         $customer = $api->customer->create([
             'name' => 'Komal',
             'email' => 'devshuklakomal@gmail.com',
             'contact' => '9687411172'
         ]);
 
-        // Create subscription
         $subscription = $api->subscription->create([
             'plan_id' => 'plan_xxxxxxxxx',
             'customer_notify' => 1,
@@ -142,7 +144,7 @@ class PaymentController extends Controller
         ]);
 
         return response()->json([
-            'key' => env('RAZORPAY_KEY'),
+            'key' => 'rzp_test_T86h4SohuMycZ3',
             'subscription_id' => $subscription['id']
         ]);
     }
