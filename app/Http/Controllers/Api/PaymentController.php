@@ -128,7 +128,7 @@ class PaymentController extends Controller
 
         $customer = $api->customer->create([
             'name' => 'komal',
-            'email' => 'developerkol@gmail.com',
+            'email' => 'devkomal@gmail.com',
             'contact' => '9687411172'
         ]);
 
