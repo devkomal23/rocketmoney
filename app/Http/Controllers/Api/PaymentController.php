@@ -60,7 +60,7 @@ class PaymentController extends Controller
 
 
     public function verifyBank(Request $request)
-    {
+    {dd(auth()->user(), auth()->id());
         $validated = $request->validate([
             'accNo'    => 'required|string',
             'ifsc'     => 'required|string',
