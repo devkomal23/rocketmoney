@@ -72,36 +72,18 @@ export default function OTPVerification() {
           const isRegistrationComplete = user.is_registration_complete == 1; 
           const isFeePaid = is_fee_paid === true || assessment_fee_status === 'paid';
           const isKycVerified = kyc_status === 'verified';
-         /* if (user.is_registration_complete != 1) {
-            console.log("1");
-             navigate('/dashboard',{ state: { mobile: mobileNumber } });
-
+          if (user.is_registration_complete != 1) {
+            navigate('/complete-application',{ state: { mobile: mobileNumber } });
           } 
           else if (kyc_status !== 'verified') {
-                        console.log("2");
-
-              //navigate('/verify-kyc');
-              navigate('/dashboard',{ state: { mobile: mobileNumber } });
-
+            navigate('/verify-kyc');
           } 
           else if (assessment_fee_status !== 'paid') {
-                        console.log("3");
-
-              navigate('/assesmentFee');
-
+            navigate('/assesmentFee');
           } 
           else {
-                        console.log("4");
-
-             navigate('/assesmentFee');
-
-          }*/
-          //navigate('/dashboard',{ state: { mobile: mobileNumber,token:result.data.token } });
-         // navigate('/verify-kyc');
-               navigate('/BankAccountDetails');
-
-
-
+            navigate('/BankAccountDetails');
+          }
        }  
     } catch (err) {
       alert(err);
