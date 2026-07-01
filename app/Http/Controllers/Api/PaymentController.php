@@ -76,7 +76,13 @@ class PaymentController extends Controller
         ->post('https://dg-sandbox.setu.co/api/verify/ban', [
             'accountNumber' => $validated['accNo'],
             'ifsc' => $validated['ifsc'],
-        ]);        $loan_amount =1000;
+        ]);   
+        dd(
+    $response->status(),
+    $response->body(),
+    $response->headers()
+);    
+         $loan_amount =1000;
 
         $monthlyRate = ($loan_amount / 12) / 100;
         $user = auth()->user();
