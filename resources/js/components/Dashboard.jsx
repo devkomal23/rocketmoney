@@ -1,7 +1,6 @@
 //import { position } from 'html2canvas/dist/types/css/property-descriptors/position';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useOnclickOutside from "react-cool-onclickoutside";
 
 const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); 
@@ -90,7 +89,7 @@ const Dashboard = () => {
         display:'flex'
     },
     badge: { backgroundColor: '#f0fff4', color: '#38a169', fontSize: '10px', padding: '4px 8px', borderRadius: '12px' },
-    metricsRow: { display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #edf2f7', paddingTop: '16px' },
+    metricsRow: { display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #edf2f7', paddingTop: '16px',marginTop:'16px' },
     column: { display: 'flex', flexDirection: 'column' },
     label: { fontSize: '10px', color: '#718096' },
     value: { fontSize: '15px', fontWeight: 'bold', marginTop: '4px' },
@@ -105,7 +104,7 @@ const Dashboard = () => {
         padding: '15px 0',
         borderTop: '1px solid #edf2f7',
         backgroundColor: '#FFF',
-        marginTop: 'auto' // Pushes the footer to the bottom
+        marginTop: 'auto'
       },
     activeIndicator: {
         position: 'absolute',
@@ -178,7 +177,6 @@ const Dashboard = () => {
       fontSize: '10px',
       width:'36px',
       height:'36px',
-
     },
     sideMenu:{
       padding:'0px 20px',
@@ -201,7 +199,7 @@ const Dashboard = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [loanProducts, setLoanProducts] = useState([]); // Initialize as empty array
+  const [loanProducts, setLoanProducts] = useState([]); 
   const navigate = useNavigate();
   const getCurrentPage = () => {
     if (location.pathname === '/dashboard') return 'dashboard';
@@ -219,13 +217,12 @@ const Dashboard = () => {
     ...styles.navItem,
     color: currentPage === pageName ? activeColor : inactiveColor
   });
-  const ref = useOnclickOutside(() => setIsOpen(false));
 
 
   return (
     <footer style={styles.footerNav}>
       <div style={getStyle('dashboard')} onClick={() => onNavigate('/dashboard')}>
-        <img src="/images/account.png" alt="Home" style={styles.navIcon} />
+        <img src="/images/home.png" alt="Home" style={styles.navIcon} />
         <span>Home</span>
         {currentPage === 'dashboard' && <div style={styles.activeIndicator} />}
       </div>
@@ -322,7 +319,6 @@ const token = localStorage.getItem("authToken");    console.log(token);
 
   return (
     <div  style={styles.container}>
-
       <div style={styles.card}>
         <div style = {styles.headerContainer}>
             <div style={styles.logoContainer}>
@@ -330,15 +326,13 @@ const token = localStorage.getItem("authToken");    console.log(token);
                   <img src="/images/menu.png" alt="profileView" style={styles.dbMenu} ></img>
                 </div>
                 {isMenuOpen && (
-                  <div ref={ref} style={styles.menuOverlay}>
+                  <div  style={styles.menuOverlay}>
                     <div style={styles.menuContent}>
                      <div style={styles.profileSection}>
                         <button style={styles.closeBtn} onClick={() => setIsMenuOpen(false)}>✕</button>
-
                         <img style={styles.profileImg} src="/images/default_profile_picture.png" alt="profile picture"/>
                         <p style={styles.h1}>{dashboardData.user.full_name}</p>
                         <h7 style={styles.h7}>Welcome Back</h7>
-
                       </div>
                       <div style={styles.sideMenu}>
                         <div  style={styles.menuContentItem} onClick={() => navigate('/my-loans')}>        
@@ -369,7 +363,7 @@ const token = localStorage.getItem("authToken");    console.log(token);
         <div className="scrollable-content ">
             <header style={styles.header}>
                 <h1 style={styles.h1}>{dashboardData.user.full_name}</h1>
-                <p style={styles.p}>Here is your loan details.</p>
+                <p  style={styles.p}>Here is your loan details.</p>
             </header>
 
           <div style={styles.pendingCard}>
@@ -381,18 +375,18 @@ const token = localStorage.getItem("authToken");    console.log(token);
             <div style={styles.detailsRow}>
               <div>
                 <p>EMI Amount</p>
-                <p>₹{dashboardData.pending_loan.emi_amount}</p> {/* Changed from emi */}
+                <p className = "fw-bold">₹{dashboardData.pending_loan.emi_amount}</p> {/* Changed from emi */}
               </div>
               <div>
                 <p>Tenure</p>
-                {/* If 'tenure' key is missing from JSON, use tenure_days if available */}
-                <p>{dashboardData.pending_loan.tenure} DAYS</p> 
+                <p className = "fw-bold">{dashboardData.pending_loan.tenure} DAYS</p> 
               </div>
             </div>
-            <button style={styles.actionButton} onClick={handleSubmit}>Sign Loan Agreement</button>
+            <button style={styles.actionButton} onClick={handleSubmit}>Complete eMandate Setup</button>
           </div>
 
-         <section className="relative flex justify-center items-center py-10">
+          <section className="loan_card">
+            <h5 className = "fw-bold pb-2">Loans You Might Like</h5> 
             <LoanDashboard loanProducts={loanProducts} />
           </section>
         </div>
