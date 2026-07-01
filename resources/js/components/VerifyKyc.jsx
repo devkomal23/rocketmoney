@@ -20,7 +20,7 @@ export default function VerifyKyc() {
       if (currentStatus === 'verified') {
         setTimeout(() => {
           navigate('/SelfieVerification');
-        }, 2000);      
+        }, 8000);      
       }
     } catch (err) {
       console.error('Status API Error:', err);
