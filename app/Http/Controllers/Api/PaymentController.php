@@ -66,59 +66,68 @@ class PaymentController extends Controller
         }
     }
 
-
     public function verifyBank(Request $request)
     {
         $validated = $request->validate([
-            'accNo'    => 'required|string',
-            'ifsc'     => 'required|string',
+            'accNo' => 'required|string',
+            'ifsc'  => 'required|string',
         ]);
+
+        // Verify account with Setu
+        $response = Http::acceptJson()
+            ->asJson()
+            ->withHeaders([
+                'x-client-id' => '292c6e76-dabf-49c4-8e48-90fba2916673',
+                'x-client-secret' => '7IZMe9zvoBBuBukLiCP7n4KLwSOy11oP',
+                'x-product-instance-id' => '9480d765-ebaf-4061-91d4-66af89c3e434',
+            ])
+            ->post('https://dg-sandbox.setu.co/api/verify/ban', [
+                'accountNumber' => $validated['accNo'],
+                'ifsc' => $validated['ifsc'],
+            ]);
 
         $user = auth()->user();
 
         $monthlyRate = ($user->approved_loan_amount / 12) / 100;
 
-        $emi = $user->approved_loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
-        $emi_amount= round($emi, 2);
+        $emi = $user->approved_loan_amount * $monthlyRate *
+            (pow(1 + $monthlyRate, 12) /
+            (pow(1 + $monthlyRate, 12) - 1));
+
+        $emi_amount = round($emi, 2);
+
         if ($response->successful()) {
+
             $user->bank_account_verified = 1;
             $user->save();
+
             $loan = Loans::create([
                 'user_id'        => $user->id,
                 'loan_amount'    => $user->approved_loan_amount,
                 'account_number' => $validated['accNo'],
                 'ifsc_code'      => $validated['ifsc'],
                 'agreement_path' => 'loans/agreement_' . rand() . '.pdf',
-                'status' =>'pending',
-                'term_days' => 30,
-                'emi_amount' =>$emi_amount,
-                'full_name' =>$request->name,
-                'bank_name' =>$request->bankName,
+                'status'         => 'pending',
+                'term_days'      => 30,
+                'emi_amount'     => $emi_amount,
+                'full_name'      => $request->name,
+                'bank_name'      => $request->bankName,
             ]);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Bank account verified successfully!',
                 'data'    => $response->json(),
-                'loanId'  => $loan->id, 
+                'loanId'  => $loan->id,
             ]);
         }
-        
 
         return response()->json([
+            'success' => false,
             'status' => $response->status(),
-            'headers' => $response->headers(),
-            'body' => $response->body(),
-            'request' => [
-                'url' => 'https://dg-sandbox.setu.co/api/verify/ban',
-                'payload' => [
-                    'accountNumber' => $validated['accNo'],
-                    'ifsc' => $validated['ifsc'],
-                ]
-            ]
-        ]);    
+            'message' => $response->body(),
+        ], $response->status());
     }
-
 
     public function createSubscription(Request $request)
     {
