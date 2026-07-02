@@ -95,6 +95,12 @@ class PaymentController extends Controller
             (pow(1 + $monthlyRate, 12) - 1));
 
         $emi_amount = round($emi, 2);
+        dd([
+    'status' => $response->status(),
+    'body' => $response->body(),
+    'headers' => $response->headers(),
+    'requestHeaders' => $response->transferStats?->getRequest()?->getHeaders(),
+]);
 
         if ($response->successful()) {
 
