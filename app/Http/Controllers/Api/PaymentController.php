@@ -189,20 +189,11 @@ class PaymentController extends Controller
 
 public function testSetu()
 {
-    $response = Http::acceptJson()
-        ->asJson()
-        ->withHeaders([
+    
+
+    return response()->json([
                 'x-client-id' => 'b7ef9414-0999-4003-a04b-9e6039a967ce',
                 'x-client-secret' => 'x8m4hrNrhlwilWLoClvHodOWXD9ARY8n',
                 'x-product-instance-id' => '8f8b1a79-682a-4740-a78b-e356fab9a59a',
-        ])
-        ->post('https://dg-sandbox.setu.co/api/verify/ban', [
-            'accountNumber' => '1234567890',
-            'ifsc' => 'ABCD0123456',
-        ]);
-
-    return response()->json([
-        'status' => $response->status(),
-        'body' => $response->json(),
     ]);
 }}
