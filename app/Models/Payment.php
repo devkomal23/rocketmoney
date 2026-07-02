@@ -11,7 +11,8 @@ class Payment extends Model
         'amount',
         'status',
         'transaction_id',
-        'type'
+        'type',
+        'order_id'
     ];
 
 }
