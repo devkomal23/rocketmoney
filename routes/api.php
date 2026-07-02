@@ -57,20 +57,5 @@ Route::post('/initiateUpiAutopay', [PayUController::class, 'initiateUpiAutopay']
 Route::post('/initiate-enach', [PaymentController::class, 'initiateEnach']);
 Route::post('/create-subscription',[PaymentController::class,'createSubscription']);
 Route::post('/api/razorpay/webhook', [PaymentController::class, 'handle']);
-Route::get('/test-setu', function () {
-    $response = Http::withHeaders([
-        'Accept' => 'application/json',
-        'Content-Type' => 'application/json',
-        'x-client-id' => '292c6e76-dabf-49c4-8e48-90fba2916673',
-        'x-client-secret' => '7IZMe9zvoBBuBukLiCP7n4KLwSOy11oP',
-        'x-product-instance-id' => '9480d765-ebaf-4061-91d4-66af89c3e434',
-    ])->post('https://dg-sandbox.setu.co/api/verify/ban', [
-        'ifsc' => 'ABCD0123456',
-        'accountNumber' => '1234567890',
-    ]);
 
-    return response()->json([
-        'status' => $response->status(),
-        'body' => $response->body(),
-    ]);
-});
+Route::get('/test-setu', [PaymentController::class, 'testSetu']);
