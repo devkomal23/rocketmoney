@@ -54,15 +54,15 @@ class PaymentController extends Controller
             return response()->json(['success' => false, 'message' => 'Payment record not found'], 404);
 
         } catch (\Exception $e) {
-    return response()->json([
-        'success' => false,
-        'message' => $e->getMessage(),
-        'data' => [
-            'order_id' => $request->razorpay_order_id,
-            'payment_id' => $request->razorpay_payment_id,
-            'signature' => $request->razorpay_signature,
-        ]
-    ],400);
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'data' => [
+                    'order_id' => $request->razorpay_order_id,
+                    'payment_id' => $request->razorpay_payment_id,
+                    'signature' => $request->razorpay_signature,
+                ]
+            ],400);
         }
     }
 
@@ -74,18 +74,18 @@ class PaymentController extends Controller
             'ifsc'     => 'required|string',
         ]);
 
-    
-        $monthlyRate = ($loan_amount / 12) / 100;
         $user = auth()->user();
 
-        $emi = $loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
+        $monthlyRate = ($user->approved_loan_amount / 12) / 100;
+
+        $emi = $user->approved_loan_amount * $monthlyRate * (pow(1 + $monthlyRate, 12) / (pow(1 + $monthlyRate, 12) - 1));
         $emi_amount= round($emi, 2);
         if ($response->successful()) {
-                $user->bank_account_verified = 1;
-                $user->save();
-                        $loan = Loans::create([
+            $user->bank_account_verified = 1;
+            $user->save();
+            $loan = Loans::create([
                 'user_id'        => $user->id,
-                'loan_amount'    => $loan_amount,
+                'loan_amount'    => $user->approved_loan_amount,
                 'account_number' => $validated['accNo'],
                 'ifsc_code'      => $validated['ifsc'],
                 'agreement_path' => 'loans/agreement_' . rand() . '.pdf',
@@ -94,9 +94,7 @@ class PaymentController extends Controller
                 'emi_amount' =>$emi_amount,
                 'full_name' =>$request->name,
                 'bank_name' =>$request->bankName,
-        ]);
-
-
+            ]);
 
             return response()->json([
                 'success' => true,
