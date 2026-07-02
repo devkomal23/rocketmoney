@@ -119,7 +119,7 @@ export default function RegistrationPage() {
 
       const result = await response.json();
         if (response.ok && result.success) {
-            navigate('/Consent'); 
+            navigate('/assesmentFee'); 
         } else {
             alert(result.message || "Failed to submit application.");
         }

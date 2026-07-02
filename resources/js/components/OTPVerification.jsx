@@ -75,16 +75,16 @@ export default function OTPVerification() {
           if (user.is_registration_complete != 1) {
             navigate('/complete_application',{ state: { mobile: mobileNumber } });
           } 
-          else if(user.bank_account_verified !=1){
-            navigate('/BankAccountDetails');
-
+          else if (assessment_fee_status !== 'paid') {
+            navigate('/assesmentFee');
           }
           else if (kyc_status !== 'verified') {
             navigate('/verify-kyc');
           } 
-          else if (assessment_fee_status !== 'paid') {
-            navigate('/assesmentFee');
-          } 
+          else if(user.bank_account_verified !=1){
+            navigate('/BankAccountDetails');
+
+          }
           else {
             navigate('/dashboard');
           }

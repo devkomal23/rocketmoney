@@ -66,26 +66,7 @@ class PaymentController extends Controller
             'ifsc'     => 'required|string',
         ]);
 
-$response = Http::acceptJson()
-    ->asJson()
-    ->withHeaders([
-        'x-client-id' => env('SETU_CLIENT_ID'),
-        'x-client-secret' => env('SETU_CLIENT_SECRET'),
-        'x-product-instance-id' => env('SETU_PRODUCT_INSTANCE_ID'),
-        'Accept' => 'application/json',
-        'Content-Type' => 'application/json',
-    ])
-    ->post('https://dg-sandbox.setu.co/api/verify/ban', [
-        'accountNumber' => $validated['accNo'],
-        'ifsc' => $validated['ifsc'],
-    ]);       
-     dd(
-    $response->effectiveUri(),
-    $response->status(),
-    $response->body()
-); 
-         $loan_amount =1000;
-
+    
         $monthlyRate = ($loan_amount / 12) / 100;
         $user = auth()->user();
 
@@ -142,7 +123,7 @@ $response = Http::acceptJson()
 
         $customer = $api->customer->create([
             'name' => 'komal',
-            'email' => 'dev@gmail.com',
+            'email' => 'dev112@gmail.com',
             'contact' => '9687411172'
         ]);
 

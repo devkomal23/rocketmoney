@@ -7,7 +7,8 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const API_URL = import.meta.env.VITE_API_URL;
-
+    const token = localStorage.getItem('auth_token');
+    console.log(token);
 
 
     const handlePaymentClick = async () => {
@@ -16,31 +17,30 @@ export default function Dashboard() {
             return;
         }
 
-    const token = localStorage.getItem('auth_token');
     
-    try {
+        try {
 
-        const { data: orderData } = await axios.post(`${API_URL}/create-payment-order`, {}, {
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
+            const { data: orderData } = await axios.post(`${API_URL}/create-payment-order`, {}, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
 
 
-        const options = {
-            key: "rzp_test_Sumaw519a0l05l", 
-            amount: orderData.amount * 100,
-            currency: "INR",
-            order_id: orderData.order_id,
-            handler: async (response) => {
-                await axios.post(`${API_URL}/verify-payment`, {
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_signature: response.razorpay_signature
-                }, { headers: { 'Authorization': `Bearer ${token}` } });
-                
-                alert("Payment Successful!");
-                navigate('/SelfieVerification'); 
-            }
-        };
+            const options = {
+                key: "rzp_test_Sumaw519a0l05l", 
+                amount: orderData.amount * 100,
+                currency: "INR",
+                order_id: orderData.order_id,
+                handler: async (response) => {
+                    await axios.post(`${API_URL}/verify-payment`, {
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature
+                    }, { headers: { 'Authorization': `Bearer ${token}` } });
+                    
+                    alert("Payment Successful!");
+                    navigate('/SelfieVerification'); 
+                }
+            };
 
             const rzp = new window.Razorpay(options);
             rzp.open();
@@ -50,32 +50,32 @@ export default function Dashboard() {
         }
     };
 
-    useEffect(() => {
-        const fetchDashboard = async () => {
-            const token = localStorage.getItem('auth_token');
-            try {
-                const res = await axios.get(`${API_URL}/assessment`, {
-                    headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
-                });
-                            
-                setData(res.data.data); 
-            } catch (err) {
-                console.error("Dashboard Error Details:", err.response ? err.response.data : err.message);
-                if (err.response?.status === 401) {
-                    navigate('/');
-                } else {
-                    alert("Server error: " + (err.response?.data?.message || err.message));
+        useEffect(() => {
+            const fetchDashboard = async () => {
+                const token = localStorage.getItem('auth_token');
+                try {
+                    const res = await axios.get(`${API_URL}/assessment`, {
+                        headers: { 'Authorization': `Bearer ${token}`, 'Accept': 'application/json' }
+                    });
+                                
+                    setData(res.data.data); 
+                } catch (err) {
+                    console.error("Dashboard Error Details:", err.response ? err.response.data : err.message);
+                    if (err.response?.status === 401) {
+                        navigate('/');
+                    } else {
+                        alert("Server error: " + (err.response?.data?.message || err.message));
+                    }
+                } finally {
+                    setLoading(false);
                 }
-            } finally {
-                setLoading(false);
-            }
+            };
+            fetchDashboard();
+        }, [navigate]);
+        const handleLogout = () => {
+            localStorage.removeItem('auth_token');
+            navigate('/'); 
         };
-        fetchDashboard();
-    }, [navigate]);
-    const handleLogout = () => {
-        localStorage.removeItem('auth_token');
-        navigate('/'); 
-    };
 
     return (
         <div style={styles.card}>

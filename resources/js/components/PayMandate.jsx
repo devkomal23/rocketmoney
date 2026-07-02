@@ -18,7 +18,7 @@ export default function PayMandate() {
 },
   logoImage:{
     width: '100%',
-    height: '140px',
+    height: '150px',
     objectFit: 'cover'
   },
   logoTextBold: { fontSize: '22px', fontWeight: '800', color: '#1a2b49' },
