@@ -26,7 +26,7 @@ export default function Dashboard() {
 
 
             const options = {
-                key: "rzp_test_Sumaw519a0l05l", 
+                key: "rzp_test_T86h4SohuMycZ3", 
                 amount: orderData.amount * 100,
                 currency: "INR",
                 order_id: orderData.order_id,
