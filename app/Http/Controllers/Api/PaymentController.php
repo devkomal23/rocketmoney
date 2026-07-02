@@ -77,9 +77,9 @@ class PaymentController extends Controller
         $response = Http::acceptJson()
             ->asJson()
             ->withHeaders([
-                'x-client-id' => '292c6e76-dabf-49c4-8e48-90fba2916673',
-                'x-client-secret' => '7IZMe9zvoBBuBukLiCP7n4KLwSOy11oP',
-                'x-product-instance-id' => '9480d765-ebaf-4061-91d4-66af89c3e434',
+                'x-client-id' => 'b7ef9414-0999-4003-a04b-9e6039a967ce',
+                'x-client-secret' => 'x8m4hrNrhlwilWLoClvHodOWXD9ARY8n',
+                'x-product-instance-id' => '1c9d0794-57c6-4b4d-ac19-766926f78519',
             ])
             ->post('https://dg-sandbox.setu.co/api/verify/ban', [
                 'accountNumber' => $validated['accNo'],
@@ -194,6 +194,6 @@ public function testSetu()
     return response()->json([
                 'x-client-id' => 'b7ef9414-0999-4003-a04b-9e6039a967ce',
                 'x-client-secret' => 'x8m4hrNrhlwilWLoClvHodOWXD9ARY8n',
-                'x-product-instance-id' => '8f8b1a79-682a-4740-a78b-e356fab9a59a',
+                'x-product-instance-id' => '1c9d0794-57c6-4b4d-ac19-766926f78519',
     ]);
 }}
