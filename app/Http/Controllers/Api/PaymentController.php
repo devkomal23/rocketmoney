@@ -18,7 +18,7 @@ class PaymentController extends Controller
         $user = $request->user();
         $amount = 49.00; 
 
-        $api = new \Razorpay\Api\Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $api = new \Razorpay\Api\Api('rzp_test_T86h4SohuMycZ3', '6M9oBNdWT5IwzGjtQK7xPIuB');
         $order = $api->order->create(['amount' => $amount * 100, 'currency' => 'INR']);
 
         \App\Models\Payment::create([
@@ -34,7 +34,7 @@ class PaymentController extends Controller
 
     public function verifyPayment(Request $request)
     {
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+        $api = new Api('rzp_test_T86h4SohuMycZ3', '6M9oBNdWT5IwzGjtQK7xPIuB');
 
         try {
             $attributes = [
