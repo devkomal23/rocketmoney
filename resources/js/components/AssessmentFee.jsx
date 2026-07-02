@@ -46,6 +46,7 @@ export default function Dashboard() {
             rzp.open();
         } catch (err) {
             console.error("Payment error:", err);
+
             alert("Payment initiation failed.");
         }
     };

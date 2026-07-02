@@ -23,7 +23,7 @@ class PaymentController extends Controller
 
         \App\Models\Payment::create([
             'user_id' => $user->id,
-            'order_id' => 'temp_id',
+            'order_id' => $order['id'],
             'amount' => $amount,
             'type' => 'assessment_fee',
             'status' => 'pending'
@@ -54,7 +54,15 @@ class PaymentController extends Controller
             return response()->json(['success' => false, 'message' => 'Payment record not found'], 404);
 
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Invalid signature'], 400);
+    return response()->json([
+        'success' => false,
+        'message' => $e->getMessage(),
+        'data' => [
+            'order_id' => $request->razorpay_order_id,
+            'payment_id' => $request->razorpay_payment_id,
+            'signature' => $request->razorpay_signature,
+        ]
+    ],400);
         }
     }
 
