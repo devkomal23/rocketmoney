@@ -192,8 +192,8 @@ public function testSetu()
     $response = Http::acceptJson()
         ->asJson()
         ->withHeaders([
-                'x-client-id' => 'd335846e-4b96-44c3-912f-0e3801b2184d',
-                'x-client-secret' => 'As6g2YXJRWVadS9XSlnPLm5sKKk3CIrJ',
+                'x-client-id' => 'b7ef9414-0999-4003-a04b-9e6039a967ce',
+                'x-client-secret' => 'x8m4hrNrhlwilWLoClvHodOWXD9ARY8n',
                 'x-product-instance-id' => '8f8b1a79-682a-4740-a78b-e356fab9a59a',
         ])
         ->post('https://dg-sandbox.setu.co/api/verify/ban', [
